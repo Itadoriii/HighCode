@@ -3,19 +3,27 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 import tkinter 
-import pandas as pd 
-import Frentes4 # importo el archivo de frentes.py
+import pymysql.cursors
 
-#aqui se abre la segunda ventana cuando se valida el boton ingresar (poner if despues)
+#coneccion bd red local
+bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavestest',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+
 def botoningresar():
-    frame1.destroy()#elimina frame 1
-    frame2=Frame(win)
-    frame2.config(width="800",height="600",bg="#3c4350")#tamanaño del frame
-    win.resizable(width=False, height=False) #no se agranda la ventana
-    frame2.propagate(0) # evita que los entrybotonestext  redimensionen el programa
-    frame2.pack()
-    mostrartablas=Button(frame2,width="100",height="10", text="INPUT TABLAS",command=Frentes4.mostrartabla)
-    mostrartablas.place(x="45",y="10")
+    cursor = bd.cursor()
+    sql =  "SELECT * from usuarios"
+    try: 
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        print(data)
+    except Exception as e :
+        print("exception : ")
+  
+
 win=Tk()
 win.title("CAVES IA")
 frame1=Frame(win)
