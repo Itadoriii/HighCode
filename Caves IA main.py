@@ -13,11 +13,9 @@ bd = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 
-    
-    
 def botoningresar():
     cursor = bd.cursor()
-    sql =  "SELECT * from usuarios"
+    sql =  "SELECT rut from usuarios"
     try: 
         cursor.execute(sql)
         data = cursor.fetchall()
