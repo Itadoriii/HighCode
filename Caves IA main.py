@@ -15,6 +15,7 @@ bd = pymysql.connect(host='localhost',
 
 def addbdfrentes():
     win4=Tk()
+    win4.geometry('300x270')
     frameingreso = Frame(win4)
     frameingreso.pack()
 
@@ -25,13 +26,16 @@ def addbdfrentes():
 
     txttipo=Label(frameingreso,text="Tipo ")
     txttipo.grid(row="1",column="0")
-    entrytipo= Entry(frameingreso)
+    entrytipo= ttk.Combobox(frameingreso)
     entrytipo.grid(row="1",column="1")
+    entrytipo['values'] = ('1','2','3','4','5')
 
     txtsigla=Label(frameingreso,text="Sigla")
     txtsigla.grid(row="2",column="0")
-    entrysigla= Entry(frameingreso)
+    entrysigla= ttk.Combobox(frameingreso)
     entrysigla.grid(row="2",column="1")
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
+  
 
     txtnumero=Label(frameingreso,text="Numero")
     txtnumero.grid(row="3",column="0")
@@ -40,13 +44,15 @@ def addbdfrentes():
 
     txtdireccion=Label(frameingreso,text="Direccion")
     txtdireccion.grid(row="4",column="0")
-    entrydireccion= Entry(frameingreso)
+    entrydireccion= ttk.Combobox(frameingreso)
     entrydireccion.grid(row="4",column="1")
+    entrydireccion['values'] = ('N','S','E','O')
 
     txtestado=Label(frameingreso,text="Estado")
     txtestado.grid(row="5",column="0")
-    entryestado= Entry(frameingreso)
+    entryestado= ttk.Combobox(frameingreso)
     entryestado.grid(row="5",column="1")
+    entryestado['values'] = ('0','1')
 
     txttamaño =Label(frameingreso,text="Tamaño")
     txttamaño.grid(row="6",column="0")
@@ -55,8 +61,9 @@ def addbdfrentes():
 
     txtrutacritica=Label(frameingreso,text="Ruta critica")
     txtrutacritica.grid(row="7",column="0")
-    entryrutacritica= Entry(frameingreso)
+    entryrutacritica= ttk.Combobox(frameingreso)
     entryrutacritica.grid(row="7",column="1")
+    entryrutacritica['values'] = ('1','2','3','4')
 
     txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
     txtdistanciamarina.grid(row="8",column="0")
@@ -65,8 +72,9 @@ def addbdfrentes():
 
     txtnivelfrente=Label(frameingreso,text="Nivel")
     txtnivelfrente.grid(row="9",column="0")
-    entrynivelfrente= Entry(frameingreso)
+    entrynivelfrente= ttk.Combobox(frameingreso)
     entrynivelfrente.grid(row="9",column="1")
+    entrynivelfrente['values'] = ('PD','HD','INY','EXT','CH')
 
     txtmacrobloque=Label(frameingreso,text="Macrobloque")
     txtmacrobloque.grid(row="10",column="0")
@@ -89,6 +97,7 @@ def addbdfrentes():
         sql =  "insert into frentes(Tipo,Sigla,Numero,Direccion,Estado,Tamaño,Ruta_Critica,Distancia_Marinas,Nivel,Macrobloque,Id_Frente) value('%d','%s','%s','%s','%d','%s','%d','%d','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id)
         try:
          cursor.execute(sql)
+         print (sql)
          cursor.close()
          bd.commit()
          bd.close()
@@ -147,8 +156,9 @@ def addbdtopografia():
 
     txtnivel=Label(frameingreso,text="Nivel")
     txtnivel.grid(row="2",column="0")
-    entrynivel= Entry(frameingreso)
+    entrynivel= ttk.Combobox(frameingreso)
     entrynivel.grid(row="2",column="1")
+    entrynivel['values'] = ('PD','HD','INY','EXT','CH','TI','TS')
 
     txtnotaact=Label(frameingreso,text="Nota Actividad")
     txtnotaact.grid(row="3",column="0")
