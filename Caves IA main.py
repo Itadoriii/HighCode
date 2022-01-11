@@ -189,7 +189,7 @@ def addbdtopografia():
 
 
 def ingresomain():
-    print("lol")
+    
     win3 = Tk()
     win3.config(bg="lightblue")
     win3.geometry('580x420')
@@ -270,22 +270,44 @@ def ingresomain():
 
 
 def botoningresar():
-    '''cursor = bd.cursor()
-    sql =  "SELECT rut from usuarios"
+    #selecciona la data a comparar
+    rut = entryuser.get()
+    password = entrypass.get()
+    cursor = bd.cursor()
+    sql =  "SELECT rut,contraseña,codigo_empresa from usuarios"
     try: 
         cursor.execute(sql)
         data = cursor.fetchall()
-        print(data)
-        cursor.close()
-        bd.commit()
-        bd.close()
+        
     except Exception as e :
         print("exception : ")
-    #bd.commit()
-    #cursor.close()
-    #bd.close()'''
-    win.destroy()
-    ingresomain()
+    bd.commit()
+    cursor.close()
+    bd.close()
+    #captura mi rut y mi contraseña 
+    exrut = data[0]
+    ruting = exrut['rut']
+    expass = data[0]
+    passing = expass['contraseña']
+    
+    
+    x =(rut==ruting)
+    y =(password==passing)
+
+    
+    
+    
+    if(x==TRUE):
+        if(y==TRUE):
+            ingresomain()
+            win.destroy()
+        else:
+            print("CONTRASEÑA INCORRECTA")
+        
+    else:
+        print("USUARIO INCORRECTO")
+        win.destroy()
+    
 
 def botonregistrar():
     win2=Tk()
