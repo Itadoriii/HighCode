@@ -285,29 +285,15 @@ def botoningresar():
     cursor.close()
     bd.close()
     #captura mi rut y mi contraseña 
-    exrut = data[0]
-    ruting = exrut['rut']
-    expass = data[0]
-    passing = expass['contraseña']
-    
-    
-    x =(rut==ruting)
-    y =(password==passing)
-
-    
-    
-    
-    if(x==TRUE):
-        if(y==TRUE):
-            ingresomain()
+    for i in data:
+        j=i['contraseña']
+        i=i['rut']
+        if(i==rut):
             win.destroy()
-        else:
-            print("CONTRASEÑA INCORRECTA")
-        
-    else:
-        print("USUARIO INCORRECTO")
-        win.destroy()
-    
+            if(j==password):
+                ingresomain()
+
+  
 
 def botonregistrar():
     win2=Tk()
