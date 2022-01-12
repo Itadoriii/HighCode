@@ -13,6 +13,13 @@ bd = pymysql.connect(host='localhost',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+bd2 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+
 def addbdfrentes():
     win4=Tk()
     win4.geometry('300x270')
@@ -188,8 +195,9 @@ def addbdtopografia():
     
 
 
-def ingresomain():
-    
+def ingresomain(rut):
+    rutt=rut
+
     win3 = Tk()
     win3.config(bg="lightblue")
     win3.geometry('580x420')
@@ -206,22 +214,28 @@ def ingresomain():
 
     def verestadofrentes():
         win3.destroy()
-        cursor = bd.cursor()
-        sql =  "SELECT * from estado_frentes"
-        try: 
-
+        cursor = bd2.cursor()
+        cursor2 =  bd2.cursor()
+        sql2 = 'SELECT * from usuarios'
+        sql = 'SELECT * from frentes'
+        try:
             cursor.execute(sql)
+            cursor2.execute(sql2)
             data = cursor.fetchall()
-            print(data)
+            users = cursor2.fetchall()
+            for i in data:
+                aux=i['codigo_empresa']
+                aux2=i['tipo']
+                if(aux==rutt):
+                    print(aux2)
+
+                
+            
             cursor.close()
-            bd.commit()
-            bd.close()
-        except Exception as e :
-            print("exception : ")
-        #bd.commit()
-        #cursor.close()
-        #bd.close()'''
-        ingresomain()
+            bd2.commit()
+            bd2.close
+        except Exception as e:
+            print(e)
 
 
     def verestadoequipos():
@@ -270,6 +284,8 @@ def ingresomain():
 
 
 def botoningresar():
+    #ingresomain()
+    
     #selecciona la data a comparar
     rut = entryuser.get()
     password = entrypass.get()
@@ -286,12 +302,16 @@ def botoningresar():
     bd.close()
     #captura mi rut y mi contraseña 
     for i in data:
+        k=i['codigo_empresa']
         j=i['contraseña']
         i=i['rut']
+
         if(i==rut):
             win.destroy()
             if(j==password):
-                ingresomain()
+                ingresomain(k)
+
+
 
   
 
@@ -381,10 +401,4 @@ botoningresarr=Button(frame1, text="Ingresar",command=botoningresar) #boton logi
 botonregistrarr=Button(frame1,text="Registrar",command=botonregistrar)
 botoningresarr.pack()
 botonregistrarr.pack()
-
-
-
-
-
-
 win.mainloop()
