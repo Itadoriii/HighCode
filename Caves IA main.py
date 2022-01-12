@@ -22,7 +22,7 @@ bd2 = pymysql.connect(host='localhost',
 
 def addbdfrentes():
     win4=Tk()
-    win4.geometry('300x270')
+    win4.geometry('300x300')
     frameingreso = Frame(win4)
     frameingreso.pack()
 
@@ -88,28 +88,35 @@ def addbdfrentes():
     entrymacrobloque= Entry(frameingreso)
     entrymacrobloque.grid(row="10",column="1")
 
+    txtcodigo=Label(frameingreso,text="Codigo")
+    txtcodigo.grid(row="11",column="0")
+    entrycodigo= Entry(frameingreso)
+    entrycodigo.grid(row="11",column="1")
+
     def llenarfrente():
-        tipo =int(entrytipo.get())
+        tipo =entrytipo.get()
         sigla = entrysigla.get()
         numero = entrynumero.get()
         direccion = entrydireccion.get()
-        estado =int(entryestado.get())
+        estado =entryestado.get()
         tamaño = entrytamaño.get()
-        ruta =int(entryrutacritica.get())
-        distancia =int(entrydistanciamarina.get())
+        ruta =entryrutacritica.get()
+        distancia =entrydistanciamarina.get()
         nivel = entrynivelfrente.get() 
         macrobloque =entrymacrobloque.get()
         id = entryid.get()
-        cursor=bd.cursor()
-        sql =  "insert into frentes(Tipo,Sigla,Numero,Direccion,Estado,Tamaño,Ruta_Critica,Distancia_Marinas,Nivel,Macrobloque,Id_Frente) value('%d','%s','%s','%s','%d','%s','%d','%d','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id)
+        codigoempresa = entrycodigo.get()
+        cursor=bd2.cursor()
+        sql =  "insert into frentes(tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigoempresa)
         try:
          cursor.execute(sql)
          print (sql)
          cursor.close()
-         bd.commit()
-         bd.close()
+         bd2.commit()
+         bd2.close()
         except Exception as e:
-         print(e)
+            print("exception : ")
+            
        # cursor.close()
         #bd.commit()
        # bd.close()
@@ -117,7 +124,7 @@ def addbdfrentes():
         win4.destroy()
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
-    botonllenarbd.grid(row="11")
+    botonllenarbd.grid(row="12")
 
 def addbdtopografia():
     win4=Tk()
@@ -126,19 +133,19 @@ def addbdtopografia():
 
     def llenartopografia():
         id = entryidt.get()
-        avance = int(entryavance.get())
+        avance = entryavance.get()
         nivel = entrynivel.get()
         notact = entrynotaact.get()
         pk = entrypkacumulado.get()
         fecha = entryfecha.get()
         hora = entryhora.get()
-        cursor=bd.cursor()
+        cursor=bd2.cursor()
         sql =  "insert into topografia(Avance,Nivel,Nota_actividad,Pk_acumulado,Fecha,Hora,Id_Frente) value('%d','%s','%s','%s','%s','%s','%s')" % (avance,nivel,notact,pk,fecha,hora,id)
         try:
          cursor.execute(sql)
          cursor.close()
-         bd.commit()
-         bd.close()
+         bd2.commit()
+         bd2.close()
         except Exception as e:
          print(e)
        # cursor.close()
@@ -200,13 +207,13 @@ def ingresomain(rut):
 
     win3 = Tk()
     win3.config(bg="lightblue")
-    win3.geometry('580x420')
+    win3.geometry('600x400')
     framemain = Frame(win3)
     framemain.config(bg="blue",width=480,height=320,relief="sunken")
     framemain.pack()
     
 
-    botonFrentes = Button(framemain,text="LLENAR FRENTES",command=addbdfrentes)
+    botonFrentes = Button(framemain,text="CREAR NUEVO FRENTE",command=addbdfrentes)
     botonFrentes.grid(row="2", column="1")
 
     botonTopografia = Button(framemain,text="LLENAR TOPOGRAFIA",command=addbdtopografia)
@@ -321,15 +328,9 @@ def botonregistrar():
     frameingresar.pack()
 
     txtrut=Label(frameingresar,text="Rut")
-    txtrut.grid(row="0", column="0")
+    txtrut.grid(row="1", column="0")
     entryrut=Entry(frameingresar)
-    entryrut.grid(row="0",column="1")
-
-    txtdv=Label(frameingresar,text="Dv")
-    txtdv.grid(row="1", column="0")
-    entrydv=Entry(frameingresar)
-    entrydv.grid(row="1",column="1")
-
+    entryrut.grid(row="1",column="1")
     txtpass=Label(frameingresar,text="Contraseña")
     txtpass.grid(row="2", column="0")
     entrypass=Entry(frameingresar)
@@ -340,31 +341,14 @@ def botonregistrar():
     entrycpro=Entry(frameingresar)
     entrycpro.grid(row="3",column="1")
 
-    txtccon=Label(frameingresar,text="Codigo contrato")
-    txtccon.grid(row="4", column="0")
-    entryccon=Entry(frameingresar)
-    entryccon.grid(row="4",column="1")
-
-    txtgrupo=Label(frameingresar,text="Grupo")
-    txtgrupo.grid(row="5", column="0")
-    entrygrupo=Entry(frameingresar)
-    entrygrupo.grid(row="5",column="1")
-
-    txtturno=Label(frameingresar,text="Turno")
-    txtturno.grid(row="6", column="0")
-    entryturno=Entry(frameingresar)
-    entryturno.grid(row="6",column="1")
+   
 
     def addbdusuario():
-        rut = int(entryrut.get())
-        dv = entrydv.get()
+        rut = entryrut.get()
         password = entrypass.get()
-        codigoproyecto = entrycpro.get()
-        codigocontrato = entryccon.get()
-        grupo = entrygrupo.get()
-        turno = entryturno.get()
+        codigo = entrycpro.get()
         cursor=bd.cursor()
-        sql =  "insert into usuarios (Rut,Dv,Password,Codigo_proyecto,Codigo_contrato,Grupo,Turno) value('%d','%s','%s','%s','%s','%s','%s')" % (rut,dv,password,codigoproyecto,codigocontrato,grupo,turno)
+        sql =  "insert into usuarios (Rut,Contraseña,Codigo_empresa) value('%s','%s','%s')" % (rut,password,codigo)
         try:
          cursor.execute(sql)
          cursor.close()
@@ -376,10 +360,10 @@ def botonregistrar():
         #cursor.close()
         #bd.close()
         win2.destroy()
-        ingresomain()
+        
 
     botonbd=Button(frameingresar,text="add bd",command=addbdusuario)
-    botonbd.grid(row="7",column="1")
+    botonbd.grid(row="4",column="1")
 
 
 win=Tk() #ventanalogin
