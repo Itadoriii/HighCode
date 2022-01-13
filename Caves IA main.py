@@ -126,21 +126,17 @@ def addbdfrentes():
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
     botonllenarbd.grid(row="12")
 
-def addbdtopografia():
+def addequipo():
     win4=Tk()
     frameingreso = Frame(win4)
     frameingreso.pack()
 
-    def llenartopografia():
-        id = entryidt.get()
-        avance = entryavance.get()
-        nivel = entrynivel.get()
-        notact = entrynotaact.get()
-        pk = entrypkacumulado.get()
-        fecha = entryfecha.get()
-        hora = entryhora.get()
+    def llenarequipo():
+        flota= entryflota.get()
+        codigo = entrycod.get()
+       
         cursor=bd2.cursor()
-        sql =  "insert into topografia(Avance,Nivel,Nota_actividad,Pk_acumulado,Fecha,Hora,Id_Frente) value('%d','%s','%s','%s','%s','%s','%s')" % (avance,nivel,notact,pk,fecha,hora,id)
+        sql =  "insert into equipos(flota,codigo_equipo) value('%s','%s')" % (flota,codigo)
         try:
          cursor.execute(sql)
          cursor.close()
@@ -158,43 +154,20 @@ def addbdtopografia():
 
 
 
-    txtidt =Label(frameingreso,text="ID")
-    txtidt.grid(row="0",column="0")
-    entryidt = Entry(frameingreso)
-    entryidt.grid(row="0",column="1")
+    txtflota =Label(frameingreso,text="ID")
+    txtflota.grid(row="0",column="0")
+    entryflota = Entry(frameingreso)
+    entryflota.grid(row="0",column="1")
 
-    txtavance=Label(frameingreso,text="Avance")
-    txtavance.grid(row="1",column="0")
-    entryavance= Entry(frameingreso)
-    entryavance.grid(row="1",column="1")
+    txtcodigo=Label(frameingreso,text="Avance")
+    txtcodigo.grid(row="1",column="0")
+    entrycod= Entry(frameingreso)
+    entrycod.grid(row="1",column="1")
 
-    txtnivel=Label(frameingreso,text="Nivel")
-    txtnivel.grid(row="2",column="0")
-    entrynivel= ttk.Combobox(frameingreso)
-    entrynivel.grid(row="2",column="1")
-    entrynivel['values'] = ('PD','HD','INY','EXT','CH','TI','TS')
+    
 
-    txtnotaact=Label(frameingreso,text="Nota Actividad")
-    txtnotaact.grid(row="3",column="0")
-    entrynotaact= Entry(frameingreso)
-    entrynotaact.grid(row="3",column="1")
-
-    txtpkacumulado=Label(frameingreso,text="Pk Acumulado")
-    txtpkacumulado.grid(row="4",column="0")
-    entrypkacumulado= Entry(frameingreso)
-    entrypkacumulado.grid(row="4",column="1")
-
-    txtfecha=Label(frameingreso,text="Fecha")
-    txtfecha.grid(row="5",column="0")
-    entryfecha= Entry(frameingreso)
-    entryfecha.grid(row="5",column="1")
-
-    txthora=Label(frameingreso,text="Hora")
-    txthora.grid(row="6",column="0")
-    entryhora= Entry(frameingreso)
-    entryhora.grid(row="6",column="1")
-    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenartopografia)
-    botonllenarbd.grid(row="10")
+    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
+    botonllenarbd.grid(row="2")
 
   
 
@@ -216,10 +189,10 @@ def ingresomain(rut):
     botonFrentes = Button(framemain,text="CREAR NUEVO FRENTE",command=addbdfrentes)
     botonFrentes.grid(row="2", column="1")
 
-    botonTopografia = Button(framemain,text="LLENAR TOPOGRAFIA",command=addbdtopografia)
+    botonTopografia = Button(framemain,text="CREAR NUEVO EQUIPO",command=addequipo)
     botonTopografia.grid(row="3", column="1")
 
-    def verestadofrentes():
+    def verfrentesrut():
         win3.destroy()
         cursor = bd2.cursor()
         cursor2 =  bd2.cursor()
@@ -231,10 +204,20 @@ def ingresomain(rut):
             data = cursor.fetchall()
             users = cursor2.fetchall()
             for i in data:
-                aux=i['codigo_empresa']
-                aux2=i['tipo']
-                if(aux==rutt):
-                    print(aux2)
+                tipo = i['tipo']
+                sigla = i['sigla']
+                numero = i['numero']
+                direccion = i['direccion']
+                estado = i['estado']
+                tamaño = i['tamaño']
+                ruta = i['ruta_critica']
+                distancia = i['distancia_marina']
+                nivel = i['nivel']
+                macrobloque = i['macrobloque']
+                id = i['id_frente']
+                codigo=i['codigo_empresa']
+                if(codigo==rutt):
+                    print(tipo, sigla, numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigo)
 
                 
             
@@ -245,10 +228,10 @@ def ingresomain(rut):
             print(e)
 
 
-    def verestadoequipos():
+    def vereequipos():
         win3.destroy()
         cursor = bd.cursor()
-        sql =  "SELECT * from estado_equipos"
+        sql =  "SELECT * from equipos"
         try: 
             cursor.execute(sql)
             data = cursor.fetchall()
@@ -261,7 +244,10 @@ def ingresomain(rut):
         #bd.commit()
         #cursor.close()
         #bd.close()'''
-        ingresomain()
+        
+
+
+
     def verestadoservicios():
         win3.destroy()
         cursor = bd.cursor()
@@ -278,12 +264,12 @@ def ingresomain(rut):
     #bd.commit()
     #cursor.close()
     #bd.close()'''
-        ingresomain()
+        
 
-    botonEstadofrentes = Button(framemain,text="ESTADO FRENTES",command=verestadofrentes)
+    botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
 
-    botonEstadoEquipos= Button(framemain,text="ESTADO EQUIPOS",command=verestadoequipos)
+    botonEstadoEquipos= Button(framemain,text="VER EQUIPOS EQUIPOS",command=vereequipos)
     botonEstadoEquipos.grid(row="5", column="1")
 
     botonEstadoservicios= Button(framemain,text="ESTADO SERVICIOS",command=verestadoservicios)
