@@ -8,7 +8,7 @@ from tkinter.font import BOLD
 from unittest import signals 
 import pymysql.cursors
 
-#memoria para mostrar tablas
+#memoria para mostrar tablas 
 tipos =[]
 tipos.append('tipo')
 siglas = []
@@ -31,8 +31,14 @@ macrobloques = []
 macrobloques.append('macrobloque')
 ides= []
 ides.append('id')
+#memoria para mostrar equipos 
 
-#coneccion bd red local
+#memoria para mostrar avances 
+frentesid = []
+frentesid.append('id_frente')
+
+
+#coneccion bd red local para crear cursores
 bd = pymysql.connect(host='localhost',
                              user='root',
                              password='1312',
@@ -138,14 +144,14 @@ def addbdfrentes():
         macrobloque =entrymacrobloque.get()
         id = entryid.get()
         codigoempresa = entrycodigo.get()
-        cursor=bd2.cursor()
+        cursor=bd3.cursor()
         sql =  "insert into frentes(tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigoempresa)
         try:
          cursor.execute(sql)
          print (sql)
          cursor.close()
-         bd2.commit()
-         bd2.close()
+         bd3.commit()
+         bd3.close()
         except Exception as e:
             print("exception : ")
             
@@ -233,7 +239,6 @@ def ingresomain(rut):
         def creartablafrentes():
                for f in range(numfilas):
                     for j in range(numcolumnas):
-                        if(codigo==rutt):
                             x = Entry(tabla)
                             x.grid(row = f, column = j)
                             if (j==1):
@@ -334,7 +339,7 @@ def ingresomain(rut):
             for j in range (numcolumnas):
                 x = Entry(tabla)
                 x.grid(row = i, column = j)
-                x.insert(END,'holaxd')
+                x.insert(0,'holaxd')
 
         #bd.commit()
         #cursor.close()
@@ -355,10 +360,47 @@ def ingresomain(rut):
             bd.commit()
             bd.close()
         except Exception as e :
-         print("exception : ")
+         print("exception : ",e )
     #bd.commit()
     #cursor.close()
     #bd.close()'''
+
+    def favances():
+        columnas = 8
+        numfilas = 1 
+        win3.destroy()
+        win4 = Tk()
+        tabla=Frame(win4)
+        tabla.pack()
+        def creartablaavances():
+            print('avances')
+            #programar tabla aqui xd 
+            for i in range(numfilas):
+                for j in range (columnas):
+                    x = Entry(tabla)
+                    x.grid(row = i, column = j)
+                    if(j==1):
+                        x.insert(END,frentesid[i])
+
+        cursor = bd3.cursor()
+        sql =  "SELECT * from frentes "
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            cursor.close()
+            for p in data:
+                codigo=p['codigo_empresa']
+                if (codigo==rutt):
+                    numfilas = numfilas + 1
+                    frenteid = p['id_frente']
+                    frentesid.append(frenteid)
+
+        except Exception as e :
+            print(e)
+        creartablaavances()
+
+
+        
         
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
@@ -370,8 +412,8 @@ def ingresomain(rut):
     botonEstadoservicios= Button(framemain,text="ESTADO SERVICIOS",command=verestadoservicios)
     botonEstadoservicios.grid(row="6", column="1") 
 
-    botonavances= Button(framemain,text="AVANCES")
-    botonavances.grid(row="7", column="8") 
+    botonavances= Button(framemain,text="AVANCES",command=favances)
+    botonavances.grid(row="7", column="1") 
 
 
 
@@ -455,6 +497,8 @@ win=Tk() #ventanalogin
 win.title("CAVES IA")
 frame1=Frame(win)
 frame1.pack()
+
+
 #----SECCION LOGIN ----
 imagen=tkinter.PhotoImage(file="icon login.png")
 pimagen=Label(frame1,image=imagen).pack(side=LEFT)
