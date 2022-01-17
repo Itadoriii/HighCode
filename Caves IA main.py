@@ -1,10 +1,36 @@
 from ast import Index
+from email.headerregistry import SingleAddressHeader
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 import tkinter
-from tkinter.font import BOLD 
+from tkinter.font import BOLD
+from unittest import signals 
 import pymysql.cursors
+
+#memoria para mostrar tablas
+tipos =[]
+tipos.append('tipo')
+siglas = []
+siglas.append('sigla')
+numeros = []
+numeros.append('numero')
+direcciones = []
+direcciones.append('direccion')
+estados = []
+estados.append('direccion')
+tamanios= []
+tamanios.append('tamaño')
+rutas  = []
+rutas.append('ruta')
+distancias = []
+distancias.append('distancia')
+niveles = []
+niveles.append('nivel')
+macrobloques = []
+macrobloques.append('macrobloque')
+ides= []
+ides.append('id')
 
 #coneccion bd red local
 bd = pymysql.connect(host='localhost',
@@ -198,11 +224,42 @@ def ingresomain(rut):
     botonTopografia.grid(row="3", column="1")
 
     def verfrentesrut():
+        numfilas = 1
         numcolumnas = 12
         win3.destroy()
         win4 = Tk()
         tabla=Frame(win4)
         tabla.pack()
+        def creartablafrentes():
+               for f in range(numfilas):
+                    for j in range(numcolumnas):
+                        if(codigo==rutt):
+                            x = Entry(tabla)
+                            x.grid(row = f, column = j)
+                            if (j==1):
+                                x.insert(END,tipos[f])
+                            if (j==2):
+                                x.insert(END,siglas[f])
+                            if (j==3):
+                                x.insert(END,numeros[f])
+                            if (j==4):
+                                x.insert(END,direcciones[f])
+                            if (j==5):
+                                x.insert(END,estados[f])
+                            if (j==6):
+                                x.insert(END,tamanios[f])
+                            if (j==7):
+                                x.insert(END,rutas[f])
+                            if (j==8):
+                                x.insert(END,distancias[f])
+                            if (j==9):
+                                x.insert(END,niveles[f])
+                            if (j==10):
+                                x.insert(END,macrobloques[f])
+                            if (j==11):
+                             x.insert(END,ides[f])
+                        
+                        
         cursor = bd2.cursor()
         cursor2 =  bd2.cursor()
         sql2 = 'SELECT * from usuarios'
@@ -212,6 +269,12 @@ def ingresomain(rut):
             cursor2.execute(sql2)
             data = cursor.fetchall()
             users = cursor2.fetchall()
+
+            for p in data:
+                codigo=p['codigo_empresa']
+                if (codigo==rutt):
+                    numfilas = numfilas + 1
+
             for i in data:
                 tipo = i['tipo']
                 sigla = i['sigla']
@@ -225,51 +288,26 @@ def ingresomain(rut):
                 macrobloque = i['macrobloque']
                 id = i['id_frente']
                 codigo=i['codigo_empresa']
-                
-                numfilas = int(len(codigo))
-                for f in range(numfilas):
-                    for j in range(numcolumnas):
-                        if(codigo==rutt):
-                            x = Entry(tabla)
-                            x.grid(row = f, column = j)
-                            if (j==1):
-                                x.insert(END,tipo)
-                            if (j==2):
-                                x.insert(END,sigla)
-                            if (j==3):
-                                x.insert(END,numero)
-                            if (j==4):
-                                x.insert(END,direccion)
-                            if (j==5):
-                                x.insert(END,estado)
-                            if (j==6):
-                                x.insert(END,tamaño)
-                            if (j==7):
-                                x.insert(END,ruta)
-                            if (j==8):
-                                x.insert(END,distancia)
-                            if (j==9):
-                                x.insert(END,nivel)
-                            if (j==10):
-                                x.insert(END,macrobloque)
-                            if (j==11):
-                             x.insert(END,id)
-                        
-                        
-                        
-
-
-                         
-
-                    
-
-                
-            
+                if(codigo==rutt):
+                    tipos.append(tipo)
+                    siglas.append(sigla)
+                    numeros.append(numero)
+                    direcciones.append(direccion)
+                    estados.append(estado)
+                    tamanios.append(tamaño)
+                    rutas.append(ruta)
+                    distancias.append(distancia)
+                    niveles.append(nivel)
+                    macrobloques.append(macrobloque)
+                    ides.append(id)
             cursor.close()
             bd2.commit()
             bd2.close
         except Exception as e:
             print(e)
+        creartablafrentes()
+
+        
 
 
     def vereequipos():
