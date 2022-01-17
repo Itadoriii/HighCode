@@ -19,6 +19,12 @@ bd2 = pymysql.connect(host='localhost',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+bd3 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
 
 def addbdfrentes():
     win4=Tk()
@@ -35,7 +41,7 @@ def addbdfrentes():
     txttipo.grid(row="1",column="0")
     entrytipo= ttk.Combobox(frameingreso)
     entrytipo.grid(row="1",column="1")
-    entrytipo['values'] = ('1','2','3','4','5')
+    entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
 
     txtsigla=Label(frameingreso,text="Sigla")
     txtsigla.grid(row="2",column="0")
@@ -59,7 +65,7 @@ def addbdfrentes():
     txtestado.grid(row="5",column="0")
     entryestado= ttk.Combobox(frameingreso)
     entryestado.grid(row="5",column="1")
-    entryestado['values'] = ('0','1')
+    entryestado['values'] = ('Activo','Inactivo')
 
     txttamaño =Label(frameingreso,text="Tamaño")
     txttamaño.grid(row="6",column="0")
@@ -70,7 +76,7 @@ def addbdfrentes():
     txtrutacritica.grid(row="7",column="0")
     entryrutacritica= ttk.Combobox(frameingreso)
     entryrutacritica.grid(row="7",column="1")
-    entryrutacritica['values'] = ('1','2','3','4')
+    entryrutacritica['values'] = ('N','S','E','O')
 
     txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
     txtdistanciamarina.grid(row="8",column="0")
@@ -120,7 +126,7 @@ def addbdfrentes():
        # cursor.close()
         #bd.commit()
        # bd.close()
-        
+    
         win4.destroy()
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
@@ -177,7 +183,6 @@ def addequipo():
 
 def ingresomain(rut):
     rutt=rut
-
     win3 = Tk()
     win3.config(bg="lightblue")
     win3.geometry('600x400')
@@ -193,7 +198,11 @@ def ingresomain(rut):
     botonTopografia.grid(row="3", column="1")
 
     def verfrentesrut():
+        numcolumnas = 12
         win3.destroy()
+        win4 = Tk()
+        tabla=Frame(win4)
+        tabla.pack()
         cursor = bd2.cursor()
         cursor2 =  bd2.cursor()
         sql2 = 'SELECT * from usuarios'
@@ -216,8 +225,43 @@ def ingresomain(rut):
                 macrobloque = i['macrobloque']
                 id = i['id_frente']
                 codigo=i['codigo_empresa']
-                if(codigo==rutt):
-                    print(tipo, sigla, numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigo)
+                
+                numfilas = int(len(codigo))
+                for f in range(numfilas):
+                    for j in range(numcolumnas):
+                        if(codigo==rutt):
+                            x = Entry(tabla)
+                            x.grid(row = f, column = j)
+                            if (j==1):
+                                x.insert(END,tipo)
+                            if (j==2):
+                                x.insert(END,sigla)
+                            if (j==3):
+                                x.insert(END,numero)
+                            if (j==4):
+                                x.insert(END,direccion)
+                            if (j==5):
+                                x.insert(END,estado)
+                            if (j==6):
+                                x.insert(END,tamaño)
+                            if (j==7):
+                                x.insert(END,ruta)
+                            if (j==8):
+                                x.insert(END,distancia)
+                            if (j==9):
+                                x.insert(END,nivel)
+                            if (j==10):
+                                x.insert(END,macrobloque)
+                            if (j==11):
+                             x.insert(END,id)
+                        
+                        
+                        
+
+
+                         
+
+                    
 
                 
             
@@ -230,17 +274,30 @@ def ingresomain(rut):
 
     def vereequipos():
         win3.destroy()
-        cursor = bd.cursor()
+        win4 = Tk()
+        tabla = Frame(win4)
+        tabla.pack()
+        cursor = bd3.cursor()
+    
         sql =  "SELECT * from equipos"
         try: 
             cursor.execute(sql)
             data = cursor.fetchall()
-            print(data)
             cursor.close()
-            bd.commit()
-            bd.close()
+            bd3.commit()
+            bd3.close()
         except Exception as e :
              print("exception : ")
+
+        numfilas=len(data)
+        print(numfilas)
+        numcolumnas = 2
+        for i in range(numfilas):
+            for j in range (numcolumnas):
+                x = Entry(tabla)
+                x.grid(row = i, column = j)
+                x.insert(END,'holaxd')
+
         #bd.commit()
         #cursor.close()
         #bd.close()'''
@@ -274,6 +331,10 @@ def ingresomain(rut):
 
     botonEstadoservicios= Button(framemain,text="ESTADO SERVICIOS",command=verestadoservicios)
     botonEstadoservicios.grid(row="6", column="1") 
+
+    botonavances= Button(framemain,text="AVANCES")
+    botonavances.grid(row="7", column="8") 
+
 
 
 def botoningresar():
