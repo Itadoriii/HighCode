@@ -8,7 +8,7 @@ from tkinter.font import BOLD
 from unittest import signals 
 import pymysql.cursors
 
-#memoria para mostrar tablas 
+#memoria para mostrar tablas frente
 tipos =[]
 tipos.append('tipo')
 siglas = []
@@ -31,14 +31,38 @@ macrobloques = []
 macrobloques.append('macrobloque')
 ides= []
 ides.append('id')
-#memoria para mostrar equipos 
 
-#memoria para mostrar avances 
+#memoria para mostrar tabla equipos 
+
+flota = []
+flota.append('flota')
+codigoequipo = []
+codigoequipo.append('Codigo equipo')
+
+#memoria para mostrar tabla avances 
+
 frentesid = []
-frentesid.append('id_frente')
+frentesid.append('Id Frentes')
+estadoavances = []
+estadoavances.append('Estado')
+energiaavances = []
+energiaavances.append('Energia')
+aguaavances = []
+aguaavances.append('Agua')
+aireavances = []
+aireavances.append('Aire')
+ventilacion = []
+ventilacion.append('Ventilacion')
+drenaje = []
+drenaje.append('Drenaje')
+prioridad = []
+prioridad.append('Prioridad')
+restriccion = []
+restriccion.append('Restriccion')
 
 
 #coneccion bd red local para crear cursores
+
 bd = pymysql.connect(host='localhost',
                              user='root',
                              password='1312',
@@ -316,30 +340,45 @@ def ingresomain(rut):
 
 
     def vereequipos():
-        win3.destroy()
+        numfilas = 1
+        numcolumnas = 2
         win4 = Tk()
         tabla = Frame(win4)
         tabla.pack()
+        def creartablaequipos():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(END,flota[f])
+                    if(j==1):
+                        x.insert(END,codigoequipo[f])
+
+
+
         cursor = bd3.cursor()
     
         sql =  "SELECT * from equipos"
         try: 
             cursor.execute(sql)
             data = cursor.fetchall()
+            
+            for i in data:
+                flotaa = i ['flota']
+                flota.append(flotaa)
+                codigoequipoo = i ['codigo_equipo']
+                codigoequipo.append(codigoequipoo)
+                numfilas=numfilas+1
+
+
+
             cursor.close()
             bd3.commit()
             bd3.close()
         except Exception as e :
-             print("exception : ")
-
-        numfilas=len(data)
-        print(numfilas)
-        numcolumnas = 2
-        for i in range(numfilas):
-            for j in range (numcolumnas):
-                x = Entry(tabla)
-                x.grid(row = i, column = j)
-                x.insert(0,'holaxd')
+             print("exception : ",e)      
+        creartablaequipos()
 
         #bd.commit()
         #cursor.close()
@@ -366,10 +405,11 @@ def ingresomain(rut):
     #bd.close()'''
 
     def favances():
-        columnas = 8
+        columnas = 9
         numfilas = 1 
         win3.destroy()
         win4 = Tk()
+        win4.title('Avances')
         tabla=Frame(win4)
         tabla.pack()
         def creartablaavances():
@@ -379,6 +419,25 @@ def ingresomain(rut):
                 for j in range (columnas):
                     x = Entry(tabla)
                     x.grid(row = i, column = j)
+                    if(i==0):
+                        if(j==2):
+                            x.insert(0,estadoavances[i])
+                        if(j==3):
+                            x.insert(0,energiaavances[i])
+                        if(j==4):
+                            x.insert(0,aguaavances[i])
+                        if(j==5):
+                            x.insert(0,aireavances[i])
+                        if(j==6):
+                            x.insert(0,ventilacion[i])
+                        if(j==7):
+                            x.insert(0,drenaje[i])
+                        if(j==8):
+                            x.insert(0,prioridad[i])
+                        if(j==9):
+                            x.insert(0,restriccion[i])
+                        
+                        
                     if(j==1):
                         x.insert(END,frentesid[i])
 
