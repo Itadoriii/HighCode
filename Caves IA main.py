@@ -1,5 +1,6 @@
 from ast import Index
 from email.headerregistry import SingleAddressHeader
+from logging import CRITICAL
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -60,27 +61,113 @@ prioridad.append('Prioridad')
 restriccion = []
 restriccion.append('Restriccion')
 
+#memoria para mostrar tabla estadoservicios
+
+estadoservicio = []
+estadoservicio.append('Estado servicio')
+notaestado = []
+notaestado.append('Nota estado')
+pkservicio = []
+pkservicio.append('Pk servicio')
+notapk = []
+notapk.append('Nota Pk')
+fecha = []
+fecha.append('Fecha')
+idfrente = []
+idfrente.append('Id frente')
+
+#memoria para mostrar tabla estadofrentes
+
+operacion = []
+operacion.append('Operacion')
+estadoavance = []
+estadoavance.append('Estado avance')
+observaciones = []
+observaciones.append('Observaciones')
+fechaf = []
+fechaf.append('Fecha')
+criticidad = []
+criticidad.append('Criticidad')
+direccion = []
+direccion.append('Direccion')
+idfrentef = []
+idfrentef.append('Id frente')
+
+#memoria para mostrar tabla estado equipos
+
+flotae = []
+flotae.append('Flota')
+nivel = []
+nivel.append('Nivel')
+fechae = []
+fechae.append('Fecha')
+estadoe = []
+estadoe.append('Estado')
+codigoe = []
+codigoe.append('Codigo Equipo')
+
 
 #coneccion bd red local para crear cursores
 
-bd = pymysql.connect(host='localhost',
+bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+bd4 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd5 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd6 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd7 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd8 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd9 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd10 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
 
 def addbdfrentes():
     win4=Tk()
@@ -168,14 +255,14 @@ def addbdfrentes():
         macrobloque =entrymacrobloque.get()
         id = entryid.get()
         codigoempresa = entrycodigo.get()
-        cursor=bd3.cursor()
+        cursor=bd1.cursor()
         sql =  "insert into frentes(tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigoempresa)
         try:
          cursor.execute(sql)
          print (sql)
          cursor.close()
-         bd3.commit()
-         bd3.close()
+         bd1.commit()
+         bd1.close()
         except Exception as e:
             print("exception : ")
             
@@ -216,12 +303,12 @@ def addequipo():
 
 
 
-    txtflota =Label(frameingreso,text="ID")
+    txtflota =Label(frameingreso,text="Flota")
     txtflota.grid(row="0",column="0")
     entryflota = Entry(frameingreso)
     entryflota.grid(row="0",column="1")
 
-    txtcodigo=Label(frameingreso,text="Avance")
+    txtcodigo=Label(frameingreso,text="Codigo_equipo")
     txtcodigo.grid(row="1",column="0")
     entrycod= Entry(frameingreso)
     entrycod.grid(row="1",column="1")
@@ -255,9 +342,9 @@ def ingresomain(rut):
 
     def verfrentesrut():
         numfilas = 1
-        numcolumnas = 12
-        win3.destroy()
+        numcolumnas = 11
         win4 = Tk()
+        win4.title('Frentes asociados al RUT')
         tabla=Frame(win4)
         tabla.pack()
         def creartablafrentes():
@@ -265,32 +352,32 @@ def ingresomain(rut):
                     for j in range(numcolumnas):
                             x = Entry(tabla)
                             x.grid(row = f, column = j)
-                            if (j==1):
+                            if (j==0):
                                 x.insert(END,tipos[f])
-                            if (j==2):
+                            if (j==1):
                                 x.insert(END,siglas[f])
-                            if (j==3):
+                            if (j==2):
                                 x.insert(END,numeros[f])
-                            if (j==4):
+                            if (j==3):
                                 x.insert(END,direcciones[f])
-                            if (j==5):
+                            if (j==4):
                                 x.insert(END,estados[f])
-                            if (j==6):
+                            if (j==5):
                                 x.insert(END,tamanios[f])
-                            if (j==7):
+                            if (j==6):
                                 x.insert(END,rutas[f])
-                            if (j==8):
+                            if (j==7):
                                 x.insert(END,distancias[f])
-                            if (j==9):
+                            if (j==8):
                                 x.insert(END,niveles[f])
-                            if (j==10):
+                            if (j==9):
                                 x.insert(END,macrobloques[f])
-                            if (j==11):
+                            if (j==10):
                              x.insert(END,ides[f])
                         
                         
-        cursor = bd2.cursor()
-        cursor2 =  bd2.cursor()
+        cursor = bd3.cursor()
+        cursor2 =  bd3.cursor()
         sql2 = 'SELECT * from usuarios'
         sql = 'SELECT * from frentes'
         try:
@@ -330,8 +417,8 @@ def ingresomain(rut):
                     macrobloques.append(macrobloque)
                     ides.append(id)
             cursor.close()
-            bd2.commit()
-            bd2.close
+            bd3.commit()
+            bd3.close
         except Exception as e:
             print(e)
         creartablafrentes()
@@ -343,6 +430,7 @@ def ingresomain(rut):
         numfilas = 1
         numcolumnas = 2
         win4 = Tk()
+        win4.title('Equipos')
         tabla = Frame(win4)
         tabla.pack()
         def creartablaequipos():
@@ -357,7 +445,7 @@ def ingresomain(rut):
 
 
 
-        cursor = bd3.cursor()
+        cursor = bd4.cursor()
     
         sql =  "SELECT * from equipos"
         try: 
@@ -369,15 +457,15 @@ def ingresomain(rut):
                 flota.append(flotaa)
                 codigoequipoo = i ['codigo_equipo']
                 codigoequipo.append(codigoequipoo)
-                numfilas=numfilas+1
+                numfilas = numfilas + 1
 
 
 
             cursor.close()
-            bd3.commit()
-            bd3.close()
+            bd4.commit()
+            bd4.close()
         except Exception as e :
-             print("exception : ",e)      
+                print("exception : ",e)      
         creartablaequipos()
 
         #bd.commit()
@@ -388,26 +476,73 @@ def ingresomain(rut):
 
 
     def verestadoservicios():
-        win3.destroy()
-        cursor = bd.cursor()
+        numfilas = 1
+        numcolumnas = 6
+        win4 = Tk()
+        win4.title('Estado servicios')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaservicios():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(0,estadoservicio[f])
+                    if(j==1):
+                        x.insert(0,notaestado[f])
+                    if(j==2):
+                        x.insert(0,pkservicio[f])
+                    if(j==3):
+                        x.insert(0,notapk[f])
+                    if(j==4):
+                        x.insert(0,fecha[f])
+                    if(j==5):
+                        x.insert(0,idfrente[f])
+
+
+        cursor = bd5.cursor()
+
         sql =  "SELECT * from estado_servicios"
         try: 
             cursor.execute(sql)
             data = cursor.fetchall()
-            print(data)
-            cursor.close()
-            bd.commit()
-            bd.close()
-        except Exception as e :
-         print("exception : ",e )
-    #bd.commit()
-    #cursor.close()
-    #bd.close()'''
 
-    def favances():
+            for i in data:
+                estadoservicioo = i ['estado_servicio']
+                estadoservicio.append(estadoservicioo)
+                notaestadoo = i ['nota_estado']
+                notaestado.append(notaestadoo)
+                pkservicioo = i ['pk_servicio']
+                pkservicio.append(pkservicioo)
+                notapka = i ['nota_pk']
+                notapk.append(notapka)
+                fechaa = i ['fecha']
+                fecha.append(fechaa)
+                idfrentee = i ['id_frente']
+                idfrente.append(idfrentee)
+                numfilas = numfilas + 1
+
+
+
+            cursor.close()
+            bd5.commit()
+            bd5.close()
+        except Exception as e :
+                print("exception : ",e )
+        creartablaservicios()
+
+        #bd.commit()
+        #cursor.close()
+        #bd.close()'''
+
+    
+
+
+
+    def veravances():
         columnas = 9
         numfilas = 1 
-        win3.destroy()
         win4 = Tk()
         win4.title('Avances')
         tabla=Frame(win4)
@@ -441,7 +576,7 @@ def ingresomain(rut):
                     if(j==1):
                         x.insert(END,frentesid[i])
 
-        cursor = bd3.cursor()
+        cursor = bd6.cursor()
         sql =  "SELECT * from frentes "
         try:
             cursor.execute(sql)
@@ -458,6 +593,120 @@ def ingresomain(rut):
             print(e)
         creartablaavances()
 
+    def estadofrentes():
+        numfilas = 1
+        numcolumnas = 7
+        win4 = Tk()
+        win4.title('Estado frentes')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaestadofrentes():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(0,operacion[f])
+                    if(j==1):
+                        x.insert(0,estadoavance[f])
+                    if(j==2):
+                        x.insert(0,observaciones[f])
+                    if(j==3):
+                        x.insert(0,fechaf[f])
+                    if(j==4):
+                        x.insert(0,criticidad[f])
+                    if(j==5):
+                        x.insert(0,direccion[f])
+                    if(j==6):
+                        x.insert(0,idfrentef[f])
+
+        cursor = bd7.cursor()
+        sql = "SELECT * from estado_frentes"  
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+
+            for i in data:
+                operacionn = i ['operacion']
+                operacion.append(operacionn)
+                estadoavancee = i ['estado_avance']
+                estadoavance.append(estadoavancee)
+                observacioness = i ['observaciones']
+                observaciones.append(observacioness)
+                fechaff = i ['fecha']
+                fechaf.append(fechaff)
+                criticidadd = i ['criticidad']
+                criticidad.append(criticidadd)
+                direccionn = i ['direccion']
+                direccion.append(direccionn)
+                idfrenteff = i['id_frente']
+                idfrentef.append(idfrenteff)
+                numfilas = numfilas + 1
+            
+
+            cursor.close()
+            bd7.commit()
+            bd7.close()
+        except Exception as e :
+                print("exception : ",e )
+        creartablaestadofrentes()
+
+    def verestadoequipos():
+        numfilas = 1
+        numcolumnas = 5
+        win4 = Tk()
+        win4.title('Estado equipos')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaestadoequipos():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(END,flotae[f])
+                    if(j==1):
+                        x.insert(END,nivel[f])
+                    if(j==2):
+                        x.insert(END,fechae[f])
+                    if(j==3):
+                        x.insert(END,estadoe[f])    
+                    if(j==4):
+                        x.insert(END,codigoe[f])
+
+        cursor = bd8.cursor()
+
+        sql = "SELECT * from estado_equipos"
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            
+            for i in data:
+                flotaee = i ['flota']
+                flotae.append(flotaee)
+                nivell = i ['nivel']
+                nivel.append(nivell)
+                fechaee = i ['fecha']
+                fechae.append(fechaee)
+                estadoee = i ['estado']
+                estadoe.append(estadoee)
+                codigoee = i ['codigo_equipo']
+                codigoe.append(codigoee)
+                numfilas = numfilas + 1
+
+            
+            cursor.close()
+            bd8.commit()
+            bd8.close()
+        except Exception as e :
+                print("exception : ",e )
+        creartablaestadoequipos()
+
+
+        #bd.commit()
+        #cursor.close()
+        #bd.close()'''
+
 
         
         
@@ -465,15 +714,20 @@ def ingresomain(rut):
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
 
-    botonEstadoEquipos= Button(framemain,text="VER EQUIPOS EQUIPOS",command=vereequipos)
+    botonEstadoEquipos= Button(framemain,text="VER EQUIPOS",command=vereequipos)
     botonEstadoEquipos.grid(row="5", column="1")
 
     botonEstadoservicios= Button(framemain,text="ESTADO SERVICIOS",command=verestadoservicios)
     botonEstadoservicios.grid(row="6", column="1") 
 
-    botonavances= Button(framemain,text="AVANCES",command=favances)
+    botonavances= Button(framemain,text="AVANCES",command=veravances)
     botonavances.grid(row="7", column="1") 
 
+    botonverestadofrentes= Button(framemain,text="ESTADO FRENTES", command=estadofrentes)
+    botonverestadofrentes.grid(row="8", column="1")
+
+    botonverestadoequipos= Button(framemain,text="VER ESTADO EQUIPOS",command=verestadoequipos)
+    botonverestadoequipos.grid(row="9", column="1")
 
 
 def botoningresar():
@@ -482,7 +736,7 @@ def botoningresar():
     #selecciona la data a comparar
     rut = entryuser.get()
     password = entrypass.get()
-    cursor = bd.cursor()
+    cursor = bd9.cursor()
     sql =  "SELECT rut,contraseña,codigo_empresa from usuarios"
     try: 
         cursor.execute(sql)
@@ -490,9 +744,9 @@ def botoningresar():
         
     except Exception as e :
         print("exception : ")
-    bd.commit()
+    bd9.commit()
     cursor.close()
-    bd.close()
+    bd9.close()
     #captura mi rut y mi contraseña 
     for i in data:
         k=i['codigo_empresa']
@@ -533,13 +787,13 @@ def botonregistrar():
         rut = entryrut.get()
         password = entrypass.get()
         codigo = entrycpro.get()
-        cursor=bd.cursor()
+        cursor=bd10.cursor()
         sql =  "insert into usuarios (Rut,Contraseña,Codigo_empresa) value('%s','%s','%s')" % (rut,password,codigo)
         try:
          cursor.execute(sql)
          cursor.close()
-         bd.commit()
-         bd.close()
+         bd10.commit()
+         bd10.close()
         except Exception as e:
          print(e)
         #bd.commit()
