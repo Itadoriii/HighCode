@@ -16,20 +16,26 @@ siglas = []
 siglas.append('sigla')
 numeros = []
 numeros.append('numero')
+numeroreferencias = []
+numeroreferencias.append('numero referencia')
 direcciones = []
 direcciones.append('direccion')
+direccionreferencias = []
+direccionreferencias.append('direccion refencia')
 estados = []
-estados.append('direccion')
+estados.append('estado')
 tamanios= []
 tamanios.append('tamaño')
 rutas  = []
-rutas.append('ruta')
+rutas.append('ruta critica')
 distancias = []
-distancias.append('distancia')
+distancias.append('distancia marina')
 niveles = []
 niveles.append('nivel')
 macrobloques = []
 macrobloques.append('macrobloque')
+sector = []
+sector.append('sector')
 ides= []
 ides.append('id')
 
@@ -175,7 +181,7 @@ bd10 = pymysql.connect(host='localhost',
 
 def addbdfrentes():
     win4=Tk()
-    win4.geometry('300x300')
+    win4.geometry('300x380')
     frameingreso = Frame(win4)
     frameingreso.pack()
 
@@ -202,65 +208,87 @@ def addbdfrentes():
     entrynumero= Entry(frameingreso)
     entrynumero.grid(row="3",column="1")
 
+    txtnumeroreferencias=Label(frameingreso,text="Numero referencia")
+    txtnumeroreferencias.grid(row="4",column="0")
+    entrynumeroreferencias= Entry(frameingreso)
+    entrynumeroreferencias.grid(row="4",column="1")
+
     txtdireccion=Label(frameingreso,text="Direccion")
-    txtdireccion.grid(row="4",column="0")
+    txtdireccion.grid(row="5",column="0")
     entrydireccion= ttk.Combobox(frameingreso)
-    entrydireccion.grid(row="4",column="1")
+    entrydireccion.grid(row="5",column="1")
     entrydireccion['values'] = ('N','S','E','O')
 
+    txtdireccionreferencias=Label(frameingreso,text="Direccion referencia")
+    txtdireccionreferencias.grid(row="6",column="0")
+    entrydireccionreferencias= ttk.Combobox(frameingreso)
+    entrydireccionreferencias.grid(row="6",column="1")
+    entrydireccionreferencias['values'] = ('N','S','E','O')
+
     txtestado=Label(frameingreso,text="Estado")
-    txtestado.grid(row="5",column="0")
+    txtestado.grid(row="7",column="0")
     entryestado= ttk.Combobox(frameingreso)
-    entryestado.grid(row="5",column="1")
+    entryestado.grid(row="7",column="1")
     entryestado['values'] = ('Activo','Inactivo')
 
     txttamaño =Label(frameingreso,text="Tamaño")
-    txttamaño.grid(row="6",column="0")
-    entrytamaño= Entry(frameingreso)
-    entrytamaño.grid(row="6",column="1")
+    txttamaño.grid(row="8",column="0")
+    entrytamaño= ttk.Combobox(frameingreso)
+    entrytamaño.grid(row="8",column="1")
+    entrytamaño['values'] = ('C','M','G')
 
     txtrutacritica=Label(frameingreso,text="Ruta critica")
-    txtrutacritica.grid(row="7",column="0")
+    txtrutacritica.grid(row="9",column="0")
     entryrutacritica= ttk.Combobox(frameingreso)
-    entryrutacritica.grid(row="7",column="1")
-    entryrutacritica['values'] = ('N','S','E','O')
+    entryrutacritica.grid(row="9",column="1")
+    entryrutacritica['values'] = ('Si','No')
 
     txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
-    txtdistanciamarina.grid(row="8",column="0")
+    txtdistanciamarina.grid(row="10",column="0")
     entrydistanciamarina= Entry(frameingreso)
-    entrydistanciamarina.grid(row="8",column="1")
+    entrydistanciamarina.grid(row="10",column="1")
 
     txtnivelfrente=Label(frameingreso,text="Nivel")
-    txtnivelfrente.grid(row="9",column="0")
+    txtnivelfrente.grid(row="11",column="0")
     entrynivelfrente= ttk.Combobox(frameingreso)
-    entrynivelfrente.grid(row="9",column="1")
+    entrynivelfrente.grid(row="11",column="1")
     entrynivelfrente['values'] = ('PD','HD','INY','EXT','CH')
 
     txtmacrobloque=Label(frameingreso,text="Macrobloque")
-    txtmacrobloque.grid(row="10",column="0")
-    entrymacrobloque= Entry(frameingreso)
-    entrymacrobloque.grid(row="10",column="1")
+    txtmacrobloque.grid(row="12",column="0")
+    entrymacrobloque= ttk.Combobox(frameingreso)
+    entrymacrobloque.grid(row="12",column="1")
+    entrymacrobloque['values'] = ('S01','S02','S03','S04','S05')
 
-    txtcodigo=Label(frameingreso,text="Codigo")
-    txtcodigo.grid(row="11",column="0")
+    txtsector=Label(frameingreso,text="Sector")
+    txtsector.grid(row="13",column="0")
+    entrysector= ttk.Combobox(frameingreso)
+    entrysector.grid(row="13",column="1")
+    entrysector['values'] = ('S1','S2')
+
+    txtcodigo=Label(frameingreso,text="Codigo empresa")
+    txtcodigo.grid(row="14",column="0")
     entrycodigo= Entry(frameingreso)
-    entrycodigo.grid(row="11",column="1")
+    entrycodigo.grid(row="14",column="1")
 
     def llenarfrente():
         tipo =entrytipo.get()
         sigla = entrysigla.get()
         numero = entrynumero.get()
+        numeroreferencias = entrynumeroreferencias.get()
         direccion = entrydireccion.get()
+        direccionreferencias = entrydireccionreferencias.get()
         estado =entryestado.get()
         tamaño = entrytamaño.get()
         ruta =entryrutacritica.get()
         distancia =entrydistanciamarina.get()
         nivel = entrynivelfrente.get() 
         macrobloque =entrymacrobloque.get()
+        sector = entrysector.get()
         id = entryid.get()
         codigoempresa = entrycodigo.get()
         cursor=bd1.cursor()
-        sql =  "insert into frentes(tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tamaño,ruta,distancia,nivel,macrobloque,id,codigoempresa)
+        sql =  "insert into frentes(tipo,sigla,numero,numero_referencia,direccion,direccion_referencia,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,sector,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,numeroreferencias,direccion,direccionreferencias,estado,tamaño,ruta,distancia,nivel,macrobloque,sector,id,codigoempresa)
         try:
          cursor.execute(sql)
          print (sql)
@@ -277,7 +305,7 @@ def addbdfrentes():
         win4.destroy()
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
-    botonllenarbd.grid(row="12")
+    botonllenarbd.grid(row="15")
 
 def addequipo():
     win4=Tk()
@@ -346,7 +374,7 @@ def ingresomain(rut):
 
     def verfrentesrut():
         numfilas = 1
-        numcolumnas = 11
+        numcolumnas = 14
         win4 = Tk()
         win4.title('Frentes asociados al RUT')
         tabla=Frame(win4)
@@ -363,20 +391,26 @@ def ingresomain(rut):
                             if (j==2):
                                 x.insert(END,numeros[f])
                             if (j==3):
-                                x.insert(END,direcciones[f])
+                                x.insert(END,numeroreferencias[f])    
                             if (j==4):
-                                x.insert(END,estados[f])
+                                x.insert(END,direcciones[f])
                             if (j==5):
-                                x.insert(END,tamanios[f])
+                                x.insert(END,direccionreferencias[f])
                             if (j==6):
-                                x.insert(END,rutas[f])
+                                x.insert(END,estados[f])
                             if (j==7):
-                                x.insert(END,distancias[f])
+                                x.insert(END,tamanios[f])
                             if (j==8):
-                                x.insert(END,niveles[f])
+                                x.insert(END,rutas[f])
                             if (j==9):
-                                x.insert(END,macrobloques[f])
+                                x.insert(END,distancias[f])
                             if (j==10):
+                                x.insert(END,niveles[f])
+                            if (j==11):
+                                x.insert(END,macrobloques[f])
+                            if (j==12):
+                                x.insert(END,sector[f])
+                            if (j==13):
                              x.insert(END,ides[f])
                         
                         
@@ -399,26 +433,32 @@ def ingresomain(rut):
                 tipo = i['tipo']
                 sigla = i['sigla']
                 numero = i['numero']
+                numeroreferencia = i['numero_referencia']
                 direccion = i['direccion']
+                direccionreferencia = i['direccion_referencia']
                 estado = i['estado']
                 tamaño = i['tamaño']
                 ruta = i['ruta_critica']
                 distancia = i['distancia_marina']
                 nivel = i['nivel']
                 macrobloque = i['macrobloque']
+                sectores = i['sector']
                 id = i['id_frente']
                 codigo=i['codigo_empresa']
                 if(codigo==rutt):
                     tipos.append(tipo)
                     siglas.append(sigla)
                     numeros.append(numero)
+                    numeroreferencias.append(numeroreferencia)
                     direcciones.append(direccion)
+                    direccionreferencias.append(direccionreferencia)
                     estados.append(estado)
                     tamanios.append(tamaño)
                     rutas.append(ruta)
                     distancias.append(distancia)
                     niveles.append(nivel)
                     macrobloques.append(macrobloque)
+                    sector.append(sectores)
                     ides.append(id)
             cursor.close()
             bd3.commit()
@@ -788,7 +828,7 @@ def botonregistrar():
     entrypass=Entry(frameingresar)
     entrypass.grid(row="2",column="1")
 
-    txtcpro=Label(frameingresar,text="Codigo proyecto")
+    txtcpro=Label(frameingresar,text="Codigo empresa")
     txtcpro.grid(row="3", column="0")
     entrycpro=Entry(frameingresar)
     entrycpro.grid(row="3",column="1")
