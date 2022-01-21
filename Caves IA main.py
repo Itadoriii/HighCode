@@ -112,70 +112,66 @@ estadoe.append('Estado')
 codigoe = []
 codigoe.append('Codigo Equipo')
 
-#memory for progress button 
-matrizavances=[]
-
-
 
 #coneccion bd red local para crear cursores
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -586,47 +582,39 @@ def ingresomain(rut):
 
     def veravances():
         columnas = 9
-        numfilas = 1
+        numfilas = 1 
         win4 = Tk()
         win4.title('Avances')
         tabla=Frame(win4)
         tabla.pack()
-        
-        
         def creartablaavances():
             print('avances')
             #programar tabla aqui xd 
             for i in range(numfilas):
                 for j in range (columnas):
-                    if(j==0 and i==0):
-                        botonguardar = Button(tabla,text='Guardar datos')
-                        botonguardar.grid(row= i, column= j)
-                    else:
-
-
-
-                        x = Entry(tabla)
-                        x.grid(row = i, column = j)
-                        if(i==0):
-                            if(j==2):
-
-                                x.insert(0,estadoavances[i])
-                            if(j==3):
-                                x.insert(0,energiaavances[i])
-                            if(j==4):
-                                x.insert(0,aguaavances[i])
-                            if(j==5):
-                                x.insert(0,aireavances[i])
-                            if(j==6):
-                                x.insert(0,ventilacion[i])
-                            if(j==7):
-                                x.insert(0,drenaje[i])
-                            if(j==8):
-                                x.insert(0,prioridad[i])
-                            if(j==9):
-                                x.insert(0,restriccion[i])
-                        if(j==1):
-                            x.insert(END,frentesid[i])
+                    x = Entry(tabla)
+                    x.grid(row = i, column = j)
+                    if(i==0):
+                        if(j==2):
+                            x.insert(0,estadoavances[i])
+                        if(j==3):
+                            x.insert(0,energiaavances[i])
+                        if(j==4):
+                            x.insert(0,aguaavances[i])
+                        if(j==5):
+                            x.insert(0,aireavances[i])
+                        if(j==6):
+                            x.insert(0,ventilacion[i])
+                        if(j==7):
+                            x.insert(0,drenaje[i])
+                        if(j==8):
+                            x.insert(0,prioridad[i])
+                        if(j==9):
+                            x.insert(0,restriccion[i])
+                        
+                        
+                    if(j==1):
+                        x.insert(END,frentesid[i])
 
         cursor = bd6.cursor()
         sql =  "SELECT * from frentes "
