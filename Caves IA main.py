@@ -1,17 +1,53 @@
 from ast import Index
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
+from itertools import permutations
 from logging import CRITICAL
+from msilib.schema import ProgId
+from re import L
+from sys import api_version
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 import tkinter
 from tkinter.font import BOLD
-from unittest import signals 
+from unittest import signals
+from pkg_resources import PathMetadata 
 import pymysql.cursors
+#memoria algoritmo priorizacion 
+
+ptipo = []
+psiglas = []
+pnumeros = []
+pdireccion = []
+pestado = []
+ptam = []
+pruta = []
+pdistancia = [] 
+pnivel = []
+pmacrobloque = []
+pid = []
+pcodigo = [] 
+psector = []
+pref = []
+pdirref = []
+frentesord = []
+for i in range(14):
+    frentesord.append(list())
+
+pop = []
+pestadoavance =[]
+pobs = []
+pfecha =[]
+pcriticidad =[]
+pdirestadofr =[]
+pidestadofr =[]
+pestadosfrentes = []
+for j in range(6):
+    pestadosfrentes.append(list())
 
 #memoria para mostrar tablas frente
-tipos =[]
+tipos = []
 tipos.append('tipo')
 siglas = []
 siglas.append('sigla')
@@ -37,7 +73,7 @@ macrobloques = []
 macrobloques.append('macrobloque')
 sector = []
 sector.append('sector')
-ides= []
+ides = []
 ides.append('id')
 
 #memoria para mostrar tabla equipos 
@@ -112,61 +148,67 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd11 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -832,7 +874,7 @@ def ingresomain(rut):
             bd8.commit()
             bd8.close()
         except Exception as e :
-                print("exception : ",e )
+            print("exception : ",e )
         creartablaestadoequipos()
 
 
@@ -840,8 +882,163 @@ def ingresomain(rut):
         #cursor.close()
         #bd.close()'''
 
+    def priorizarfrentes():
+        num = 0
+        cursor = bd10.cursor()
+        sql2 = 'select * from estado_frentes'
+        sql = 'select  * from frentes'
+        try:
+            cursor.execute(sql)
+            dataa = cursor.fetchall()
+            cursor.execute(sql2)
+            dataestado = cursor.fetchall()
+            cursor.close()
+            bd10.commit()
+            bd10.close()
+            for j in dataestado:
+                operacion = j['operacion']
+                estado_avance = j['estado_avance']
+                obs = j['observaciones']
+                fecha = j['fecha']
+                criticidad = j['criticidad']
+                direccionestado = j['direccion']
+                id_frente = j['id_frente']
+                pop.append(operacion)
+                pestadoavance.append(estado_avance)
+                pobs.append(obs)
+                pfecha.append(fecha)
+                pcriticidad.append(criticidad)
+                pdirestadofr.append(direccionestado)
+                pidestadofr.append(id_frente)
+            for l in range(6):
+                match l :
+                    case 0:
+                        pestadosfrentes[0].append(pop)
+                    case 1:
+                        pestadosfrentes[1].append(pestadoavance)
+                    case 2:
+                        pestadosfrentes[2].append(pobs)
+                    case 3:
+                        pestadosfrentes[3].append(fecha)
+                    case 4:
+                        pestadosfrentes[4].append(pcriticidad)
+                    case 5:
+                        pestadosfrentes[5].append(pdirestadofr)
+                    case 6:
+                        pestadosfrentes[6].append(pidestadofr)
+                    
+                    
+                    
+                    
+                        
+
+
+
+            for i in dataa:
+                codigo = i['codigo_empresa']
+                tipo = i['tipo']
+                sigla = i['sigla']
+                numero = i['numero']
+                numeroreferencia = i['numero_referencia']
+                direccion = i['direccion']
+                direccionreferencia = i['direccion_referencia']
+                estado = i['estado']
+                tamaño = i['tamaño']
+                ruta = i['ruta_critica']
+                distancia = i['distancia_marina']
+                nivel = i['nivel']
+                macrobloque = i['macrobloque']
+                sectores = i['sector']
+                id = i['id_frente']
+                codigo=i['codigo_empresa']
+                if(codigo==rutt):
+                    num = num+1
+                    ptipo.append(tipo)
+                    psiglas.append(sigla)
+                    pnumeros.append(numero)
+                    pref.append(numeroreferencia)
+                    pdireccion.append(direccion)
+                    pdirref.append(direccionreferencia)
+                    pestado.append(estado)
+                    ptam.append(tamaño)
+                    pruta.append(ruta)
+                    pdistancia.append(distancia)
+                    pnivel.append(nivel)
+                    pmacrobloque.append(macrobloque)
+                    psector.append(sectores)
+                    pid.append(id)
+                    pcodigo.append(codigo)
+            for k in range(14):
+                match k :
+                    case 0:
+                        frentesord[0].append(ptipo)
+                    case 1:
+                        frentesord[1].append(psiglas)
+                    case 2:
+                        frentesord[2].append(pnumeros)
+                    case 3:
+                        frentesord[3].append(pdireccion)
+                    case 4:
+                        frentesord[4].append(pestado)
+                    case 5:
+                        frentesord[5].append(ptam)
+                    case 6:
+                        frentesord[6].append(pruta)
+                    case 7:
+                        frentesord[7].append(pdistancia)
+                    case 8:
+                        frentesord[8].append(pnivel)
+                    case 9:
+                        frentesord[9].append(pmacrobloque)
+                    case 10:
+                        frentesord[10].append(pid)
+                    case 11:
+                        frentesord[11].append(pcodigo)
+                    case 12:
+                        frentesord[12].append(psector)
+                    case 13:
+                        frentesord[13].append(pref)
+                    case 14:
+                        frentesord[14].append(pdirref)
+        except Exception as e:
+            print('exception :',e)
+        print(pestadosfrentes)
 
         
+        
+
+    def insertarestadofrentesbd():
+
+         win4=Tk()
+         win4.geometry('300x200')
+         frame= Frame(win4)
+         frame.pack()
+         
+         txtoperacion = Label(frame,text='operacion')
+         txtoperacion.grid(row='0',column='0')
+
+         txtestadoavance = Label(frame,text='estado avance')
+         txtestadoavance.grid(row='1',column='0')
+
+         txtobservaciones = Label(frame,text='observaciones')
+         txtobservaciones.grid(row='2',column='0')
+
+         txtfecha = Label(frame,text='fecha')
+         txtfecha.grid(row='3',column='0')
+
+         txtcriticidad = Label(frame,text='criticidad')
+         txtcriticidad.grid(row='4',column='0')
+
+         txtdireccion = Label(frame,text='direccion')
+         txtdireccion.grid(row='5',column='0')
+
+         txtidfrente = Label(frame,text='id frente')
+         txtidfrente.grid(row='6',column='0')
+
+
+
+
+
         
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
@@ -856,11 +1053,17 @@ def ingresomain(rut):
     botonavances= Button(framemain,text="AVANCES",command=veravances)
     botonavances.grid(row="7", column="1") 
 
-    botonverestadofrentes= Button(framemain,text="ESTADO FRENTES", command=estadofrentes)
+    botonverestadofrentes = Button(framemain,text="ESTADO FRENTES", command=estadofrentes)
     botonverestadofrentes.grid(row="8", column="1")
 
-    botonverestadoequipos= Button(framemain,text="VER ESTADO EQUIPOS",command=verestadoequipos)
+    botonverestadoequipos = Button(framemain,text="VER ESTADO EQUIPOS",command=verestadoequipos)
     botonverestadoequipos.grid(row="9", column="1")
+
+    algoritmopriorizacion = Button(framemain,text='Priorizacion',command=priorizarfrentes)
+    algoritmopriorizacion.grid(row='10', column='1')
+
+    insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
+    insertarestadofrentes.grid(row='11',column="1")
 
 
 def botoningresar():
@@ -871,6 +1074,7 @@ def botoningresar():
     password = entrypass.get()
     cursor = bd9.cursor()
     sql =  "SELECT rut,contraseña,codigo_empresa from usuarios"
+
     try: 
         cursor.execute(sql)
         data = cursor.fetchall()
