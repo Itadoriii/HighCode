@@ -1046,7 +1046,8 @@ def ingresomain(rut):
                 for d in priorizacion[0]:
                     if(d==aux3):
                         priorizacion[3].append(w)
-            
+            print('priorizacion 1:')     
+            print (priorizacion)
             #aqui se ordena segun la distancia marina 
             tam=len(priorizacion[3])-1
             #para guardar la memoria 
@@ -1060,6 +1061,7 @@ def ingresomain(rut):
                         aux4=priorizacion[3][q]
                         priorizacion[3][q]=priorizacion[3][q+1]
                         priorizacion[3][q+1]=aux4
+            
             #ordena indices en priorizacion 2[0]
             aux5=int(0)
             for jaja in priorizacion[3]:
@@ -1075,15 +1077,17 @@ def ingresomain(rut):
                 priorizacion2[2].append('tronadura')
             
             #for waka in priorizacion[3]
-            
+            for wak  in priorizacion2[0]:
+                for fro in priorizacion[1]:
+                    if(wak==priorizacion[1].index(fro)+1):
+                        priorizacion2[1].append(fro)
 
          
                     
     
                         
                         
-            print('priorizacion 1:')     
-            print (priorizacion) 
+             
             print('priorizacion 2:')      
             print(priorizacion2)
                   
