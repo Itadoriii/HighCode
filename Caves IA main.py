@@ -1035,6 +1035,7 @@ def ingresomain(rut):
                         priorizacion[3].append(w)
             print(priorizacion)
             #aqui se ordena segun la distancia marina 
+            #hay que ordenar 
 
 
                     
