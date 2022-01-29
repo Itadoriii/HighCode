@@ -12,6 +12,7 @@ from tkinter import ttk
 from tkinter import filedialog
 import tkinter
 from tkinter.font import BOLD
+from turtle import clear
 from unittest import signals
 from pkg_resources import PathMetadata 
 import pymysql.cursors
@@ -105,7 +106,7 @@ nivel.append('Nivel')
 notaactividad = []
 notaactividad.append('Nota actividad')
 pkacumulado = []
-pkacumulado.append('Pk acumulado')
+pkacumulado.append('Distancia acumulada')
 fechaav = []
 fechaav.append('Fecha')
 idfrenteav = []
@@ -116,11 +117,11 @@ idfrenteav.append('Id frente')
 estadoservicio = []
 estadoservicio.append('Estado servicio')
 notaestado = []
-notaestado.append('Nota estado')
+notaestado.append('void')
 pkservicio = []
-pkservicio.append('Pk servicio')
+pkservicio.append('Distancia')
 notapk = []
-notapk.append('Nota Pk')
+notapk.append('void')
 fecha = []
 fecha.append('Fecha')
 idfrente = []
@@ -236,20 +237,26 @@ def addbdfrentes():
     entryid= Entry(frameingreso)
     entryid.grid(row="0",column="1")
 
-    txttipo=Label(frameingreso,text="Tipo ")
+    txttipo=Label(frameingreso,text="Tipo de frente")
     txttipo.grid(row="1",column="0")
     entrytipo= ttk.Combobox(frameingreso)
     entrytipo.grid(row="1",column="1")
     entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
 
-    txtsigla=Label(frameingreso,text="Sigla")
+    txtsigla=Label(frameingreso,text="Sigla de frente")
     txtsigla.grid(row="2",column="0")
     entrysigla= ttk.Combobox(frameingreso)
     entrysigla.grid(row="2",column="1")
     entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
+
+    ''' txtsigla=Label(frameingreso,text="Sigla de referencia")
+    txtsigla.grid(row="2",column="0")
+    entrysigla= ttk.Combobox(frameingreso)
+    entrysigla.grid(row="2",column="1")
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')'''
   
 
-    txtnumero=Label(frameingreso,text="Numero")
+    txtnumero=Label(frameingreso,text="Numero de frente")
     txtnumero.grid(row="3",column="0")
     entrynumero= Entry(frameingreso)
     entrynumero.grid(row="3",column="1")
@@ -259,7 +266,7 @@ def addbdfrentes():
     entrynumeroreferencias= Entry(frameingreso)
     entrynumeroreferencias.grid(row="4",column="1")
 
-    txtdireccion=Label(frameingreso,text="Direccion")
+    txtdireccion=Label(frameingreso,text="Direccion de frente")
     txtdireccion.grid(row="5",column="0")
     entrydireccion= ttk.Combobox(frameingreso)
     entrydireccion.grid(row="5",column="1")
@@ -271,13 +278,13 @@ def addbdfrentes():
     entrydireccionreferencias.grid(row="6",column="1")
     entrydireccionreferencias['values'] = ('N','S','E','O')
 
-    txtestado=Label(frameingreso,text="Estado")
+    txtestado=Label(frameingreso,text="Estado de frente")
     txtestado.grid(row="7",column="0")
     entryestado= ttk.Combobox(frameingreso)
     entryestado.grid(row="7",column="1")
     entryestado['values'] = ('Activo','Inactivo')
 
-    txttamaño =Label(frameingreso,text="Tamaño")
+    txttamaño =Label(frameingreso,text="Tamaño de frente")
     txttamaño.grid(row="8",column="0")
     entrytamaño= ttk.Combobox(frameingreso)
     entrytamaño.grid(row="8",column="1")
@@ -381,7 +388,8 @@ def addequipo():
 
 
 
-    txtflota =Label(frameingreso,text="Flota")
+    txtflota =Label(frameingreso,text="Flota") #flota lista despeglabe
+                                               # combobox: 
     txtflota.grid(row="0",column="0")
     entryflota = Entry(frameingreso)
     entryflota.grid(row="0",column="1")
@@ -390,11 +398,16 @@ def addequipo():
     txtcodigo.grid(row="1",column="0")
     entrycod= Entry(frameingreso)
     entrycod.grid(row="1",column="1")
+    #aniadir id a la bd
+    txtcodigo=Label(frameingreso,text="Nivel de equipo")
+    txtcodigo.grid(row="2",column="0")
+    entrycod= Entry(frameingreso)
+    entrycod.grid(row="2",column="1")
 
     
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
-    botonllenarbd.grid(row="2")
+    botonllenarbd.grid(row="4")
 
 def modificarfrente():
     win4=Tk()
@@ -899,7 +912,7 @@ def ingresomain(rut):
         num = 0
         cursor = bd10.cursor()
         sql2 = 'select * from estado_frentes'
-        sql = 'select  * from frentes '
+        sql = 'select  * from frentes'
         try:
             cursor.execute(sql)
             dataa = cursor.fetchall()
@@ -975,7 +988,7 @@ def ingresomain(rut):
                     psector.append(sectores)
                     pid.append(id)
                     pcodigo.append(codigo)
-            print(pid)
+            
             for k in range(14):
                 match k :
                     case 0:
@@ -1033,9 +1046,56 @@ def ingresomain(rut):
                 for d in priorizacion[0]:
                     if(d==aux3):
                         priorizacion[3].append(w)
-            print(priorizacion)
+            
             #aqui se ordena segun la distancia marina 
-            #hay que ordenar 
+            tam=len(priorizacion[3])-1
+            #para guardar la memoria 
+            auxp3=[]
+            for tr in priorizacion[3]:
+                auxp3.append(tr) 
+           #ordena p3 3 orden mayor a menor d marina
+            for u in range(0,tam):
+                for q in range(0,tam):
+                    if(priorizacion[3][q]<priorizacion[3][q+1]):
+                        aux4=priorizacion[3][q]
+                        priorizacion[3][q]=priorizacion[3][q+1]
+                        priorizacion[3][q+1]=aux4
+            #ordena indices en priorizacion 2[0]
+            aux5=int(0)
+            for jaja in priorizacion[3]:
+                for xd in auxp3:
+                    aux5=aux5+1
+                    if(xd==jaja):
+                        priorizacion2[0].append(aux5)
+                        priorizacion2[3].append(jaja)
+                aux5 =0
+            #inserta tronadura 
+            aux6=len(priorizacion2[0])
+            for uwu in range(0,aux6):
+                priorizacion2[2].append('tronadura')
+            
+            #for waka in priorizacion[3]
+            
+
+         
+                    
+    
+                        
+                        
+            print('priorizacion 1:')     
+            print (priorizacion) 
+            print('priorizacion 2:')      
+            print(priorizacion2)
+                  
+
+
+
+
+         
+                
+
+
+            
 
 
                     
