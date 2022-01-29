@@ -4,6 +4,7 @@ from http.client import NOT_ACCEPTABLE
 from itertools import permutations
 from logging import CRITICAL
 from msilib.schema import ProgId
+from operator import index
 from re import L
 from sys import api_version
 from tkinter import *
@@ -14,8 +15,8 @@ from tkinter.font import BOLD
 from unittest import signals
 from pkg_resources import PathMetadata 
 import pymysql.cursors
-#memoria algoritmo priorizacion 
 
+#memoria algoritmo priorizacion 
 ptipo = []
 psiglas = []
 pnumeros = []
@@ -45,6 +46,11 @@ pidestadofr =[]
 pestadosfrentes = []
 for j in range(6):
     pestadosfrentes.append(list())
+
+priorizacion = []
+priorizacion.append(list())
+priorizacion.append(list())
+priorizacion.append(list())
 
 #memoria para mostrar tablas frente
 tipos = []
@@ -926,13 +932,6 @@ def ingresomain(rut):
                         pestadosfrentes[5].append(pdirestadofr)
                     case 6:
                         pestadosfrentes[6].append(pidestadofr)
-                    
-                    
-                    
-                    
-                        
-
-
 
             for i in dataa:
                 codigo = i['codigo_empresa']
@@ -1000,9 +999,42 @@ def ingresomain(rut):
                         frentesord[13].append(pref)
                     case 14:
                         frentesord[14].append(pdirref)
+            aux = int(0)
+            aux2 = int(0)
+            #inserta los indices de tronadura en la primera priorizacion y tronadura en la columna 3 
+            for p in pestadoavance:
+                if(p=='tronadura'):
+                    priorizacion[0].append(aux)
+                    priorizacion[2].append(p)
+                    aux=aux+1
+                else:
+                    aux=aux+1
+            
+            #inserta id frentes en priorizacion
+            for u in pidestadofr:
+                aux2 = pidestadofr.index(u)
+                for d in priorizacion[0]:
+                    if(d==aux2):
+                        priorizacion[1].append(u)
+            print(priorizacion)
+                
+            
+                
+           
+
+            
+           
+
+                    
+                    
         except Exception as e:
             print('exception :',e)
-        print(pestadosfrentes)
+       
+        
+     
+            
+                
+        
 
         
         
