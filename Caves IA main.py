@@ -44,13 +44,20 @@ pcriticidad =[]
 pdirestadofr =[]
 pidestadofr =[]
 pestadosfrentes = []
-for j in range(6):
+for j in range(7):
     pestadosfrentes.append(list())
 
 priorizacion = []
 priorizacion.append(list())
 priorizacion.append(list())
 priorizacion.append(list())
+priorizacion.append(list())
+
+priorizacion2 = []
+priorizacion2.append(list())
+priorizacion2.append(list())
+priorizacion2.append(list())
+priorizacion2.append(list())
 
 #memoria para mostrar tablas frente
 tipos = []
@@ -892,10 +899,11 @@ def ingresomain(rut):
         num = 0
         cursor = bd10.cursor()
         sql2 = 'select * from estado_frentes'
-        sql = 'select  * from frentes'
+        sql = 'select  * from frentes '
         try:
             cursor.execute(sql)
             dataa = cursor.fetchall()
+            
             cursor.execute(sql2)
             dataestado = cursor.fetchall()
             cursor.close()
@@ -967,6 +975,7 @@ def ingresomain(rut):
                     psector.append(sectores)
                     pid.append(id)
                     pcodigo.append(codigo)
+            print(pid)
             for k in range(14):
                 match k :
                     case 0:
@@ -1016,14 +1025,17 @@ def ingresomain(rut):
                 for d in priorizacion[0]:
                     if(d==aux2):
                         priorizacion[1].append(u)
-            print(priorizacion)
-                
             
-                
-           
 
-            
-           
+            #aqui se inserta la distancia marina 
+            for w in pdistancia:
+                aux3=pdistancia.index(w)
+                for d in priorizacion[0]:
+                    if(d==aux3):
+                        priorizacion[3].append(w)
+            print(priorizacion)
+            #aqui se ordena segun la distancia marina 
+
 
                     
                     
