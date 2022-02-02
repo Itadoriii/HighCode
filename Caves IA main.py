@@ -17,6 +17,16 @@ from unittest import signals
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 
+#ciclos mineros 
+ciclominero1 = ['ventilacion','regado_marina','extraccion_marina','acuñadura','limpieza_pata','escaner','mapeo_geomecanico',
+'shotcrete_fibra','perforacion_pernos','lechado_pernos','instalacion_malla','hilteo_malla','proyeccion_shotcrete',
+'marcacion_topografica','perforacion_avance','carguio_explosivos','tronadura']
+discriminados = []
+discriminados.append(list())
+discriminados.append(list())
+discriminados.append(list())
+discriminados.append(list())
+
 #memoria algoritmo priorizacion 
 ptipo = []
 psiglas = []
@@ -1030,14 +1040,25 @@ def ingresomain(rut):
                     priorizacion[2].append(p)
                     aux=aux+1
                 else:
+                    discriminados[0].append(p)
+                    discriminados[1].append(aux)
                     aux=aux+1
+                    
             
-            #inserta id frentes en priorizacion
+            #inserta id frentes en priorizacion y id frentes en discriminados 
             for u in pidestadofr:
                 aux2 = pidestadofr.index(u)
+                aux45 = pidestadofr.index(u)
                 for d in priorizacion[0]:
                     if(d==aux2):
                         priorizacion[1].append(u)
+                for t in discriminados[1]:
+                    if(t==aux45):
+                        discriminados[2].append(u)
+            
+
+                    
+                    
             
 
             #aqui se inserta la distancia marina 
@@ -1081,6 +1102,10 @@ def ingresomain(rut):
                 for fro in priorizacion[1]:
                     if(wak==priorizacion[1].index(fro)+1):
                         priorizacion2[1].append(fro)
+            
+            
+            
+
 
          
                     
@@ -1090,6 +1115,8 @@ def ingresomain(rut):
              
             print('priorizacion 2:')      
             print(priorizacion2)
+            print('discrimidados')
+            print(discriminados)
                   
 
 
