@@ -26,8 +26,7 @@ discriminados.append(list())
 discriminados.append(list())
 discriminados.append(list())
 discriminados.append(list())
-discriminados.append(list())
-discriminados.append(list())
+
 
 
 #memoria algoritmo priorizacion 
@@ -75,7 +74,7 @@ priorizacion2.append(list())
 
 priorizacion3 = []
 priorizacion3.append(list())
-priorizacion3.append(list())
+
 
 
 #memoria para mostrar tablas frente
@@ -1067,7 +1066,7 @@ def ingresomain(rut):
                 for d in priorizacion[0]:
                     if(d==aux3):
                         priorizacion[3].append(w)
-            print('priorizacion 1:')     
+            print('priorizacion 1:(extraccion marina)')     
             print (priorizacion)
             #aqui se ordena segun la distancia marina 
             tam=len(priorizacion[3])-1
@@ -1107,62 +1106,28 @@ def ingresomain(rut):
                 for cece in ciclominero1:
                     if(caca==cece):
                         discriminados[3].append(auxd+1)
-                        discriminados[4].append(17-(auxd+1))
                     else: 
                         auxd = auxd+1
-           
-            #priorizacion3 
-            for cici in priorizacion2[1]:
-                priorizacion3[0].append(cici)
-                
-            pauxd=[]
-            for uwuwu in discriminados[4]:
-                pauxd.append(uwuwu)
-            tamm=len(pauxd)-1
-            aux77=int(0)
-            for xi in range(0,tamm):
-                for xii in range(0,tamm):
-                    if(pauxd[xii]<pauxd[xii+1]):
-                        aux77=pauxd[xii]
-                        pauxd[xii]=pauxd[xii+1]
-                        pauxd[xii+1]=aux77
+            #ordena frentes restantes 
+            aux7 = len(discriminados[3])
+            aux8 = len(discriminados[2])
+            tammm = len(discriminados[3])-1
+            for oeo in range(0,tammm):
+                for eoe in range(0,tammm):
+                    if(discriminados[3][eoe]<discriminados[3][eoe+1]):
+                        aux7=discriminados[3][eoe]
+                        aux8=discriminados[2][eoe]
+                        discriminados[3][eoe]=discriminados[3][eoe+1]
+                        discriminados[2][eoe]=discriminados[2][eoe+1]
+                        discriminados[3][eoe+1]=aux7
+                        discriminados[2][eoe+1]=aux8
 
-        
-            aux8=int(0)
-            for io in pauxd:
-                aux8=0
-                for ie in discriminados[4]:
-                    if(ie==io):
-                        priorizacion3[1].append(aux8)
-                        aux8= aux8+1
-                    else:
-                        aux8= aux8+1
-            for ni in discriminados[2]:
-                xddd= discriminados[2].index(ni)
-                for nii in priorizacion3[1]:
-                    if(xddd==nii):
-                        priorizacion3[0].append(ni)
-                        
+            priorizacion3[0]= priorizacion2[1]+discriminados[2]
 
-            
-
-
-                       
-            
-            
-
-
-         
-                    
-    
-                        
-                        
-             
-            print('priorizacion 2:')      
+            print('priorizacion 2:(distancia de pv)')      
             print(priorizacion2)
-            print('priorizacion 3:')      
+            print('priorizacion 3 (tronadura proxima ):') 
             print(priorizacion3)
-            
                   
 
 
