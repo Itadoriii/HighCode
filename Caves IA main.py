@@ -111,9 +111,13 @@ ides.append('id')
 #memoria para mostrar tabla equipos 
 
 flota = []
-flota.append('flota')
+flota.append('Flota')
 codigoequipo = []
 codigoequipo.append('Codigo equipo')
+cantidad = []
+cantidad.append('Cantidad')
+niveleq = []
+niveleq.append('Nivel')
 
 #memoria para mostrar tabla avances 
 
@@ -180,69 +184,70 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
+
 
 def addbdfrentes():
     win4=Tk()
@@ -386,9 +391,12 @@ def addequipo():
     def llenarequipo():
         flota= entryflota.get()
         codigo = entrycod.get()
+        cantidade= entrycantidade.get()
+        nivele= entrynivele.get()
+
        
         cursor=bd2.cursor()
-        sql =  "insert into equipos(flota,codigo_equipo) value('%s','%s')" % (flota,codigo)
+        sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
         try:
          cursor.execute(sql)
          cursor.close()
@@ -406,21 +414,28 @@ def addequipo():
 
 
 
-    txtflota =Label(frameingreso,text="Flota") #flota lista despeglabe
-                                               # combobox: 
+    txtflota =Label(frameingreso,text="Flota") #lista desplegable
     txtflota.grid(row="0",column="0")
-    entryflota = Entry(frameingreso)
+    entryflota = ttk.Combobox(frameingreso)
     entryflota.grid(row="0",column="1")
+    entryflota['values'] = ('Jumbo fortificación','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora')
 
     txtcodigo=Label(frameingreso,text="Codigo_equipo")
     txtcodigo.grid(row="1",column="0")
     entrycod= Entry(frameingreso)
     entrycod.grid(row="1",column="1")
-    #aniadir id a la bd
-    txtcodigo=Label(frameingreso,text="Nivel de equipo")
-    txtcodigo.grid(row="2",column="0")
-    entrycod= Entry(frameingreso)
-    entrycod.grid(row="2",column="1")
+
+    txtcantidade=Label(frameingreso,text="Cantidad")
+    txtcantidade.grid(row="2",column="0")
+    entrycantidade= Entry(frameingreso)
+    entrycantidade.grid(row="2",column="1")
+
+    txtnivele=Label(frameingreso,text="Nivel de equipo") 
+    txtnivele.grid(row="3",column="0")
+    entrynivele= ttk.Combobox(frameingreso)
+    entrynivele.grid(row="3",column="1")
+    entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
+
 
     
 
@@ -499,7 +514,7 @@ def modificarfrente():
     txtnivelfrente.grid(row="11",column="0")
     entrynivelfrente= ttk.Combobox(frameingreso)
     entrynivelfrente.grid(row="11",column="1")
-    entrynivelfrente['values'] = ('PD','HD','INY','EXT','CH')
+    entrynivelfrente['values'] = ('HD','PD','CH','INY','EXT','TI')
 
     txtmacrobloque=Label(frameingreso,text="Macrobloque")
     txtmacrobloque.grid(row="12",column="0")
@@ -643,9 +658,9 @@ def ingresomain(rut):
 
     def vereequipos():
         numfilas = 1
-        numcolumnas = 2
+        numcolumnas = 4
         win4 = Tk()
-        win4.title('Equipos')
+        win4.title('Recurso_equipos')
         tabla = Frame(win4)
         tabla.pack()
         def creartablaequipos():
@@ -657,12 +672,16 @@ def ingresomain(rut):
                         x.insert(END,flota[f])
                     if(j==1):
                         x.insert(END,codigoequipo[f])
+                    if(j==2):
+                        x.insert(END,cantidad[f])
+                    if(j==3):
+                        x.insert(END,niveleq[f])
 
 
 
         cursor = bd4.cursor()
     
-        sql =  "SELECT * from equipos"
+        sql =  "SELECT * from recurso_equipos"
         try: 
             cursor.execute(sql)
             data = cursor.fetchall()
@@ -672,6 +691,10 @@ def ingresomain(rut):
                 flota.append(flotaa)
                 codigoequipoo = i ['codigo_equipo']
                 codigoequipo.append(codigoequipoo)
+                cantidadd = i ['cantidad']
+                cantidad.append(cantidadd)
+                niveleqq = i ['nivel']
+                niveleq.append(niveleqq)
                 numfilas = numfilas + 1
 
 
@@ -1226,7 +1249,7 @@ def ingresomain(rut):
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
 
-    botonEstadoEquipos= Button(framemain,text="VER EQUIPOS",command=vereequipos)
+    botonEstadoEquipos= Button(framemain,text="VER RECURSO EQUIPOS",command=vereequipos)
     botonEstadoEquipos.grid(row="5", column="1")
 
     botonEstadoservicios= Button(framemain,text="ESTADO SERVICIOS",command=verestadoservicios)
