@@ -215,6 +215,12 @@ basematriz.append('18:00')
 basematriz.append('18:30')
 basematriz.append('19:00')
 basematriz.append('19:30')
+siglarecursos = ['RM','E','AC','LP','SC','MG','SHF','PP','L','M','H','SH','MT','PA','C','Q']
+tams = ['1','3','1','1','1','1','1','3','3','3','3','2','1','3','3','1']
+tameme = ['1','3','1','1','1','1','1','4','4','4','4','2','1','4','3','1']
+taml = ['1','4','1','1','1','1','1','5','5','5','5','2','1','3','1']
+
+
 
 
 
@@ -1196,14 +1202,14 @@ def ingresomain(rut):
                         discriminados[2][eoe+1]=aux8
 
             priorizacion3[0]= priorizacion2[1]+discriminados[2]
-            ''' 
+            
             print('priorizacion 2 (distancia de pv):')      
             print(priorizacion2)
             print('priorizacion 3 (tronadura proxima ):') 
             print(priorizacion3)
             priorizacion4[0] = priorizacion [1]
             priorizacion4[1] = discriminados [2]
-            '''
+            
 
             tamxd = len(priorizacion4[1])
             tamxd2 = len(pid)
@@ -1218,16 +1224,16 @@ def ingresomain(rut):
                     if(miaux==miaux2):
                         priorizacion4[2].append(miaux3)
 
-            '''
+            
             for woko in range(0,tamxd3):
                 for wuku in range(0,tamxd3):
-                     if(priorizacion4[2][wuku]<priorizacion4[2][wuku+1]):
+                     if(priorizacion4[2][wuku]>priorizacion4[2][wuku+1]):
                         aux9=priorizacion4[2][wuku]
                         aux10=priorizacion4[1][wuku]
                         priorizacion4[2][wuku]=priorizacion4[2][wuku+1]
                         priorizacion4[1][wuku]=priorizacion4[1][wuku+1]
                         priorizacion4[2][wuku+1]=aux9
-                        priorizacion4[1][wuku+1]=aux10'''
+                        priorizacion4[1][wuku+1]=aux10
 
             
 
@@ -1302,12 +1308,20 @@ def ingresomain(rut):
         #define memoria para el numero de frentes
         for matrizlargo in range (0,numlistasmatrix):
             matrizpriorizacion.append(list())
-        #inserta frentes en la columna íd 
+        #inserta frentes en la columna íd (0)
         setid = len(matrizpriorizacion)+1    
         for i in range(1,setid-1):
             aux1 = priorizacion3[0][i-1]
             matrizpriorizacion[i].append(aux1)
+        #llenar memoria con 0s
+        setcero = len(matrizpriorizacion)-1
+        for j in range(1,setcero):
+            for k in range(1,24):
+                matrizpriorizacion[j][k].append('0')
+        #insertar RM segun tronadura frentes 
+
         print (matrizpriorizacion)
+        
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
