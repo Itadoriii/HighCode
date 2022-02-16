@@ -14,6 +14,7 @@ import tkinter
 from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
+from numpy import matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 
@@ -74,6 +75,13 @@ priorizacion2.append(list())
 
 priorizacion3 = []
 priorizacion3.append(list())
+
+priorizacion4 = []
+priorizacion4.append(list())
+priorizacion4.append(list())
+priorizacion4.append(list())
+priorizacion4.append(list())
+
 
 
 
@@ -178,72 +186,112 @@ estadoe.append('Estado')
 codigoe = []
 codigoe.append('Codigo Equipo')
 
+#memoria algoritmo 2 
+matrizpriorizacion = []
+print(matrizpriorizacion)
+basematriz = []
+basematriz.append('id(s)')
+basematriz.append('08:00')
+basematriz.append('08:30')
+basematriz.append('09:00')
+basematriz.append('09:30')
+basematriz.append('10:00')
+basematriz.append('10:30')
+basematriz.append('11:00')
+basematriz.append('11:30')
+basematriz.append('12:00')
+basematriz.append('12:30')
+basematriz.append('13:00')
+basematriz.append('13:30')
+basematriz.append('14:00')
+basematriz.append('14:30')
+basematriz.append('15:00')
+basematriz.append('15:30')
+basematriz.append('16:00')
+basematriz.append('16:30')
+basematriz.append('17:00')
+basematriz.append('17:30')
+basematriz.append('18:00')
+basematriz.append('18:30')
+basematriz.append('19:00')
+basematriz.append('19:30')
+
+
+
+
+matrizpriorizacion.append(basematriz)
+
+
+
+
+
+
 
 #coneccion bd red local para crear cursores
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -993,7 +1041,8 @@ def ingresomain(rut):
                         pestadosfrentes[5].append(pdirestadofr)
                     case 6:
                         pestadosfrentes[6].append(pidestadofr)
-
+            
+           
             for i in dataa:
                 codigo = i['codigo_empresa']
                 tipo = i['tipo']
@@ -1064,7 +1113,8 @@ def ingresomain(rut):
             aux = int(0)
             aux2 = int(0)
             #inserta los indices de tronadura en la primera priorizacion y tronadura en la columna 3 
-            for p in pestadoavance:
+
+            for p in pop:
                 if(p=='tronadura'):
                     priorizacion[0].append(aux)
                     priorizacion[2].append(p)
@@ -1146,12 +1196,52 @@ def ingresomain(rut):
                         discriminados[2][eoe+1]=aux8
 
             priorizacion3[0]= priorizacion2[1]+discriminados[2]
-
-            print('priorizacion 2:(distancia de pv)')      
+            ''' 
+            print('priorizacion 2 (distancia de pv):')      
             print(priorizacion2)
             print('priorizacion 3 (tronadura proxima ):') 
             print(priorizacion3)
-                  
+            priorizacion4[0] = priorizacion [1]
+            priorizacion4[1] = discriminados [2]
+            '''
+
+            tamxd = len(priorizacion4[1])
+            tamxd2 = len(pid)
+            tamxd3 = len(priorizacion4[1])-1
+            aux9=int(0)
+
+            for waca in range(0,tamxd):
+                miaux = priorizacion4[1][waca]
+                for weke in range (0,tamxd2):
+                    miaux2 = pid[weke]
+                    miaux3 = ptam[weke]
+                    if(miaux==miaux2):
+                        priorizacion4[2].append(miaux3)
+
+            '''
+            for woko in range(0,tamxd3):
+                for wuku in range(0,tamxd3):
+                     if(priorizacion4[2][wuku]<priorizacion4[2][wuku+1]):
+                        aux9=priorizacion4[2][wuku]
+                        aux10=priorizacion4[1][wuku]
+                        priorizacion4[2][wuku]=priorizacion4[2][wuku+1]
+                        priorizacion4[1][wuku]=priorizacion4[1][wuku+1]
+                        priorizacion4[2][wuku+1]=aux9
+                        priorizacion4[1][wuku+1]=aux10'''
+
+            
+
+
+
+
+
+
+            print(pid)
+            print('priorizacion 4 (Urgencia ):')
+            print(priorizacion4)
+           
+
+            
 
 
 
@@ -1206,10 +1296,18 @@ def ingresomain(rut):
          txtidfrente.grid(row='6',column='0')
 
 
-
-
-
-        
+    def algoritmo2():
+        print('2')
+        numlistasmatrix = len(priorizacion3[0])
+        #define memoria para el numero de frentes
+        for matrizlargo in range (0,numlistasmatrix):
+            matrizpriorizacion.append(list())
+        #inserta frentes en la columna íd 
+        setid = len(matrizpriorizacion)+1    
+        for i in range(1,setid-1):
+            aux1 = priorizacion3[0][i-1]
+            matrizpriorizacion[i].append(aux1)
+        print (matrizpriorizacion)
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
@@ -1234,6 +1332,9 @@ def ingresomain(rut):
 
     insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
     insertarestadofrentes.grid(row='11',column="1")
+
+    botonalgoritmo2 = Button(framemain,text='Algoritmo 2',command=algoritmo2)
+    botonalgoritmo2.grid(row='12',column='1')
 
 
 def botoningresar():
