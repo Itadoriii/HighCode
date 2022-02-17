@@ -14,7 +14,7 @@ import tkinter
 from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
-from numpy import matrix
+from numpy import mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 
@@ -77,6 +77,7 @@ priorizacion3 = []
 priorizacion3.append(list())
 
 priorizacion4 = []
+priorizacion4.append(list())
 priorizacion4.append(list())
 priorizacion4.append(list())
 priorizacion4.append(list())
@@ -1146,7 +1147,7 @@ def ingresomain(rut):
                     if(d==aux3):
                         priorizacion[3].append(w)
             print('priorizacion 1:(extraccion marina)')     
-            print (priorizacion)
+            print (priorizacion[1])
             #aqui se ordena segun la distancia marina 
             tam=len(priorizacion[3])-1
             #para guardar la memoria 
@@ -1204,10 +1205,10 @@ def ingresomain(rut):
             priorizacion3[0]= priorizacion2[1]+discriminados[2]
             
             print('priorizacion 2 (distancia de pv):')      
-            print(priorizacion2)
+            print(priorizacion2[1])
             print('priorizacion 3 (tronadura proxima ):') 
-            print(priorizacion3)
-            priorizacion4[0] = priorizacion [1]
+            print(priorizacion3[0])
+            priorizacion4[0] = priorizacion2 [1]
             priorizacion4[1] = discriminados [2]
             
 
@@ -1223,43 +1224,28 @@ def ingresomain(rut):
                     miaux3 = ptam[weke]
                     if(miaux==miaux2):
                         priorizacion4[2].append(miaux3)
-
+            tamxd3 = len(priorizacion4[2])
+            for orden in range (0,tamxd3):
+                if(priorizacion4[2][orden]=='G'):
+                    aux777 = priorizacion4[1][orden]
+                    priorizacion4[3].append(aux777)
+            for orden1 in range (0,tamxd3):
+                if(priorizacion4[2][orden1]=='M'):
+                    aux777 = priorizacion4[1][orden1]
+                    priorizacion4[3].append(aux777)
+            for orden2 in range (0,tamxd3):
+                if(priorizacion4[2][orden2]=='C'):
+                    aux777 = priorizacion4[1][orden2]
+                    priorizacion4[3].append(aux777)
             
-            for woko in range(0,tamxd3):
-                for wuku in range(0,tamxd3):
-                     if(priorizacion4[2][wuku]>priorizacion4[2][wuku+1]):
-                        aux9=priorizacion4[2][wuku]
-                        aux10=priorizacion4[1][wuku]
-                        priorizacion4[2][wuku]=priorizacion4[2][wuku+1]
-                        priorizacion4[1][wuku]=priorizacion4[1][wuku+1]
-                        priorizacion4[2][wuku+1]=aux9
-                        priorizacion4[1][wuku+1]=aux10
-
-            
-
-
-
-
-
-
-            print(pid)
+            priorizacion4[4]=priorizacion4[0]+priorizacion4[3]
             print('priorizacion 4 (Urgencia ):')
-            print(priorizacion4)
+            print(priorizacion4[4])
+
+            #aqui se muestra data segun la priorizacion que se desee 
+
            
 
-            
-
-
-
-
-         
-                
-
-
-            
-
-
-                    
                     
         except Exception as e:
             print('exception :',e)
@@ -1303,7 +1289,7 @@ def ingresomain(rut):
 
 
     def algoritmo2():
-        print('2')
+        
         numlistasmatrix = len(priorizacion3[0])
         #define memoria para el numero de frentes
         for matrizlargo in range (0,numlistasmatrix):
@@ -1313,14 +1299,55 @@ def ingresomain(rut):
         for i in range(1,setid-1):
             aux1 = priorizacion3[0][i-1]
             matrizpriorizacion[i].append(aux1)
-        #llenar memoria con 0s
-        setcero = len(matrizpriorizacion)-1
-        for j in range(1,setcero):
-            for k in range(1,24):
-                matrizpriorizacion[j][k].append('0')
+        #llenar memoria con 0s de 8 a 9:30 y de 18:30 a 19:30
+        tamcolumnas = len(matrizpriorizacion[0])
+        tamfilas = len(matrizpriorizacion)
+        for j in range(1,tamfilas):
+            
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+            matrizpriorizacion[j].append('0')
+        def vermatrizconsola():
+            for uwu in range (0,tamfilas):
+                print ('\n')
+                print (matrizpriorizacion[uwu])
+                
+            
+
+            
+           
+
+                
+
+
+
+
+                
+                
         #insertar RM segun tronadura frentes 
 
-        print (matrizpriorizacion)
+        vermatrizconsola()
         
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
