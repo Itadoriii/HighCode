@@ -1328,6 +1328,17 @@ def ingresomain(rut):
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
+        tamtrondadura = len(priorizacion2[1])
+        for k in range (1,tamtrondadura+1):
+            for l in range(1,tamcolumnas):
+                if(k==l):
+                    matrizpriorizacion[k][l]='RM'
+        
+
+
+
+
+        
         def vermatrizconsola():
             for uwu in range (0,tamfilas):
                 print ('\n')
