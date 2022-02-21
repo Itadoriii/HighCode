@@ -14,7 +14,7 @@ import tkinter
 from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
-from numpy import mat, matrix
+from numpy import can_cast, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 
@@ -82,6 +82,9 @@ priorizacion4.append(list())
 priorizacion4.append(list())
 priorizacion4.append(list())
 priorizacion4.append(list())
+tamyfrentes = []
+tamyfrentes.append(list())
+tamyfrentes.append(list())
 
 
 
@@ -220,7 +223,11 @@ siglarecursos = ['RM','E','AC','LP','SC','MG','SHF','PP','L','M','H','SH','MT','
 tams = ['1','3','1','1','1','1','1','3','3','3','3','2','1','3','3','1']
 tameme = ['1','3','1','1','1','1','1','4','4','4','4','2','1','4','3','1']
 taml = ['1','4','1','1','1','1','1','5','5','5','5','2','1','3','1']
-
+memalg2 = []
+memalg2.append(siglarecursos)
+memalg2.append(tams)
+memalg2.append(tameme)
+memalg2.append(taml)
 
 
 
@@ -1240,13 +1247,21 @@ def ingresomain(rut):
             
             priorizacion4[4]=priorizacion4[0]+priorizacion4[3]
             print('priorizacion 4 (Urgencia ):')
-            print(priorizacion4[4])
+            print(priorizacion4)
+            
 
+            tamyfrentes[0]=priorizacion4[4]
+            for jajant in frentesord[10][0]:
+                for yapo in tamyfrentes[0]:
+                    auxjajant = tamyfrentes[0].index(yapo)
+                    if(jajant==yapo):
+                        
+                        busqueda =frentesord[5][0][auxjajant]
+                        tamyfrentes[1].append(busqueda)
+            print(tamyfrentes[1])
+          
             #aqui se muestra data segun la priorizacion que se desee 
-
-           
-
-                    
+     
         except Exception as e:
             print('exception :',e)
        
@@ -1290,20 +1305,19 @@ def ingresomain(rut):
 
     def algoritmo2():
         
-        numlistasmatrix = len(priorizacion3[0])
+        numlistasmatrix = len(priorizacion4[4])
         #define memoria para el numero de frentes
         for matrizlargo in range (0,numlistasmatrix):
             matrizpriorizacion.append(list())
         #inserta frentes en la columna íd (0)
         setid = len(matrizpriorizacion)+1    
         for i in range(1,setid-1):
-            aux1 = priorizacion3[0][i-1]
+            aux1 = priorizacion4[4][i-1]
             matrizpriorizacion[i].append(aux1)
         #llenar memoria con 0s de 8 a 9:30 y de 18:30 a 19:30
         tamcolumnas = len(matrizpriorizacion[0])
         tamfilas = len(matrizpriorizacion)
         for j in range(1,tamfilas):
-            
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
@@ -1328,37 +1342,50 @@ def ingresomain(rut):
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
+            #inserto tronadura en los frentes correspondientes
         tamtrondadura = len(priorizacion2[1])
         for k in range (1,tamtrondadura+1):
             for l in range(1,tamcolumnas):
                 if(k==l):
-                    matrizpriorizacion[k][l]='RM'
+                    matrizpriorizacion[k][l+3]='RM'
+        #funcion para saber que tam es el frente 
+        def quetames(frente):
+            auxtamanio = len(tamyfrentes[0])
+            for frentes in range(0,auxtamanio):
+                if (tamyfrentes[0][frentes]==frente):
+                    return(tamyfrentes[1][frentes])
+
+        #se inserta el ciclo siguiente segun tam de frente para los frentes que terminaron el tronadura 
+        auxtamfrentes = len(matrizpriorizacion)
+        auxcolumnas = len(matrizpriorizacion[0])-1
+        print(auxtamfrentes)
+        for eme in range(1,auxtamfrentes):
+            for caca in range(1,auxcolumnas):
+                if(matrizpriorizacion[eme][caca]=='RM'):
+                    frente = matrizpriorizacion[eme][0]
+                    tamanio = quetames(frente)
+                    match tamanio :
+                        case 'C':
+                            print('C')
+                        case 'M':
+                            print('M')
+                        case 'G':
+                            print('G')
+                            #QUE LO BUSQUE EN SU RESPECTIVA LISTA E INSERTE LAS WEAS 
+                            
+
+                   
         
-
-
-
-
         
+        
+  
         def vermatrizconsola():
             for uwu in range (0,tamfilas):
                 print ('\n')
                 print (matrizpriorizacion[uwu])
-                
-            
-
-            
-           
-
-                
-
-
-
-
-                
-                
-        #insertar RM segun tronadura frentes 
-
         vermatrizconsola()
+        
+        
         
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
