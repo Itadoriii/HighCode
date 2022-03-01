@@ -248,83 +248,81 @@ matrizpriorizacion.append(basematriz)
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
-
-
 
 
 def addbdfrentes():
@@ -872,15 +870,6 @@ def ingresomain(rut):
         e = x['id_frente']
         rutacri.append(e)
         print(x)
-    cursor.execute("select id_frente from frentes where ruta_critica = 'no'")
-    resuno = cursor.fetchall()
-    print ("NO")
-    for y in resuno:
-        n = y['id_frente']
-        rutacri.append(n)
-        print(y)
-    print("RUTA CRITICA")
-    print(rutacri)
     
 
 # urgencia (la que tenga mas metros por hacer primero)
@@ -896,7 +885,7 @@ def ingresomain(rut):
     print("URGENCIA")
     print(urgencia)
 
-# tronadura proxima ( cual esta mas proxima a tronadura primero ) ***
+# tronadura proxima ( cual esta mas proxima a tronadura primero )
     
     print("TRONADURA PROXIMA")
     tropra = []
@@ -923,7 +912,7 @@ def ingresomain(rut):
                         idtrop[le]=idtrop[le+1]
                         tropra[le+1]=auxtropra  
                         idtrop[le+1]=auxfrente    
-    print(tropra)
+    print(idtrop)
 
 # foco ( definido por el usuario previa la primera priorizacion )
 
@@ -937,7 +926,7 @@ def ingresomain(rut):
         print (b)
     print(foco)
 
-# extraccion marina ( la termino en en tronadura primero ) ***
+# extraccion marina ( la termino en en tronadura primero )
     print("EXTRACCION MARINA")
     memarp = []
     idmarp = []
@@ -963,6 +952,8 @@ def ingresomain(rut):
 
                         memarp[lo+1]=auxm 
                         idmarp[lo+1]=auxfrent  
+
+    print(idmarp)
         
 
 
@@ -982,46 +973,42 @@ def ingresomain(rut):
 
 # priorizacion final
 
-    print("PRIORIZACION")
-    prio = [[],
-            [],
-            [],
-            [],
-            [],
-            []]
+    print("PRIORIZACION TOTAL")
 
-    for j in range(totalfrentes):
-        prio[0].append(rutacri[j])
+    prio = []
+
+    for z in rutacri:
+        prio.append(z)
     
-    for j in range(totalfrentes):
-        prio[1].append(urgencia[j])
-    
-    for j in range(totalfrentes):
-        prio[2].append(idtrop[j])
+    for z in urgencia:
+        prio.append(z)
 
-    for j in range(totalfrentes):
-        prio[3].append(foco[j])
+    for z in idtrop:
+        prio.append(z)
 
-    for j in range(totalfrentes):
-        prio[4].append(idmarp[j])
+    for z in foco:
+        prio.append(z)
 
-    for j in range(totalfrentes):
-        prio[5].append(dista[j])
+    for z in idmarp:
+        prio.append(z)
+
+    for z in dista:
+        prio.append(z) 
 
 
-    print("PRIORIZACION")
+    print(prio)
 
-    print(prio[0])
-    print(prio[1])
-    print(prio[2])
-    print(prio[3])
-    print(prio[4])
-    print(prio[5])
-    
-    tamse = len(prio[0])
-    for pr in range(0,tamse):
-        for prr in range(0,tamse):
-            aux3=prio[prr][pr]
+    prio2 = []
+
+    for i in range(totalfrentes+25):
+        if prio[i] not in prio2:
+             prio2.append(prio[i])
+
+    print("PRIORIZACION FINAL")
+
+    print(prio2)
+
+
             
 
         
