@@ -17,6 +17,7 @@ from unittest import signals
 from numpy import can_cast, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
+import numpy as np
 
 #ciclos mineros 
 ciclominero1 = ['ventilacion','regado_marina','extraccion_marina','acuñadura','limpieza_pata','escaner','mapeo_geomecanico',
@@ -309,6 +310,19 @@ bd11 = pymysql.connect(host='localhost',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+bd12 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd13 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+
 
 
 def addbdfrentes():
@@ -444,6 +458,8 @@ def addbdfrentes():
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
     botonllenarbd.grid(row="15")
+
+
 
 def addequipo():
     win4=Tk()
@@ -740,7 +756,7 @@ def ingresomain(rut):
                         x.insert(END,niveleq[f])
 
 
-
+        
         cursor = bd4.cursor()
     
         sql =  "SELECT * from recurso_equipos"
@@ -831,6 +847,141 @@ def ingresomain(rut):
         except Exception as e :
                 print("exception : ",e )
         creartablaservicios()
+        
+# algoritmo 1
+
+    
+    cursor=bd13.cursor()
+    totalfrentes = cursor.execute("select * from frentes")
+    print("TOTAL FRENTES")
+    print(totalfrentes)
+
+
+# Definir listas para priorizacion
+
+# ruta critica ( las que si tienen primero)
+
+    print("RUTA CRITICA")
+    rutacri = []
+    cursor.execute("select id_frente from frentes where ruta_critica = 'si'")
+    resusi = cursor.fetchall()
+    print ("SI")
+    for x in resusi:
+        rutacri.append(x)
+        print(x)
+    cursor.execute("select id_frente from frentes where ruta_critica = 'no'")
+    resuno = cursor.fetchall()
+    print ("NO")
+    for y in resuno:
+        rutacri.append(y)
+        print(y)
+    print("RUTA CRITICA")
+    print(rutacri)
+    
+
+# urgencia (la que tenga mas metros por hacer primero)
+
+    print("URGENCIA")
+    urgencia = []
+    cursor.execute("select id_frente from estado_frentes order by estado_avance desc")
+    mari = cursor.fetchall()
+    for z in mari:
+        urgencia.append(z)
+        print (z)
+    print("URGENCIA")
+    print(urgencia)
+
+# tronadura proxima ( cual esta mas proxima a tronadura primero ) ***
+    
+    num=1
+    tropro = []
+    for i in range(totalfrentes):
+        tropro.append(num)
+        num=num+1
+    print("TRONADURA PROXIMA")
+    cursor.execute("select id_frente,operacion from estado_frentes")
+    trop = cursor.fetchall()
+    for a in trop:
+        print (a)
+    print(tropro)
+
+
+# foco ( definido por el usuario previa la primera priorizacion )
+
+    print("FOCO")
+    foco = []
+    cursor.execute("select id_frente from frentes")
+    foc = cursor.fetchall()
+    for b in foc:
+        foco.append(b)
+        print (b)
+    print(foco)
+
+# extraccion marina ( la termino en en tronadura primero ) ***
+
+    num=1
+    extra = []
+    for i in range(totalfrentes):
+        extra.append(num)
+        num=num+1
+    print("EXTRACCION MARINA")
+    cursor.execute("select id_frente,operacion from estado_frentes")
+    marp = cursor.fetchall()
+    for c in marp:
+        print (c)
+    print(extra)
+
+# distancia a pique ( la que tenga mayor distancia marina primero)
+
+    print("DISTANCIA A PIQUE")
+    dista = []
+    cursor.execute("select id_frente from frentes order by distancia_marina desc")
+    marip = cursor.fetchall()
+    for d in marip:
+        dista.append(d)
+        print (d)
+    print(dista)
+
+
+# priorizacion final
+
+    print("PRIORIZACION")
+    prio = [[],
+            [],
+            [],
+            [],
+            [],
+            []]
+
+    for j in range(totalfrentes):
+        prio[0].append(rutacri[j])
+    
+    for j in range(totalfrentes):
+        prio[1].append(urgencia[j])
+    
+    for j in range(totalfrentes):
+        prio[2].append(tropro[j])
+
+    for j in range(totalfrentes):
+        prio[3].append(foco[j])
+
+    for j in range(totalfrentes):
+        prio[4].append(extra[j])
+
+    for j in range(totalfrentes):
+        prio[5].append(dista[j])
+
+
+    print("PRIORIZACION")
+
+    print(prio[0])
+    print(prio[1])
+    print(prio[2])
+    print(prio[3])
+    print(prio[4])
+    print(prio[5])
+
+        
 
         #bd.commit()
         #cursor.close()
@@ -1011,6 +1162,11 @@ def ingresomain(rut):
         #cursor.close()
         #bd.close()'''
 
+    
+
+
+	   
+
     def priorizarfrentes():
         num = 0
         cursor = bd10.cursor()
@@ -1127,6 +1283,7 @@ def ingresomain(rut):
                         frentesord[14].append(pdirref)
             aux = int(0)
             aux2 = int(0)
+
             #inserta los indices de tronadura en la primera priorizacion y tronadura en la columna 3 
 
             for p in pop:
@@ -1372,19 +1529,16 @@ def ingresomain(rut):
                             print('M')
                         case 'G':
                             print('G')
-                            #QUE LO BUSQUE EN SU RESPECTIVA LISTA E INSERTE LAS WEAS 
-                            
-
-                   
+                            #QUE LO BUSQUE EN SU RESPECTIVA LISTA E INSERTE LAS WEAS         
         
-        
-        
+    
   
         def vermatrizconsola():
             for uwu in range (0,tamfilas):
                 print ('\n')
                 print (matrizpriorizacion[uwu])
         vermatrizconsola()
+        
         
         
         
