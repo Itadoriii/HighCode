@@ -33,62 +33,6 @@ discriminados.append(list())
 
 
 
-#memoria algoritmo priorizacion 
-ptipo = []
-psiglas = []
-pnumeros = []
-pdireccion = []
-pestado = []
-ptam = []
-pruta = []
-pdistancia = [] 
-pnivel = []
-pmacrobloque = []
-pid = []
-pcodigo = [] 
-psector = []
-pref = []
-pdirref = []
-frentesord = []
-for i in range(14):
-    frentesord.append(list())
-
-pop = []
-pestadoavance =[]
-pobs = []
-pfecha =[]
-pcriticidad =[]
-pdirestadofr =[]
-pidestadofr =[]
-pestadosfrentes = []
-for j in range(7):
-    pestadosfrentes.append(list())
-
-priorizacion = []
-priorizacion.append(list())
-priorizacion.append(list())
-priorizacion.append(list())
-priorizacion.append(list())
-
-priorizacion2 = []
-priorizacion2.append(list())
-priorizacion2.append(list())
-priorizacion2.append(list())
-priorizacion2.append(list())
-
-priorizacion3 = []
-priorizacion3.append(list())
-
-priorizacion4 = []
-priorizacion4.append(list())
-priorizacion4.append(list())
-priorizacion4.append(list())
-priorizacion4.append(list())
-priorizacion4.append(list())
-tamyfrentes = []
-tamyfrentes.append(list())
-tamyfrentes.append(list())
-
 
 
 
@@ -231,7 +175,66 @@ memalg2.append(siglarecursos)
 memalg2.append(tams)
 memalg2.append(tameme)
 memalg2.append(taml)
+# tamaños y duraciones
 
+duracion = 0
+c = 0
+m = 1
+g = 2
+
+if duracion == c:
+    rm = ['rm']
+    e = ['e','e','e']
+    ac = ['ac']
+    lp = ['lp']
+    sc = ['sc']
+    mg = ['mg']
+    shf = ['shf']
+    pp = ['pp','pp','pp']
+    l = ['l','l','l']
+    m = ['m','m','m']
+    h = ['h','h','h']
+    sh = ['sh','sh']
+    mt = ['mt']
+    pa = ['pa','pa','pa']
+    c = ['c','c','c']
+    q = ['q']
+
+if duracion == m:
+    rm = ['rm']
+    e = ['e','e','e']
+    ac = ['ac']
+    lp = ['lp']
+    sc = ['sc']
+    mg = ['mg']
+    shf = ['shf']
+    pp = ['pp','pp','pp','pp']
+    l = ['l','l','l','l']
+    m = ['m','m','m','m']
+    h = ['h','h','h','h']
+    sh = ['sh','sh']
+    mt = ['mt']
+    pa = ['pa','pa','pa','pa']
+    c = ['c','c','c']
+    q = ['q']
+
+if duracion == g:
+    rm = ['rm']
+    e = ['e','e','e','e']
+    ac = ['ac']
+    lp = ['lp']
+    sc = ['sc']
+    mg = ['mg']
+    shf = ['shf']
+    pp = ['pp','pp','pp','pp','pp']
+    l = ['l','l','l','l','l']
+    m = ['m','m','m','m','m']
+    h = ['h','h','h','h','h']
+    sh = ['sh','sh']
+    mt = ['mt']
+    pa = ['pa','pa','pa','pa','pa']
+    c = ['c','c','c']
+    q = ['q']
 
 
 
@@ -319,6 +322,18 @@ bd12 = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd14 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+bd15 = pymysql.connect(host='localhost',
                              user='root',
                              password='1312',
                              database='cavesbd',
@@ -1009,14 +1024,6 @@ def ingresomain(rut):
 
     print(prio2)
 
-
-            
-
-        
-
-
-        
-
         #bd.commit()
         #cursor.close()
         #bd.close()'''
@@ -1195,277 +1202,43 @@ def ingresomain(rut):
         #bd.commit()
         #cursor.close()
         #bd.close()'''
+    idfren = []
+    porte = []
+    idestadofrentes = []
+    operaciones = []
+    cursor.execute('select * from frentes')
+    datafrentes = cursor.fetchall()
+    cursor.execute('select * from estado_frentes')
+    dataestado = cursor.fetchall()
 
-    
-
-
-	   
-
-    def priorizarfrentes():
-        num = 0
-        cursor = bd10.cursor()
-        sql2 = 'select * from estado_frentes'
-        sql = 'select  * from frentes'
-        try:
-            cursor.execute(sql)
-            dataa = cursor.fetchall()
-            
-            cursor.execute(sql2)
-            dataestado = cursor.fetchall()
-            cursor.close()
-            bd10.commit()
-            bd10.close()
-            for j in dataestado:
-                operacion = j['operacion']
-                estado_avance = j['estado_avance']
-                obs = j['observaciones']
-                fecha = j['fecha']
-                criticidad = j['criticidad']
-                direccionestado = j['direccion']
-                id_frente = j['id_frente']
-                pop.append(operacion)
-                pestadoavance.append(estado_avance)
-                pobs.append(obs)
-                pfecha.append(fecha)
-                pcriticidad.append(criticidad)
-                pdirestadofr.append(direccionestado)
-                pidestadofr.append(id_frente)
-            for l in range(6):
-                match l :
-                    case 0:
-                        pestadosfrentes[0].append(pop)
-                    case 1:
-                        pestadosfrentes[1].append(pestadoavance)
-                    case 2:
-                        pestadosfrentes[2].append(pobs)
-                    case 3:
-                        pestadosfrentes[3].append(fecha)
-                    case 4:
-                        pestadosfrentes[4].append(pcriticidad)
-                    case 5:
-                        pestadosfrentes[5].append(pdirestadofr)
-                    case 6:
-                        pestadosfrentes[6].append(pidestadofr)
-            
-           
-            for i in dataa:
-                codigo = i['codigo_empresa']
-                tipo = i['tipo']
-                sigla = i['sigla']
-                numero = i['numero']
-                numeroreferencia = i['numero_referencia']
-                direccion = i['direccion']
-                direccionreferencia = i['direccion_referencia']
-                estado = i['estado']
-                tamaño = i['tamaño']
-                ruta = i['ruta_critica']
-                distancia = i['distancia_marina']
-                nivel = i['nivel']
-                macrobloque = i['macrobloque']
-                sectores = i['sector']
-                id = i['id_frente']
-                codigo=i['codigo_empresa']
-                if(codigo==rutt):
-                    num = num+1
-                    ptipo.append(tipo)
-                    psiglas.append(sigla)
-                    pnumeros.append(numero)
-                    pref.append(numeroreferencia)
-                    pdireccion.append(direccion)
-                    pdirref.append(direccionreferencia)
-                    pestado.append(estado)
-                    ptam.append(tamaño)
-                    pruta.append(ruta)
-                    pdistancia.append(distancia)
-                    pnivel.append(nivel)
-                    pmacrobloque.append(macrobloque)
-                    psector.append(sectores)
-                    pid.append(id)
-                    pcodigo.append(codigo)
-            
-            for k in range(14):
-                match k :
-                    case 0:
-                        frentesord[0].append(ptipo)
-                    case 1:
-                        frentesord[1].append(psiglas)
-                    case 2:
-                        frentesord[2].append(pnumeros)
-                    case 3:
-                        frentesord[3].append(pdireccion)
-                    case 4:
-                        frentesord[4].append(pestado)
-                    case 5:
-                        frentesord[5].append(ptam)
-                    case 6:
-                        frentesord[6].append(pruta)
-                    case 7:
-                        frentesord[7].append(pdistancia)
-                    case 8:
-                        frentesord[8].append(pnivel)
-                    case 9:
-                        frentesord[9].append(pmacrobloque)
-                    case 10:
-                        frentesord[10].append(pid)
-                    case 11:
-                        frentesord[11].append(pcodigo)
-                    case 12:
-                        frentesord[12].append(psector)
-                    case 13:
-                        frentesord[13].append(pref)
-                    case 14:
-                        frentesord[14].append(pdirref)
-            aux = int(0)
-            aux2 = int(0)
-
-            #inserta los indices de tronadura en la primera priorizacion y tronadura en la columna 3 
-
-            for p in pop:
-                if(p=='tronadura'):
-                    priorizacion[0].append(aux)
-                    priorizacion[2].append(p)
-                    aux=aux+1
-                else:
-                    discriminados[0].append(p)
-                    discriminados[1].append(aux)
-                    aux=aux+1
-            #inserta id frentes en priorizacion y id frentes en discriminados 
-            for u in pidestadofr:
-                aux2 = pidestadofr.index(u)
-                aux45 = pidestadofr.index(u)
-                for d in priorizacion[0]:
-                    if(d==aux2):
-                        priorizacion[1].append(u)
-                for t in discriminados[1]:
-                    if(t==aux45):
-                        discriminados[2].append(u)
-            #aqui se inserta la distancia marina 
-            for w in pdistancia:
-                aux3=pdistancia.index(w)
-                for d in priorizacion[0]:
-                    if(d==aux3):
-                        priorizacion[3].append(w)
-            print('priorizacion 1:(extraccion marina)')     
-            print (priorizacion[1])
-            #aqui se ordena segun la distancia marina 
-            tam=len(priorizacion[3])-1
-            #para guardar la memoria 
-            auxp3=[]
-            for tr in priorizacion[3]:
-                auxp3.append(tr) 
-           #ordena p3 3 orden mayor a menor d marina
-            for u in range(0,tam):
-                for q in range(0,tam):
-                    if(priorizacion[3][q]<priorizacion[3][q+1]):
-                        aux4=priorizacion[3][q]
-                        priorizacion[3][q]=priorizacion[3][q+1]
-                        priorizacion[3][q+1]=aux4
-            #ordena indices en priorizacion 2[0]
-            aux5=int(0)
-            for jaja in priorizacion[3]:
-                for xd in auxp3:
-                    aux5=aux5+1
-                    if(xd==jaja):
-                        priorizacion2[0].append(aux5)
-                        priorizacion2[3].append(jaja)
-                aux5 =0
-            #inserta tronadura 
-            aux6=len(priorizacion2[0])
-            for uwu in range(0,aux6):
-                priorizacion2[2].append('tronadura')
-
-            
-            for wak  in priorizacion2[0]:
-                for fro in priorizacion[1]:
-                    if(wak==priorizacion[1].index(fro)+1):
-                        priorizacion2[1].append(fro)
-            
-            for caca in discriminados[0]:
-                auxd = int(0)
-                for cece in ciclominero1:
-                    if(caca==cece):
-                        discriminados[3].append(auxd+1)
-                    else: 
-                        auxd = auxd+1
-            #ordena frentes restantes 
-            aux7 = len(discriminados[3])
-            aux8 = len(discriminados[2])
-            tammm = len(discriminados[3])-1
-            for oeo in range(0,tammm):
-                for eoe in range(0,tammm):
-                    if(discriminados[3][eoe]<discriminados[3][eoe+1]):
-                        aux7=discriminados[3][eoe]
-                        aux8=discriminados[2][eoe]
-                        discriminados[3][eoe]=discriminados[3][eoe+1]
-                        discriminados[2][eoe]=discriminados[2][eoe+1]
-                        discriminados[3][eoe+1]=aux7
-                        discriminados[2][eoe+1]=aux8
-
-            priorizacion3[0]= priorizacion2[1]+discriminados[2]
-            
-            print('priorizacion 2 (distancia de pv):')      
-            print(priorizacion2[1])
-            print('priorizacion 3 (tronadura proxima ):') 
-            print(priorizacion3[0])
-            priorizacion4[0] = priorizacion2 [1]
-            priorizacion4[1] = discriminados [2]
-            
-
-            tamxd = len(priorizacion4[1])
-            tamxd2 = len(pid)
-            tamxd3 = len(priorizacion4[1])-1
-            aux9=int(0)
-
-            for waca in range(0,tamxd):
-                miaux = priorizacion4[1][waca]
-                for weke in range (0,tamxd2):
-                    miaux2 = pid[weke]
-                    miaux3 = ptam[weke]
-                    if(miaux==miaux2):
-                        priorizacion4[2].append(miaux3)
-            tamxd3 = len(priorizacion4[2])
-            for orden in range (0,tamxd3):
-                if(priorizacion4[2][orden]=='G'):
-                    aux777 = priorizacion4[1][orden]
-                    priorizacion4[3].append(aux777)
-            for orden1 in range (0,tamxd3):
-                if(priorizacion4[2][orden1]=='M'):
-                    aux777 = priorizacion4[1][orden1]
-                    priorizacion4[3].append(aux777)
-            for orden2 in range (0,tamxd3):
-                if(priorizacion4[2][orden2]=='C'):
-                    aux777 = priorizacion4[1][orden2]
-                    priorizacion4[3].append(aux777)
-            
-            priorizacion4[4]=priorizacion4[0]+priorizacion4[3]
-            print('priorizacion 4 (Urgencia ):')
-            print(priorizacion4)
-            
-
-            tamyfrentes[0]=priorizacion4[4]
-            for jajant in frentesord[10][0]:
-                for yapo in tamyfrentes[0]:
-                    auxjajant = tamyfrentes[0].index(yapo)
-                    if(jajant==yapo):
-                        
-                        busqueda =frentesord[5][0][auxjajant]
-                        tamyfrentes[1].append(busqueda)
-            print(tamyfrentes[1])
-          
-            #aqui se muestra data segun la priorizacion que se desee 
-     
-        except Exception as e:
-            print('exception :',e)
+    for l in datafrentes:
+        id = l['id_frente']
+        tm = l['tamaño']
+        idfren.append(id)
+        porte.append(tm)
         
+    for m in dataestado:
+        id = m['id_frente']
+        op = m['operacion']    
+        idestadofrentes.append(id)
+        operaciones.append(op)    
+
+    def quetamtienefrente(frente):
+        tam = len(idfren)
+        for i in range(0,tam):
+            aux = idfren[i]
+            if(frente==aux):
+                return porte[i]
+            
     def algoritmo2():
-        numlistasmatrix = len(priorizacion4[4])
+        numlistasmatrix = len(prio2)
         #define memoria para el numero de frentes
         for matrizlargo in range (0,numlistasmatrix):
             matrizpriorizacion.append(list())
         #inserta frentes en la columna íd (0)
         setid = len(matrizpriorizacion)+1    
         for i in range(1,setid-1):
-            aux1 = priorizacion4[4][i-1]
+            aux1 = prio2[i-1]
             matrizpriorizacion[i].append(aux1)
         
         tamfilas = len(matrizpriorizacion)
@@ -1485,6 +1258,77 @@ def ingresomain(rut):
             while(k<desde-1):
                 matrizpriorizacion[j].append('-')
                 k = k+1
+        #tam es a 
+        a = quetamtienefrente(matrizpriorizacion[1][0])
+        match a :
+            case 'C':
+                rm = ['rm']
+                e = ['e','e','e']
+                ac = ['ac']
+                lp = ['lp']
+                sc = ['sc']
+                mg = ['mg']
+                shf = ['shf']
+                pp = ['pp','pp','pp']
+                l = ['l','l','l']
+                m = ['m','m','m']
+                h = ['h','h','h']
+                sh = ['sh','sh']
+                mt = ['mt']
+                pa = ['pa','pa','pa']
+                c = ['c','c','c']
+                q = ['q']
+                hf1 = []
+                for u in rm:
+                    hf1.append(u)
+                for u in e:
+                    hf1.append(u)
+                for u in ac:
+                    hf1.append(u)
+                for u in lp:
+                    hf1.append(u)
+                for u in sc:
+                    hf1.append(u)
+                for u in mg:
+                    hf1.append(u)
+                for u in shf:
+                    hf1.append(u)
+                for u in pp:
+                    hf1.append(u)
+                for u in l:
+                    hf1.append(u)
+                for u in m:
+                    hf1.append(u)
+                for u in h:
+                    hf1.append(u)
+                for u in sh:
+                    hf1.append(u)
+                for u in mt:
+                    hf1.append(u)
+                for u in pa:
+                    hf1.append(u)
+                for u in c:
+                    hf1.append(u)
+                for u in q:
+                    hf1.append(u)
+                
+                hf1f = []
+                hf1f = matrizpriorizacion[1] 
+                
+                for i in range(0,25-desde):
+                    if(i==11 or i==12):
+                        hf1f.append('-')
+                    else:
+                        hf1f.append(hf1[i])
+                
+                matrizpriorizacion[1]= hf1f
+
+
+
+        
+        
+        
+        
         
         
 
@@ -1545,9 +1389,6 @@ def ingresomain(rut):
 
     botonverestadoequipos = Button(framemain,text="VER ESTADO EQUIPOS",command=verestadoequipos)
     botonverestadoequipos.grid(row="9", column="1")
-
-    algoritmopriorizacion = Button(framemain,text='Priorizacion',command=priorizarfrentes)
-    algoritmopriorizacion.grid(row='10', column='1')
 
     insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
     insertarestadofrentes.grid(row='11',column="1")
