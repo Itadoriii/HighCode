@@ -20,7 +20,7 @@ import pymysql.cursors
 import numpy as np
 
 #ciclos mineros 
-ciclominero1 = ['ventilacion','regado_marina','extraccion_marina','acuñadura','limpieza_pata','escaner','mapeo_geomecanico',
+ciclominero1 = ['regado_marina','extraccion_marina','acuñadura','limpieza_pata','escaner','mapeo_geomecanico',
 'shotcrete_fibra','perforacion_pernos','lechado_pernos','instalacion_malla','hilteo_malla','proyeccion_shotcrete',
 'marcacion_topografica','perforacion_avance','carguio_explosivos','tronadura']
 discriminados = []
@@ -246,79 +246,79 @@ matrizpriorizacion.append(basematriz)
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -893,18 +893,46 @@ def ingresomain(rut):
 
 # tronadura proxima ( cual esta mas proxima a tronadura primero ) ***
     
-    num=1
-    tropro = []
-    for i in range(totalfrentes):
-        tropro.append(num)
-        num=num+1
     print("TRONADURA PROXIMA")
+    tropro = []
+    tropra = []
+    idtrop = []
+    
     cursor.execute("select id_frente,operacion from estado_frentes")
     trop = cursor.fetchall()
-    for a in trop:
-        print (a)
-    print(tropro)
 
+    print('aqui abajo es :')
+    
+    for tropa in trop:
+        fren = tropa['id_frente']
+        opera = tropa['operacion']
+        for esq in ciclominero1:
+            if(esq==opera):
+                aux = ciclominero1.index(esq)
+                tropra.append(aux)
+                idtrop.append(fren)
+    tamtopra = len(tropra)-1
+    for la in range(0,tamtopra):
+        for le in range(0,tamtopra):
+            if(tropra[le]<tropra[le+1]):
+                        auxtropra=tropra[le]
+                        auxfrente=idtrop[le]
+
+                        tropra[le]=tropra[le+1]
+                        idtrop[le]=idtrop[le+1]
+
+                        tropra[le+1]=auxtropra  
+                        idtrop[le+1]=auxfrente
+
+
+    print(tropra,idtrop)
+
+
+
+
+
+
+    
 
 # foco ( definido por el usuario previa la primera priorizacion )
 
@@ -960,7 +988,7 @@ def ingresomain(rut):
         prio[1].append(urgencia[j])
     
     for j in range(totalfrentes):
-        prio[2].append(tropro[j])
+        prio[2].append(tropra[j])
 
     for j in range(totalfrentes):
         prio[3].append(foco[j])
