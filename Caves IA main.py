@@ -248,81 +248,82 @@ matrizpriorizacion.append(basematriz)
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
+
 
 
 def addbdfrentes():
@@ -1455,6 +1456,40 @@ def ingresomain(rut):
      
         except Exception as e:
             print('exception :',e)
+        
+    def algoritmo2():
+        numlistasmatrix = len(priorizacion4[4])
+        #define memoria para el numero de frentes
+        for matrizlargo in range (0,numlistasmatrix):
+            matrizpriorizacion.append(list())
+        #inserta frentes en la columna íd (0)
+        setid = len(matrizpriorizacion)+1    
+        for i in range(1,setid-1):
+            aux1 = priorizacion4[4][i-1]
+            matrizpriorizacion[i].append(aux1)
+        
+        tamfilas = len(matrizpriorizacion)
+        
+        def vermatrizconsola():
+            for uwu in range (0,tamfilas):
+                print ('\n')
+                print (matrizpriorizacion[uwu])
+        
+        
+        print('de que bloque horario quiere parte el turno?:')
+        eleccion = input()
+        desde = int(eleccion)
+        k=int(0)
+        for j in range(1,numlistasmatrix+1):
+            k=0
+            while(k<desde-1):
+                matrizpriorizacion[j].append('-')
+                k = k+1
+        
+        
+
+
+        vermatrizconsola()
        
         
      
@@ -1492,192 +1527,6 @@ def ingresomain(rut):
 
          txtidfrente = Label(frame,text='id frente')
          txtidfrente.grid(row='6',column='0')
-
-
-    def algoritmo2():
-
-        numlistasmatrix = len(priorizacion4[4])
-        #define memoria para el numero de frentes
-        for matrizlargo in range (0,numlistasmatrix):
-            matrizpriorizacion.append(list())
-        #inserta frentes en la columna íd (0)
-        setid = len(matrizpriorizacion)+1    
-        for i in range(1,setid-1):
-            aux1 = priorizacion4[4][i-1]
-            matrizpriorizacion[i].append(aux1)
-        #llenar memoria con 0s 
-        tamcolumnas = len(matrizpriorizacion[0])
-        tamfilas = len(matrizpriorizacion)
-        for j in range(1,tamfilas):
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-            matrizpriorizacion[j].append('0')
-        
-        #inserto tronadura en los frentes correspondientes
-        #(normalmente)
-        '''tamtrondadura = len(priorizacion2[1])
-        for k in range (1,tamtrondadura+1):
-            for l in range(1,tamcolumnas):
-                if(k==l):
-                    matrizpriorizacion[k][l+3]='RM' '''
-        #funcion para saber que tam es el frente 
-        def quetames(frente):
-            auxtamanio = len(tamyfrentes[0])
-            for frentes in range(0,auxtamanio):
-                if (tamyfrentes[0][frentes]==frente):
-                    return(tamyfrentes[1][frentes])
-
-        #se inserta el ciclo siguiente segun tam de frente para los frentes que terminaron el tronadura 
-        '''
-        auxtamfrentes = len(matrizpriorizacion)
-        auxcolumnas = len(matrizpriorizacion[0])-1
-        print(auxtamfrentes)
-        for eme in range(1,auxtamfrentes):
-            for caca in range(1,auxcolumnas):
-                if(matrizpriorizacion[eme][caca]=='RM'):
-                    frente = matrizpriorizacion[eme][0]
-                    tamanio = quetames(frente)
-                    match tamanio :
-                        case 'C':
-                            print('C')
-                        case 'M':
-                            print('M')
-                        case 'G':
-                            print('G')
-                            ''' 
-        #recorre los id de la matriz 
-        #guarda el estado de frente(op en la bd) en un arreglo 
-        #pregunta en que bloque se quiere partir 
-        #llena segun el tamanio el primer frente 
-        #llena el segundo frente en base al ciclo default 
-        def vermatrizconsola():
-            for uwu in range (0,tamfilas):
-                print ('\n')
-                print (matrizpriorizacion[uwu])
-        
-        #define el horario del llenado 
-        print('de que bloque horario quiere parte el turno?:')
-        eleccion = input()
-        desde = int(eleccion)
-        #restriccion de llenado de las filas anteriores a al horario de partida 
-        data  = []
-        #data es una lista de listas [[frente][en que termino el frente][tam]]
-        data.append(list())
-        data.append(list())
-        data.append(list())
-        data[0] = priorizacion4[4]
-        data[2] = tamyfrentes[1]
-        porte = len(data[0])
-        for ajx in range(0,porte):
-            for frn in range(0,porte):
-                if(data[0][ajx]==pid[frn]):
-                    datito = pop[frn]
-                    data[1].append(datito)
-        #data llenada para algoritmo 
-        vermatrizconsola()
-        #reccorra el primer id insertando 
-        contadorfr1 = 24 - desde
-        realg = int(0)
-        #ENTRA INSERTAR QUE ES UNA OP Y QUETAM QUE ES EL FRENTE
-        def cuantasveces(insertar,quetam):
-            tam = len(memalg2[0])
-            match quetam :
-                        case 'C':
-                            auxiliar = 1
-                        case 'M':
-                            auxiliar = 2
-                        case 'G':
-                            auxiliar = 3
-            for i in range(0,tam):
-                if(memalg2[0][i]==insertar):
-                    return memalg2[auxiliar][i]
-            
-        #RETORNA ACTIVIDAD SIGUIENTE
-        def quesigue(anterior):
-            tam = len(memalg2[0]) 
-            for i in range(0,tam):
-                if(memalg2[0][i]==anterior):
-                    return memalg2[0][i+1]
-        '''
-        while(realg<=contadorfr1):
-            match realg:
-                case 0:
-                    matrizpriorizacion[1][desde+realg]='RM'
-                    pasadas = 1
-                case 1:
-                    anterior = matrizpriorizacion[1][desde+realg-1]
-                    insertar = quesigue(anterior)
-                    frentetam = quetames(matrizpriorizacion[1][0])
-                    veces = cuantasveces(insertar,frentetam)
-                    for j in range(0,int(veces)) :
-                        matrizpriorizacion[1][desde+realg+j]=insertar
-                    pasadas = pasadas = int(veces)
-                    if(pasadas==contadorfr1):
-                        break
-            realg = realg + 1 '''
-        for recorrer in range(desde,25):
-            if(recorrer==desde):
-                #inserta el estado frente en el frente 1 de la priorizacion 
-                xd = matrizpriorizacion[1][0]
-                for num in range(0,len(pidestadofr)):
-                    if (xd==pidestadofr[num]):
-                        matrizpriorizacion[1][recorrer] = 'RM'
-            
-            else:
-                if(matrizpriorizacion[1][recorrer]!='0'):
-                    xd = matrizpriorizacion[1][recorrer-1] #anterior estado
-                    tam = data[2][0]
-                    if(tam=='C'):
-                        for veces in range(0,len(memalg2[1])):
-                            if(xd==memalg2[0][veces]):
-                                insertar = memalg2[1][veces+1]
-                    if(tam=='M'):
-                        for veces in range(0,len(memalg2[2])):
-                            if(xd==memalg2[0][veces]):
-                                insertar = memalg2[2][veces+1]
-                    if(tam=='G'):
-                        for veces in range(0,len(memalg2[3])):
-                            if(xd==memalg2[0][veces]):
-                                insertar = memalg2[3][veces+1]
-                    cant = int(insertar)
-                    for val in range(0,cant):
-                        matrizpriorizacion[1][recorrer+val]='logrado'
-                    print(cant)
-            
-        
-                
-                
-                
-                
-
-                
-
-        vermatrizconsola()
-        
-        
-        
-        
 
     botonEstadofrentes = Button(framemain,text="VER FRENTES ASOCIADOS AL RUT",command=verfrentesrut)
     botonEstadofrentes.grid(row="4", column="1")
