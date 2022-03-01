@@ -14,6 +14,8 @@ import tkinter
 from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
+from urllib.request import AbstractBasicAuthHandler
+from zoneinfo import available_timezones
 from numpy import can_cast, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
@@ -867,13 +869,15 @@ def ingresomain(rut):
     resusi = cursor.fetchall()
     print ("SI")
     for x in resusi:
-        rutacri.append(x)
+        e = x['id_frente']
+        rutacri.append(e)
         print(x)
     cursor.execute("select id_frente from frentes where ruta_critica = 'no'")
     resuno = cursor.fetchall()
     print ("NO")
     for y in resuno:
-        rutacri.append(y)
+        n = y['id_frente']
+        rutacri.append(n)
         print(y)
     print("RUTA CRITICA")
     print(rutacri)
@@ -886,7 +890,8 @@ def ingresomain(rut):
     cursor.execute("select id_frente from estado_frentes order by estado_avance desc")
     mari = cursor.fetchall()
     for z in mari:
-        urgencia.append(z)
+        p = z['id_frente']
+        urgencia.append(p)
         print (z)
     print("URGENCIA")
     print(urgencia)
@@ -894,15 +899,12 @@ def ingresomain(rut):
 # tronadura proxima ( cual esta mas proxima a tronadura primero ) ***
     
     print("TRONADURA PROXIMA")
-    tropro = []
     tropra = []
     idtrop = []
     
     cursor.execute("select id_frente,operacion from estado_frentes")
     trop = cursor.fetchall()
 
-    print('aqui abajo es :')
-    
     for tropa in trop:
         fren = tropa['id_frente']
         opera = tropa['operacion']
@@ -917,22 +919,11 @@ def ingresomain(rut):
             if(tropra[le]<tropra[le+1]):
                         auxtropra=tropra[le]
                         auxfrente=idtrop[le]
-
                         tropra[le]=tropra[le+1]
                         idtrop[le]=idtrop[le+1]
-
                         tropra[le+1]=auxtropra  
-                        idtrop[le+1]=auxfrente
-
-
-    print(tropra,idtrop)
-
-
-
-
-
-
-    
+                        idtrop[le+1]=auxfrente    
+    print(tropra)
 
 # foco ( definido por el usuario previa la primera priorizacion )
 
@@ -941,23 +932,40 @@ def ingresomain(rut):
     cursor.execute("select id_frente from frentes")
     foc = cursor.fetchall()
     for b in foc:
-        foco.append(b)
+        t = b['id_frente']
+        foco.append(t)
         print (b)
     print(foco)
 
 # extraccion marina ( la termino en en tronadura primero ) ***
-
-    num=1
-    extra = []
-    for i in range(totalfrentes):
-        extra.append(num)
-        num=num+1
     print("EXTRACCION MARINA")
+    memarp = []
+    idmarp = []
     cursor.execute("select id_frente,operacion from estado_frentes")
     marp = cursor.fetchall()
     for c in marp:
-        print (c)
-    print(extra)
+        idfren = c['id_frente']
+        oprac = c['operacion']
+        for execu in ciclominero1:
+            if(execu==oprac):
+                aux2=ciclominero1.index(execu)
+                memarp.append(aux2)
+                idmarp.append(idfren)
+    tamarp = len(memarp)-1
+    for li in range(0,tamarp):
+        for lo in range(0,tamarp):
+            if(memarp[lo]>memarp[lo+1]):
+                        auxm=memarp[lo]
+                        auxfrent=idmarp[lo]
+
+                        memarp[lo]=memarp[lo+1]
+                        idmarp[lo]=idmarp[lo+1]
+
+                        memarp[lo+1]=auxm 
+                        idmarp[lo+1]=auxfrent  
+        
+
+
 
 # distancia a pique ( la que tenga mayor distancia marina primero)
 
@@ -966,7 +974,8 @@ def ingresomain(rut):
     cursor.execute("select id_frente from frentes order by distancia_marina desc")
     marip = cursor.fetchall()
     for d in marip:
-        dista.append(d)
+        x = d['id_frente']
+        dista.append(x)
         print (d)
     print(dista)
 
@@ -988,13 +997,13 @@ def ingresomain(rut):
         prio[1].append(urgencia[j])
     
     for j in range(totalfrentes):
-        prio[2].append(tropra[j])
+        prio[2].append(idtrop[j])
 
     for j in range(totalfrentes):
         prio[3].append(foco[j])
 
     for j in range(totalfrentes):
-        prio[4].append(extra[j])
+        prio[4].append(idmarp[j])
 
     for j in range(totalfrentes):
         prio[5].append(dista[j])
@@ -1008,6 +1017,15 @@ def ingresomain(rut):
     print(prio[3])
     print(prio[4])
     print(prio[5])
+    
+    tamse = len(prio[0])
+    for pr in range(0,tamse):
+        for prr in range(0,tamse):
+            aux3=prio[prr][pr]
+            
+
+        
+
 
         
 
@@ -1490,7 +1508,7 @@ def ingresomain(rut):
 
 
     def algoritmo2():
-        
+
         numlistasmatrix = len(priorizacion4[4])
         #define memoria para el numero de frentes
         for matrizlargo in range (0,numlistasmatrix):
@@ -1500,7 +1518,7 @@ def ingresomain(rut):
         for i in range(1,setid-1):
             aux1 = priorizacion4[4][i-1]
             matrizpriorizacion[i].append(aux1)
-        #llenar memoria con 0s de 8 a 9:30 y de 18:30 a 19:30
+        #llenar memoria con 0s 
         tamcolumnas = len(matrizpriorizacion[0])
         tamfilas = len(matrizpriorizacion)
         for j in range(1,tamfilas):
@@ -1528,12 +1546,14 @@ def ingresomain(rut):
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
             matrizpriorizacion[j].append('0')
-            #inserto tronadura en los frentes correspondientes
-        tamtrondadura = len(priorizacion2[1])
+        
+        #inserto tronadura en los frentes correspondientes
+        #(normalmente)
+        '''tamtrondadura = len(priorizacion2[1])
         for k in range (1,tamtrondadura+1):
             for l in range(1,tamcolumnas):
                 if(k==l):
-                    matrizpriorizacion[k][l+3]='RM'
+                    matrizpriorizacion[k][l+3]='RM' '''
         #funcion para saber que tam es el frente 
         def quetames(frente):
             auxtamanio = len(tamyfrentes[0])
@@ -1542,6 +1562,7 @@ def ingresomain(rut):
                     return(tamyfrentes[1][frentes])
 
         #se inserta el ciclo siguiente segun tam de frente para los frentes que terminaron el tronadura 
+        '''
         auxtamfrentes = len(matrizpriorizacion)
         auxcolumnas = len(matrizpriorizacion[0])-1
         print(auxtamfrentes)
@@ -1557,14 +1578,114 @@ def ingresomain(rut):
                             print('M')
                         case 'G':
                             print('G')
-                            #QUE LO BUSQUE EN SU RESPECTIVA LISTA E INSERTE LAS WEAS         
-        
-    
-  
+                            ''' 
+        #recorre los id de la matriz 
+        #guarda el estado de frente(op en la bd) en un arreglo 
+        #pregunta en que bloque se quiere partir 
+        #llena segun el tamanio el primer frente 
+        #llena el segundo frente en base al ciclo default 
         def vermatrizconsola():
             for uwu in range (0,tamfilas):
                 print ('\n')
                 print (matrizpriorizacion[uwu])
+        
+        #define el horario del llenado 
+        print('de que bloque horario quiere parte el turno?:')
+        eleccion = input()
+        desde = int(eleccion)
+        #restriccion de llenado de las filas anteriores a al horario de partida 
+        data  = []
+        #data es una lista de listas [[frente][en que termino el frente][tam]]
+        data.append(list())
+        data.append(list())
+        data.append(list())
+        data[0] = priorizacion4[4]
+        data[2] = tamyfrentes[1]
+        porte = len(data[0])
+        for ajx in range(0,porte):
+            for frn in range(0,porte):
+                if(data[0][ajx]==pid[frn]):
+                    datito = pop[frn]
+                    data[1].append(datito)
+        #data llenada para algoritmo 
+        vermatrizconsola()
+        #reccorra el primer id insertando 
+        contadorfr1 = 24 - desde
+        realg = int(0)
+        #ENTRA INSERTAR QUE ES UNA OP Y QUETAM QUE ES EL FRENTE
+        def cuantasveces(insertar,quetam):
+            tam = len(memalg2[0])
+            match quetam :
+                        case 'C':
+                            auxiliar = 1
+                        case 'M':
+                            auxiliar = 2
+                        case 'G':
+                            auxiliar = 3
+            for i in range(0,tam):
+                if(memalg2[0][i]==insertar):
+                    return memalg2[auxiliar][i]
+            
+        #RETORNA ACTIVIDAD SIGUIENTE
+        def quesigue(anterior):
+            tam = len(memalg2[0]) 
+            for i in range(0,tam):
+                if(memalg2[0][i]==anterior):
+                    return memalg2[0][i+1]
+        '''
+        while(realg<=contadorfr1):
+            match realg:
+                case 0:
+                    matrizpriorizacion[1][desde+realg]='RM'
+                    pasadas = 1
+                case 1:
+                    anterior = matrizpriorizacion[1][desde+realg-1]
+                    insertar = quesigue(anterior)
+                    frentetam = quetames(matrizpriorizacion[1][0])
+                    veces = cuantasveces(insertar,frentetam)
+                    for j in range(0,int(veces)) :
+                        matrizpriorizacion[1][desde+realg+j]=insertar
+                    pasadas = pasadas = int(veces)
+                    if(pasadas==contadorfr1):
+                        break
+            realg = realg + 1 '''
+        for recorrer in range(desde,25):
+            if(recorrer==desde):
+                #inserta el estado frente en el frente 1 de la priorizacion 
+                xd = matrizpriorizacion[1][0]
+                for num in range(0,len(pidestadofr)):
+                    if (xd==pidestadofr[num]):
+                        matrizpriorizacion[1][recorrer] = 'RM'
+            
+            else:
+                if(matrizpriorizacion[1][recorrer]!='0'):
+                    xd = matrizpriorizacion[1][recorrer-1] #anterior estado
+                    tam = data[2][0]
+                    if(tam=='C'):
+                        for veces in range(0,len(memalg2[1])):
+                            if(xd==memalg2[0][veces]):
+                                insertar = memalg2[1][veces+1]
+                    if(tam=='M'):
+                        for veces in range(0,len(memalg2[2])):
+                            if(xd==memalg2[0][veces]):
+                                insertar = memalg2[2][veces+1]
+                    if(tam=='G'):
+                        for veces in range(0,len(memalg2[3])):
+                            if(xd==memalg2[0][veces]):
+                                insertar = memalg2[3][veces+1]
+                    cant = int(insertar)
+                    for val in range(0,cant):
+                        matrizpriorizacion[1][recorrer+val]='logrado'
+                    print(cant)
+            
+        
+                
+                
+                
+                
+
+                
+
         vermatrizconsola()
         
         
