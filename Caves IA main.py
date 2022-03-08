@@ -25,15 +25,6 @@ import numpy as np
 ciclominero1 = ['regado_marina','extraccion_marina','acuñadura','limpieza_pata','escaner','mapeo_geomecanico',
 'shotcrete_fibra','perforacion_pernos','lechado_pernos','instalacion_malla','hilteo_malla','proyeccion_shotcrete',
 'marcacion_topografica','perforacion_avance','carguio_explosivos','tronadura']
-discriminados = []
-discriminados.append(list())
-discriminados.append(list())
-discriminados.append(list())
-discriminados.append(list())
-
-
-
-
 
 
 #memoria para mostrar tablas frente
@@ -137,208 +128,91 @@ estadoe.append('Estado')
 codigoe = []
 codigoe.append('Codigo Equipo')
 
-#memoria algoritmo 2 
-matrizpriorizacion = []
-print(matrizpriorizacion)
-basematriz = []
-basematriz.append('id(s)')
-basematriz.append('08:00')
-basematriz.append('08:30')
-basematriz.append('09:00')
-basematriz.append('09:30')
-basematriz.append('10:00')
-basematriz.append('10:30')
-basematriz.append('11:00')
-basematriz.append('11:30')
-basematriz.append('12:00')
-basematriz.append('12:30')
-basematriz.append('13:00')
-basematriz.append('13:30')
-basematriz.append('14:00')
-basematriz.append('14:30')
-basematriz.append('15:00')
-basematriz.append('15:30')
-basematriz.append('16:00')
-basematriz.append('16:30')
-basematriz.append('17:00')
-basematriz.append('17:30')
-basematriz.append('18:00')
-basematriz.append('18:30')
-basematriz.append('19:00')
-basematriz.append('19:30')
-siglarecursos = ['RM','E','AC','LP','SC','MG','SHF','PP','L','M','H','SH','MT','PA','C','Q']
-tams = ['1','3','1','1','1','1','1','3','3','3','3','2','1','3','3','1']
-tameme = ['1','3','1','1','1','1','1','4','4','4','4','2','1','4','3','1']
-taml = ['1','4','1','1','1','1','1','5','5','5','5','2','1','3','1']
-memalg2 = []
-memalg2.append(siglarecursos)
-memalg2.append(tams)
-memalg2.append(tameme)
-memalg2.append(taml)
-# tamaños y duraciones
-
-duracion = 0
-c = 0
-m = 1
-g = 2
-
-if duracion == c:
-    rm = ['rm']
-    e = ['e','e','e']
-    ac = ['ac']
-    lp = ['lp']
-    sc = ['sc']
-    mg = ['mg']
-    shf = ['shf']
-    pp = ['pp','pp','pp']
-    l = ['l','l','l']
-    m = ['m','m','m']
-    h = ['h','h','h']
-    sh = ['sh','sh']
-    mt = ['mt']
-    pa = ['pa','pa','pa']
-    c = ['c','c','c']
-    q = ['q']
-
-if duracion == m:
-    rm = ['rm']
-    e = ['e','e','e']
-    ac = ['ac']
-    lp = ['lp']
-    sc = ['sc']
-    mg = ['mg']
-    shf = ['shf']
-    pp = ['pp','pp','pp','pp']
-    l = ['l','l','l','l']
-    m = ['m','m','m','m']
-    h = ['h','h','h','h']
-    sh = ['sh','sh']
-    mt = ['mt']
-    pa = ['pa','pa','pa','pa']
-    c = ['c','c','c']
-    q = ['q']
-
-if duracion == g:
-    rm = ['rm']
-    e = ['e','e','e','e']
-    ac = ['ac']
-    lp = ['lp']
-    sc = ['sc']
-    mg = ['mg']
-    shf = ['shf']
-    pp = ['pp','pp','pp','pp','pp']
-    l = ['l','l','l','l','l']
-    m = ['m','m','m','m','m']
-    h = ['h','h','h','h','h']
-    sh = ['sh','sh']
-    mt = ['mt']
-    pa = ['pa','pa','pa','pa','pa']
-    c = ['c','c','c']
-    q = ['q']
-
-
-
-
-matrizpriorizacion.append(basematriz)
-
-
-
-
-
-
-
 #coneccion bd red local para crear cursores
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
-
-bd15 = pymysql.connect(host='localhost',
-                             user='root',
-                             password='1312',
-                             database='cavesbd',
-                             cursorclass=pymysql.cursors.DictCursor)
-
 
 
 def addbdfrentes():
@@ -364,11 +238,11 @@ def addbdfrentes():
     entrysigla.grid(row="2",column="1")
     entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
 
-    ''' txtsigla=Label(frameingreso,text="Sigla de referencia")
+    txtsigla=Label(frameingreso,text="Sigla de referencia")
     txtsigla.grid(row="2",column="0")
     entrysigla= ttk.Combobox(frameingreso)
     entrysigla.grid(row="2",column="1")
-    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')'''
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
   
 
     txtnumero=Label(frameingreso,text="Numero de frente")
@@ -476,7 +350,6 @@ def addbdfrentes():
     botonllenarbd.grid(row="15")
 
 
-
 def addequipo():
     win4=Tk()
     frameingreso = Frame(win4)
@@ -487,7 +360,6 @@ def addequipo():
         codigo = entrycod.get()
         cantidade= entrycantidade.get()
         nivele= entrynivele.get()
-
        
         cursor=bd2.cursor()
         sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
@@ -503,9 +375,6 @@ def addequipo():
        # bd.close()
         
         win4.destroy()
-
-
-
 
 
     txtflota =Label(frameingreso,text="Flota") #lista desplegable
@@ -530,8 +399,6 @@ def addequipo():
     entrynivele.grid(row="3",column="1")
     entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
 
-
-    
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
     botonllenarbd.grid(row="4")
@@ -628,14 +495,6 @@ def modificarfrente():
     entrycodigo.grid(row="14",column="1")
 
 
- 
-    
-    
-
-    
-
-
-
 def ingresomain(rut):
     rutt=rut
     win3 = Tk()
@@ -644,7 +503,6 @@ def ingresomain(rut):
     framemain = Frame(win3)
     framemain.pack(expand=1)
     framemain.config(bg="royalblue", width="500", height="300", relief="sunken")
-    
 
     botonFrentes = Button(framemain,text="CREAR NUEVO FRENTE",command=addbdfrentes)
     botonFrentes.grid(row="2", column="1")
@@ -746,9 +604,7 @@ def ingresomain(rut):
         except Exception as e:
             print(e)
         creartablafrentes()
-
-        
-
+  
 
     def vereequipos():
         numfilas = 1
@@ -771,7 +627,6 @@ def ingresomain(rut):
                     if(j==3):
                         x.insert(END,niveleq[f])
 
-
         
         cursor = bd4.cursor()
     
@@ -792,7 +647,6 @@ def ingresomain(rut):
                 numfilas = numfilas + 1
 
 
-
             cursor.close()
             bd4.commit()
             bd4.close()
@@ -804,8 +658,6 @@ def ingresomain(rut):
         #cursor.close()
         #bd.close()'''
         
-
-
 
     def verestadoservicios():
         numfilas = 1
@@ -863,171 +715,10 @@ def ingresomain(rut):
         except Exception as e :
                 print("exception : ",e )
         creartablaservicios()
-        
-# algoritmo 1
-
-    
-    cursor=bd13.cursor()
-    totalfrentes = cursor.execute("select * from frentes")
-    print("TOTAL FRENTES")
-    print(totalfrentes)
-
-
-# Definir listas para priorizacion
-
-# ruta critica ( las que si tienen primero)
-
-    print("RUTA CRITICA")
-    rutacri = []
-    cursor.execute("select id_frente from frentes where ruta_critica = 'si'")
-    resusi = cursor.fetchall()
-    print ("SI")
-    for x in resusi:
-        e = x['id_frente']
-        rutacri.append(e)
-        print(x)
-    
-
-# urgencia (la que tenga mas metros por hacer primero)
-
-    print("URGENCIA")
-    urgencia = []
-    cursor.execute("select id_frente from estado_frentes order by estado_avance desc")
-    mari = cursor.fetchall()
-    for z in mari:
-        p = z['id_frente']
-        urgencia.append(p)
-        print (z)
-    print("URGENCIA")
-    print(urgencia)
-
-# tronadura proxima ( cual esta mas proxima a tronadura primero )
-    
-    print("TRONADURA PROXIMA")
-    tropra = []
-    idtrop = []
-    
-    cursor.execute("select id_frente,operacion from estado_frentes")
-    trop = cursor.fetchall()
-
-    for tropa in trop:
-        fren = tropa['id_frente']
-        opera = tropa['operacion']
-        for esq in ciclominero1:
-            if(esq==opera):
-                aux = ciclominero1.index(esq)
-                tropra.append(aux)
-                idtrop.append(fren)
-    tamtopra = len(tropra)-1
-    for la in range(0,tamtopra):
-        for le in range(0,tamtopra):
-            if(tropra[le]<tropra[le+1]):
-                        auxtropra=tropra[le]
-                        auxfrente=idtrop[le]
-                        tropra[le]=tropra[le+1]
-                        idtrop[le]=idtrop[le+1]
-                        tropra[le+1]=auxtropra  
-                        idtrop[le+1]=auxfrente    
-    print(idtrop)
-
-# foco ( definido por el usuario previa la primera priorizacion )
-
-    print("FOCO")
-    foco = []
-    cursor.execute("select id_frente from frentes")
-    foc = cursor.fetchall()
-    for b in foc:
-        t = b['id_frente']
-        foco.append(t)
-        print (b)
-    print(foco)
-
-# extraccion marina ( la termino en en tronadura primero )
-    print("EXTRACCION MARINA")
-    memarp = []
-    idmarp = []
-    cursor.execute("select id_frente,operacion from estado_frentes")
-    marp = cursor.fetchall()
-    for c in marp:
-        idfren = c['id_frente']
-        oprac = c['operacion']
-        for execu in ciclominero1:
-            if(execu==oprac):
-                aux2=ciclominero1.index(execu)
-                memarp.append(aux2)
-                idmarp.append(idfren)
-    tamarp = len(memarp)-1
-    for li in range(0,tamarp):
-        for lo in range(0,tamarp):
-            if(memarp[lo]>memarp[lo+1]):
-                        auxm=memarp[lo]
-                        auxfrent=idmarp[lo]
-
-                        memarp[lo]=memarp[lo+1]
-                        idmarp[lo]=idmarp[lo+1]
-
-                        memarp[lo+1]=auxm 
-                        idmarp[lo+1]=auxfrent  
-
-    print(idmarp)
-        
-
-
-
-# distancia a pique ( la que tenga mayor distancia marina primero)
-
-    print("DISTANCIA A PIQUE")
-    dista = []
-    cursor.execute("select id_frente from frentes order by distancia_marina desc")
-    marip = cursor.fetchall()
-    for d in marip:
-        x = d['id_frente']
-        dista.append(x)
-        print (d)
-    print(dista)
-
-
-# priorizacion final
-
-    print("PRIORIZACION TOTAL")
-
-    prio = []
-
-    for z in rutacri:
-        prio.append(z)
-    
-    for z in urgencia:
-        prio.append(z)
-
-    for z in idtrop:
-        prio.append(z)
-
-    for z in foco:
-        prio.append(z)
-
-    for z in idmarp:
-        prio.append(z)
-
-    for z in dista:
-        prio.append(z) 
-
-
-    print(prio)
-
-    prio2 = []
-
-    for i in range(totalfrentes+25):
-        if prio[i] not in prio2:
-             prio2.append(prio[i])
-
-    print("PRIORIZACION FINAL")
-
-    print(prio2)
 
         #bd.commit()
         #cursor.close()
         #bd.close()'''
-
 
     def veravances():
         numfilas = 1
@@ -1202,147 +893,342 @@ def ingresomain(rut):
         #bd.commit()
         #cursor.close()
         #bd.close()'''
-    idfren = []
-    porte = []
-    idestadofrentes = []
-    operaciones = []
-    cursor.execute('select * from frentes')
-    datafrentes = cursor.fetchall()
-    cursor.execute('select * from estado_frentes')
-    dataestado = cursor.fetchall()
 
-    for l in datafrentes:
-        id = l['id_frente']
-        tm = l['tamaño']
-        idfren.append(id)
-        porte.append(tm)
+
+# algoritmo 1
+
+    
+    cursor=bd13.cursor()
+    totalfrentes = cursor.execute("select * from frentes")
+    print("TOTAL FRENTES")
+    print(totalfrentes)
+
+
+# Definir listas para priorizacion
+
+# Ruta critica 
+    print("RUTA CRITICA")
+    rutacri = []
+    rs = []
+    rn = []
+    cursor.execute("select id_frente from frentes where ruta_critica = 'si'")
+    resusi = cursor.fetchall()
+    for x in resusi:
+        e = x['id_frente']
+        rutacri.append(e)
+        rs.append(e)
+    cursor.execute("select id_frente from frentes where ruta_critica = 'no'")
+    resuno = cursor.fetchall()
+    for x in resuno:
+        e = x['id_frente']
+        rutacri.append(e)
+        rn.append(e)
+
+    print("P1", rutacri)
+
+# Urgencia
+
+    print("URGENCIA")
+    urgencia = []
+    p2 = []
+    cursor.execute("select id_frente from frentes order by largo desc")
+    mari = cursor.fetchall()
+    for z in mari:
+        p = z['id_frente']
+        urgencia.append(p)
+    for u in urgencia:
+        for r in rs:
+            if u ==r:
+                p2.append(u)
+    for u in urgencia:
+        for r in rn:
+            if u ==r:
+                p2.append(u)
+    
+    print("P2", p2)
+
+# Tronadura proxima
+
+    print("TRONADURA PROXIMA") 
+    troprosi = []
+    troprono = []
+    idaux = []
+    operaux = []
+    dista = []
+    distasi= []
+    distano = []
+    cursor.execute("select id_frente,operacion from estado_frentes")
+    trop = cursor.fetchall()
+    for t in trop:
+        fren = t['id_frente']
+        idaux.append(fren)
+        oper = t['operacion']
+        operaux.append(oper)
+    for o in operaux:
+        for c in ciclominero1:
+            if c == o:
+                aux = ciclominero1.index(c)
+                dis = 15-aux
+                dista.append(dis)
+
+    for i, num in enumerate(dista):
+        menor= None
+        posi = None
+        if (num != 0):
+            if (num not in distasi and num not in distano):
+                if (num <= 4):
+                    menor = num
+                    posi = i
+        if menor != None:
+            troprosi.append(idaux[posi])
+            distasi.append(menor)
+    
+    for i, num in enumerate(dista):
+        x = 1
+        if (num == 0 or num > 4):
+            menoraux = num
+            posiaux = i
+            x=2
+        if x == 2:  
+            troprono.append(idaux[posiaux])
+            distano.append(menoraux)
+
+# Urgencia tronadura prox
+
+    tp = []
+
+    for u in urgencia:
+        for r in troprosi:
+            if u == r:
+                tp.append(u)
+
+    for p in p2:
+        if (p not in tp):
+            tp.append(p)
+    
+    print("P3", tp)
+
+# foco
+
+    print("FOCO")
+    p4 = []
+    foco = []
+    cursor.execute("select id_frente from frentes where foco = '1'")
+    foc = cursor.fetchall()
+    for b in foc:
+        t = b['id_frente']
+        foco.append(t)
+
+    for p in tp:
+        for f in foco:
+            if f == p:
+                p4.append(p)
+
+    for p in tp:
+        if (p not in p4):
+            p4.append(p)
+
+    print("P4", p4)
+
+# extraccion marina
+
+    print("EXTRACCION MARINA")
+    idtro = []
+    p5 = []
+    cursor.execute("select id_frente from estado_frentes where operacion = 'tronadura' ")
+    tro = cursor.fetchall()
+    for c in tro:
+        x = c['id_frente']
+        idtro.append(x)
+
+    for p in p4:
+        for i in idtro:
+            if p == i:
+                p5.append(p)
+
+    for p in p4:
+        if (p not in p5):
+            p5.append(p)
         
-    for m in dataestado:
-        id = m['id_frente']
-        op = m['operacion']    
-        idestadofrentes.append(id)
-        operaciones.append(op)    
+    print("P5", p5)
 
-    def quetamtienefrente(frente):
-        tam = len(idfren)
-        for i in range(0,tam):
-            aux = idfren[i]
-            if(frente==aux):
-                return porte[i]
+# distancia a pique 
+
+    print("DISTANCIA A PIQUE") 
+    dista = []
+    pf = []
+    cursor.execute("select id_frente from frentes order by distancia_marina desc")
+    marip = cursor.fetchall()
+    for d in marip:
+        x = d['id_frente']
+        dista.append(x)
+    
+    for d in dista:
+        for i in idtro:
+            if d == i:
+                pf.append(d)
+    
+    for p in p5:
+        if (p not in pf):
+            pf.append(p)
+
+    print("PRIORIZACIÓN", pf)
+
+
+# Algoritmo 2 (sin sectorización)
+
+    cursor=bd14.cursor()
+    totalfrentes = cursor.execute("select * from frentes")
+    print("ALGORITMO 2")
+
+    l1= []
+    tamf = []
+    opf = []
+    tamor = []
+    opeor = []
+
+    cursor.execute("select id_frente, tamaño from frentes")
+    tamfn = cursor.fetchall()
+    for x in tamfn:
+        tamf.append(x)
+
+    for p in pf:
+        for t in tamf:
+            if (p == t['id_frente']):
+                tamor.append(t['tamaño'])
+
+    
+    cursor.execute("select id_frente, operacion from estado_frentes")
+    opfn = cursor.fetchall()
+    for x in opfn:
+        opf.append(x)
+
+    for p in pf:
+        for o in opf:
+            if (p == o['id_frente']):
+                opeor.append(o['operacion'])
+
+
+    # indice = [ ID - TAMAÑO - ESTADO_FRENTE - 8:00 - 8:30 - 9:00 - 09:30 - 10:00 - 10:30 - 11:00 - 11:30 - 12:00 - 12:30 - 13:00 - 13:30 - 14:00 - 14:30 - 15:00 - 15:30 - 16:00 - 16:30 - 17:00 - 17:30 - 18:00 - 18:30 - 19:00 - 19:30 ]
+    
+    # tamaños y duraciones c=1 m=2 g=3
+
+
+    tfc = ['rm','e','e','e','ac','lp','sc','mg','shf','pp','pp','pp','l','l','l','m','m','m','h','h','h','sh','sh','mt','pa','pa','pa','c','c','c','q']
+
+    print("tamaño chico")
+    print(tfc)
+    
+    tfm = ['rm','e','e','e','ac','lp','sc','mg','shf','pp','pp','pp','pp','l','l','l','l','m','m','m','m','h','h','h','h','sh','sh','mt','pa','pa','pa','pa','c','c','c','q']
+        
+    print("tamaño mediano")
+    print(tfm)
+
+    tfg = ['rm','e','e','e','e','ac','lp','sc','mg','shf','pp','pp','pp','pp','pp','l','l','l','l','l','m','m','m','m','m','h','h','h','h','h','sh','sh','mt','pa','pa','pa','pa','pa','c','c','c','q']
+
+    print("tamaño grande")
+    print(tfg)
+        
+        
+
+    # rescato id ( prio ) , tam , est
+    
+    for i in range(totalfrentes):
+        l1.append([])
+        for j in range(1):
+            l1[i].append(pf[i])
+    
+    for i in range(totalfrentes):
+        l1.append([])
+        for j in range(1):
+            l1[i].append(tamor[i])
             
-    def algoritmo2():
-        numlistasmatrix = len(prio2)
-        #define memoria para el numero de frentes
-        for matrizlargo in range (0,numlistasmatrix):
-            matrizpriorizacion.append(list())
-        #inserta frentes en la columna íd (0)
-        setid = len(matrizpriorizacion)+1    
-        for i in range(1,setid-1):
-            aux1 = prio2[i-1]
-            matrizpriorizacion[i].append(aux1)
-        
-        tamfilas = len(matrizpriorizacion)
-        
-        def vermatrizconsola():
-            for uwu in range (0,tamfilas):
-                print ('\n')
-                print (matrizpriorizacion[uwu])
-        
-        
-        print('de que bloque horario quiere parte el turno?:')
-        eleccion = input()
-        desde = int(eleccion)
-        k=int(0)
-        for j in range(1,numlistasmatrix+1):
-            k=0
-            while(k<desde-1):
-                matrizpriorizacion[j].append('-')
-                k = k+1
-        #tam es a 
-        a = quetamtienefrente(matrizpriorizacion[1][0])
-        match a :
-            case 'C':
-                rm = ['rm']
-                e = ['e','e','e']
-                ac = ['ac']
-                lp = ['lp']
-                sc = ['sc']
-                mg = ['mg']
-                shf = ['shf']
-                pp = ['pp','pp','pp']
-                l = ['l','l','l']
-                m = ['m','m','m']
-                h = ['h','h','h']
-                sh = ['sh','sh']
-                mt = ['mt']
-                pa = ['pa','pa','pa']
-                c = ['c','c','c']
-                q = ['q']
-                hf1 = []
-                for u in rm:
-                    hf1.append(u)
-                for u in e:
-                    hf1.append(u)
-                for u in ac:
-                    hf1.append(u)
-                for u in lp:
-                    hf1.append(u)
-                for u in sc:
-                    hf1.append(u)
-                for u in mg:
-                    hf1.append(u)
-                for u in shf:
-                    hf1.append(u)
-                for u in pp:
-                    hf1.append(u)
-                for u in l:
-                    hf1.append(u)
-                for u in m:
-                    hf1.append(u)
-                for u in h:
-                    hf1.append(u)
-                for u in sh:
-                    hf1.append(u)
-                for u in mt:
-                    hf1.append(u)
-                for u in pa:
-                    hf1.append(u)
-                for u in c:
-                    hf1.append(u)
-                for u in q:
-                    hf1.append(u)
-                
-                hf1f = []
-                hf1f = matrizpriorizacion[1] 
-                
-                for i in range(0,25-desde):
-                    if(i==11 or i==12):
-                        hf1f.append('-')
-                    else:
-                        hf1f.append(hf1[i])
-                
-                matrizpriorizacion[1]= hf1f
+
+    for i in range(totalfrentes):
+        l1.append([])
+        for j in range(1):
+            if opeor[i] == 'regado_marina':
+                l1[i].append('rm')
+            if opeor[i] == 'extraccion_marina':
+                l1[i].append('e')
+            if opeor[i] == 'acuñadura':
+                l1[i].append('ac')
+            if opeor[i] == 'limpieza_pata':
+                l1[i].append('lp')
+            if opeor[i] == 'escaner':
+                l1[i].append('sc')
+            if opeor[i] == 'mapeo_geomecanico':
+                l1[i].append('mg')
+            if opeor[i] == 'shotcrete_fibra':
+                l1[i].append('shf')
+            if opeor[i] == 'perforacion_pernos':
+                l1[i].append('pp')
+            if opeor[i] == 'lechado_pernos':
+                l1[i].append('l')
+            if opeor[i] == 'instalacion_malla':
+                l1[i].append('m')
+            if opeor[i] == 'hilteo_malla':
+                l1[i].append('h')
+            if opeor[i] == 'proyeccion_shotcrete':
+                l1[i].append('sh')
+            if opeor[i] == 'marcacion_topografica':
+                l1[i].append('mt')
+            if opeor[i] == 'perforacion_avance':
+                l1[i].append('pa')
+            if opeor[i] == 'carguio_explosivos':
+                l1[i].append('c')
+            if opeor[i] == 'tronadura':
+                l1[i].append('q')
+
+
+    # selecciono segun tipo
+    posi = 0
+
+    for i in range(totalfrentes):
+        if (l1[i][1] == 'C'):
+            for j in range(1):
+                for t in range(31):
+                    if (l1[i][2] == tfc[t]):
+                        posi = t+1
+                        break
+                for k in range(26):
+                    if (k+posi<31):
+                        po = k+posi
+                        l1[i].append(tfc[po])
+    
+   
+
+
+    # imprimir matiz
+
+    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    for i in range(totalfrentes):
+        print(l1[i])
+
+
+    
+                    
+
+
+                        
 
 
 
-        
-        
-        
-        
-        
-        
 
 
-        vermatrizconsola()
-       
-        
-     
+
+
+
+
             
-                
-        
+    
 
-        
-        
+    
+
+    
+
+
+
 
     def insertarestadofrentesbd():
 
@@ -1393,9 +1279,6 @@ def ingresomain(rut):
     insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
     insertarestadofrentes.grid(row='11',column="1")
 
-    botonalgoritmo2 = Button(framemain,text='Algoritmo 2',command=algoritmo2)
-    botonalgoritmo2.grid(row='12',column='1')
-
 
 def botoningresar():
     #ingresomain()
@@ -1427,9 +1310,6 @@ def botoningresar():
                 ingresomain(k)
 
 
-
-  
-
 def botonregistrar():
     win2=Tk()
     frameingresar=Frame(win2)
@@ -1449,7 +1329,6 @@ def botonregistrar():
     entrycpro=Entry(frameingresar)
     entrycpro.grid(row="3",column="1")
 
-   
 
     def addbdusuario():
         rut = entryrut.get()
