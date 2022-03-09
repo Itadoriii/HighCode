@@ -130,89 +130,88 @@ codigoe.append('Codigo Equipo')
 
 #coneccion bd red local para crear cursores
 
+
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
-
-
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -1183,15 +1182,13 @@ def ingresomain(rut):
                 l1[i].append('q')
 
     # selecciono segun tipo
+
     posi = 0
 
     for i in range(totalfrentes):
         if (l1[i][1] == 'C'):
             for j in range(1):
                 for t in range(31):
-                    if(t==30):
-                        posi = 1
-                        break
                     if (l1[i][2] == tfc[t]):
                         posi = t+1
                         break
@@ -1199,36 +1196,54 @@ def ingresomain(rut):
                     if (k+posi<31):
                         po = k+posi
                         l1[i].append(tfc[po])
-        
+                    if (k+posi>=31):
+                        if (k+posi>=31):
+                            if (l1[i][2] != 'q'):
+                                break
+                        po = k
+                        l1[i].append(tfc[po])
+                    
+
+    posi = 0
+
+    for i in range(totalfrentes):
         if (l1[i][1] == 'M'):
             for j in range(1):
                 for t in range(36):
-                    if(t==35):
-                        posi = 1
-                        break
                     if (l1[i][2] == tfm[t]):
                         posi = t+1
                         break
                 for k in range(26):
-                    if (k+posi<31):
+                    if (k+posi<36):
                         po = k+posi
                         l1[i].append(tfm[po])
+                    if (k+posi>=36):
+                        if (l1[i][2] != 'q'):
+                            break
+                        po = k
+                        l1[i].append(tfm[po])
 
+    posi = 0
+
+    for i in range(totalfrentes):
         if (l1[i][1] == 'G'):
             for j in range(1):
                 for t in range(42):
-                    if(t==41):
-                        posi = 1
-                        break
                     if (l1[i][2] == tfg[t]):
                         posi = t+1
                         break
                 for k in range(26):
-                    if (k+posi<31):
+                    if (k+posi<42):
                         po = k+posi
                         l1[i].append(tfg[po])
-    
-   
+                    if (k+posi>=42):
+                        if (l1[i][2] != 'q'):
+                                break
+                        po = k
+                        l1[i].append(tfg[po])
+        
+
+
 
 
     # imprimir matiz
