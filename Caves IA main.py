@@ -16,7 +16,7 @@ from turtle import clear
 from unittest import signals
 from urllib.request import AbstractBasicAuthHandler
 from zoneinfo import available_timezones
-from numpy import can_cast, mat, matrix
+from numpy import append, can_cast, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 import numpy as np
@@ -132,88 +132,87 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
-
 
 def addbdfrentes():
     win4=Tk()
@@ -244,7 +243,6 @@ def addbdfrentes():
     entrysigla.grid(row="2",column="1")
     entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
   
-
     txtnumero=Label(frameingreso,text="Numero de frente")
     txtnumero.grid(row="3",column="0")
     entrynumero= Entry(frameingreso)
@@ -312,6 +310,7 @@ def addbdfrentes():
     txtcodigo.grid(row="14",column="0")
     entrycodigo= Entry(frameingreso)
     entrycodigo.grid(row="14",column="1")
+
 
     def llenarfrente():
         tipo =entrytipo.get()
@@ -402,6 +401,7 @@ def addequipo():
 
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
     botonllenarbd.grid(row="4")
+
 
 def modificarfrente():
     win4=Tk()
@@ -510,6 +510,7 @@ def ingresomain(rut):
     botonTopografia = Button(framemain,text="CREAR NUEVO EQUIPO",command=addequipo)
     botonTopografia.grid(row="3", column="1")
 
+
     def verfrentesrut():
         numfilas = 1
         numcolumnas = 14
@@ -549,8 +550,7 @@ def ingresomain(rut):
                             if (j==12):
                                 x.insert(END,sector[f])
                             if (j==13):
-                             x.insert(END,ides[f])
-                        
+                             x.insert(END,ides[f])   
                         
         cursor = bd3.cursor()
         cursor2 =  bd3.cursor()
@@ -626,7 +626,6 @@ def ingresomain(rut):
                         x.insert(END,cantidad[f])
                     if(j==3):
                         x.insert(END,niveleq[f])
-
         
         cursor = bd4.cursor()
     
@@ -645,7 +644,6 @@ def ingresomain(rut):
                 niveleqq = i ['nivel']
                 niveleq.append(niveleqq)
                 numfilas = numfilas + 1
-
 
             cursor.close()
             bd4.commit()
@@ -684,7 +682,6 @@ def ingresomain(rut):
                     if(j==5):
                         x.insert(0,idfrente[f])
 
-
         cursor = bd5.cursor()
 
         sql =  "SELECT * from estado_servicios"
@@ -707,8 +704,6 @@ def ingresomain(rut):
                 idfrente.append(idfrentee)
                 numfilas = numfilas + 1
 
-
-
             cursor.close()
             bd5.commit()
             bd5.close()
@@ -719,6 +714,7 @@ def ingresomain(rut):
         #bd.commit()
         #cursor.close()
         #bd.close()'''
+
 
     def veravances():
         numfilas = 1
@@ -767,8 +763,6 @@ def ingresomain(rut):
                 idfrenteav.append(idfrenteavv)
                 numfilas = numfilas + 1
 
-
-
             cursor.close()
             bd6.commit()
             bd6.close()
@@ -779,6 +773,7 @@ def ingresomain(rut):
         #bd.commit()
         #cursor.close()
         #bd.close()'''
+
 
     def estadofrentes():
         numfilas = 1
@@ -830,13 +825,13 @@ def ingresomain(rut):
                 idfrentef.append(idfrenteff)
                 numfilas = numfilas + 1
             
-
             cursor.close()
             bd7.commit()
             bd7.close()
         except Exception as e :
                 print("exception : ",e )
         creartablaestadofrentes()
+
 
     def verestadoequipos():
         numfilas = 1
@@ -880,7 +875,6 @@ def ingresomain(rut):
                 codigoee = i ['codigo_equipo']
                 codigoe.append(codigoee)
                 numfilas = numfilas + 1
-
             
             cursor.close()
             bd8.commit()
@@ -889,20 +883,17 @@ def ingresomain(rut):
             print("exception : ",e )
         creartablaestadoequipos()
 
-
         #bd.commit()
         #cursor.close()
         #bd.close()'''
 
 
 # algoritmo 1
-
     
     cursor=bd13.cursor()
     totalfrentes = cursor.execute("select * from frentes")
     print("TOTAL FRENTES")
     print(totalfrentes)
-
 
 # Definir listas para priorizacion
 
@@ -1113,23 +1104,17 @@ def ingresomain(rut):
     
     # tamaños y duraciones c=1 m=2 g=3
 
-
     tfc = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','l','l','l','-','-','m','m','m','h','h','h','sh','sh','-','-','mt','pa','pa','pa','c','c','c','q']
 
-    print("tamaño chico")
-    
+    print("tamaño chico", tfc)
     
     tfm = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','l','l','l','l','-','-','m','m','m','m','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','c','c','c','q']
         
-    print("tamaño mediano")
-    
+    print("tamaño mediano", tfm)
 
     tfg = ['rm','e','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','pp','l','l','l','l','l','-','-','m','m','m','m','m','h','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','pa','c','c','c','q']
 
-    print("tamaño grande")
-    
-        
-        
+    print("tamaño grande", tfg)
 
     # rescato id ( prio ) , tam , est
     
@@ -1143,7 +1128,6 @@ def ingresomain(rut):
         for j in range(1):
             l1[i].append(tamor[i])
             
-
     for i in range(totalfrentes):
         l1.append([])
         for j in range(1):
@@ -1180,7 +1164,14 @@ def ingresomain(rut):
             if opeor[i] == 'tronadura':
                 l1[i].append('q')
 
-    # selecciono segun tipo
+    # guarda espacios hasta las 9:30
+
+    for i in range(totalfrentes):
+        l1.append([])
+        for j in range(3):
+            l1[i].append(' -')
+
+    # selecciona segun tipo
 
     posi = 0
 
@@ -1191,20 +1182,27 @@ def ingresomain(rut):
                     if (l1[i][2] == tfc[t]):
                         posi = t+1
                         break
-                for k in range(26):
+                for k in range(23):
                     if (k+posi<40):
                         po = k+posi
                         if(tfc[po]!='q'):
-                            l1[i].append(tfc[po])
-                    if (k+posi>=40):
-                        if (k+posi>=40):
-                            if (l1[i][2] != 'q'):
-                                break
+                            l1[i].append(tfc[po])   
+                        if(tfc[po]== 'q'):
+                            indite = k
+                    if (k+posi>=40): 
+                        if (l1[i][2] != 'q'):
+                            num = 23-indite
+                            while (num>0):
+                                if (num == 1):
+                                    l1[i].append('q')
+                                if (num !=1):
+                                    l1[i].append('-')
+                                num = num - 1
+                            if (num == 0):
+                                break   
                         po = k
-                        l1[i].append(tfc[po])
+                        l1[i].append(tfc[po]) 
                         
-                    
-
     posi = 0
 
     for i in range(totalfrentes):
@@ -1214,18 +1212,29 @@ def ingresomain(rut):
                     if (l1[i][2] == tfm[t]):
                         posi = t+1
                         break
-                for k in range(26):
+                for k in range(23):
                     if (k+posi<45):
                         po = k+posi
                         if(tfm[po]!='q'):
                             l1[i].append(tfm[po])
+                        if(tfm[po]=='q'):
+                            indite = k
                     if (k+posi>=45):
                         if (l1[i][2] != 'q'):
-                            break
+                            num = 23-indite
+                            while (num>0):
+                                if (num == 1):
+                                    l1[i].append('q')
+                                if (num !=1):
+                                    l1[i].append('-')
+                                num = num - 1
+                            if (num == 0):
+                                break    
                         po = k
                         l1[i].append(tfm[po])
 
     posi = 0
+
     for i in range(totalfrentes):
         if (l1[i][1] == 'G'):
             for j in range(1):
@@ -1233,29 +1242,167 @@ def ingresomain(rut):
                     if (l1[i][2] == tfg[t]):
                         posi = t+1
                         break
-                for k in range(26):
+                for k in range(23):
                     if (k+posi<51):
                         po = k+posi
                         if(tfg[po]!='q'):
                             l1[i].append(tfg[po])
+                        if(tfg[po]=='q'):
+                            indite = k
                     if (k+posi>=51):
                         if (l1[i][2] != 'q'):
-                                break
+                            num = 23-indite
+                            while (num>0):
+                                if (num == 1):
+                                    l1[i].append('q')
+                                if (num !=1):
+                                    l1[i].append('-')
+                                num = num - 1
+                            if (num == 0):
+                                break 
                         po = k
                         l1[i].append(tfg[po])
+
+
     #llena la memoria de las listas a los 26 espacios 
+
     for i in range(totalfrentes):
         aux= len(l1[i])
         for j in range(aux,29):
             l1[i].append('-')
 
-
     # imprimir matiz
-    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-    for i in range(totalfrentes):
 
+    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    
+    for i in range(totalfrentes):
         print(l1[i],len(l1[i]))
 
+
+    # Restriccion recursos
+
+    l2 = []
+
+    for i in range(totalfrentes):
+        l2.append([])
+        for j in range(1):
+            l2[i].append(pf[i])
+    
+    for i in range(totalfrentes):
+        l2.append([])
+        for j in range(1):
+            l2[i].append(tamor[i])
+            
+    for i in range(totalfrentes):
+        l2.append([])
+        for j in range(1):
+            if opeor[i] == 'regado_marina':
+                l2[i].append('rm')
+            if opeor[i] == 'extraccion_marina':
+                l2[i].append('e')
+            if opeor[i] == 'acuñadura':
+                l2[i].append('ac')
+            if opeor[i] == 'limpieza_pata':
+                l2[i].append('lp')
+            if opeor[i] == 'escaner':
+                l2[i].append('sc')
+            if opeor[i] == 'mapeo_geomecanico':
+                l2[i].append('mg')
+            if opeor[i] == 'shotcrete_fibra':
+                l2[i].append('shf')
+            if opeor[i] == 'perforacion_pernos':
+                l2[i].append('pp')
+            if opeor[i] == 'lechado_pernos':
+                l2[i].append('l')
+            if opeor[i] == 'instalacion_malla':
+                l2[i].append('m')
+            if opeor[i] == 'hilteo_malla':
+                l2[i].append('h')
+            if opeor[i] == 'proyeccion_shotcrete':
+                l2[i].append('sh')
+            if opeor[i] == 'marcacion_topografica':
+                l2[i].append('mt')
+            if opeor[i] == 'perforacion_avance':
+                l2[i].append('pa')
+            if opeor[i] == 'carguio_explosivos':
+                l2[i].append('c')
+            if opeor[i] == 'tronadura':
+                l2[i].append('q')
+
+    # guarda espacios hasta las 9:30
+
+    for i in range(totalfrentes):
+        l2.append([])
+        for j in range(3):
+            l2[i].append(' -')
+
+    # ordena restringiendo recursos
+
+    # llena primer frente para comparar
+
+    for i in range(1):
+        for j in range(23):
+            a = 6
+            k = a+j
+            aux = l1[i][k]
+            l2[i].append(aux)
+
+    # compara 
+
+    r = 23
+    cont = 0
+    for i in range(5):
+        b= 1
+        h = b+i
+        for j in range(r):
+            a = 6
+            k = a+j
+            aux = l1[h][k]
+            if (l1[i][k]!=aux):
+                l2[h].append(aux)
+                cont = cont + 1
+                if (cont>=23):
+                    break
+            if (l1[i][k]=='-'):
+                l2[h].append(aux)
+                cont = cont + 1
+                if (cont>=23):
+                    break
+            if (l1[i][k]==aux):
+                x=1
+                while (x==1):
+                    if (l1[i][k]==aux):
+                            l2[h].append('-')
+                            k = k+1
+                            cont = cont + 1
+                            if (cont>=23):
+                                break
+                    if (l1[i][k]!=aux):
+                            l2[h].append(aux)
+                            x = 0
+                            cont = cont + 1
+                            if (cont>=23):
+                                break
+
+            
+            
+            
+
+                    
+                    
+
+            
+            
+
+    # imprimir matiz recursos
+
+    print("ASIGNACION DE RECURSOS")
+    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    
+    for i in range(totalfrentes):
+        print(l2[i],len(l2[i]))
+
+ 
 
     
                     
