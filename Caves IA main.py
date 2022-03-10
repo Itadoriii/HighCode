@@ -132,85 +132,85 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -656,7 +656,6 @@ def ingresomain(rut):
         #cursor.close()
         #bd.close()'''
         
-
     def verestadoservicios():
         numfilas = 1
         numcolumnas = 6
@@ -1401,7 +1400,19 @@ def ingresomain(rut):
 
     
 
-    
+    def ventanamatriz():
+        print('exito')
+        win4 = Tk()
+        win4.geometry('1080x200')
+        frame = Frame(win4)
+        frame.pack()
+
+        for f in range(0,len(l2)):
+                    for j in range(0,len(l2[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f, column = j)
+                            x.insert(END,l2[f][j])
+
 
 
 
@@ -1454,6 +1465,9 @@ def ingresomain(rut):
 
     insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
     insertarestadofrentes.grid(row='11',column="1")
+
+    vermatriz = Button(framemain,text='VER MATRIZ ',command=ventanamatriz)
+    vermatriz.grid(row='12',column="1")
 
 
 def botoningresar():
