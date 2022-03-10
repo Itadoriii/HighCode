@@ -1430,14 +1430,14 @@ def ingresomain(rut):
         extra = ['id','tam','est','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
         for uwu in range(0,27):
             j = Entry(frame,width=5)
-            j.grid(row = 10, column = uwu)
+            j.grid(row = 0, column = uwu)
             j.insert(END,extra[uwu])
 
 
         for f in range(0,len(l2)):
                     for j in range(0,len(l2[f])):
                             x = Entry(frame,width=5)
-                            x.grid(row = f, column = j)
+                            x.grid(row = f+1, column = j)
                             x.insert(END,l2[f][j])
 
 
