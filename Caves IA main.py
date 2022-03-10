@@ -132,85 +132,85 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -1181,7 +1181,7 @@ def ingresomain(rut):
                     if (l1[i][2] == tfc[t]):
                         posi = t+1
                         break
-                for k in range(23):
+                for k in range(21):
                     if (k+posi<40):
                         po = k+posi
                         if(tfc[po]!='q'):
@@ -1190,7 +1190,7 @@ def ingresomain(rut):
                             indite = k
                     if (k+posi>=40): 
                         if (l1[i][2] != 'q'):
-                            num = 23-indite
+                            num = 21-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1211,7 +1211,7 @@ def ingresomain(rut):
                     if (l1[i][2] == tfm[t]):
                         posi = t+1
                         break
-                for k in range(23):
+                for k in range(21):
                     if (k+posi<45):
                         po = k+posi
                         if(tfm[po]!='q'):
@@ -1220,7 +1220,7 @@ def ingresomain(rut):
                             indite = k
                     if (k+posi>=45):
                         if (l1[i][2] != 'q'):
-                            num = 23-indite
+                            num = 21-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1241,7 +1241,7 @@ def ingresomain(rut):
                     if (l1[i][2] == tfg[t]):
                         posi = t+1
                         break
-                for k in range(23):
+                for k in range(21):
                     if (k+posi<51):
                         po = k+posi
                         if(tfg[po]!='q'):
@@ -1250,7 +1250,7 @@ def ingresomain(rut):
                             indite = k
                     if (k+posi>=51):
                         if (l1[i][2] != 'q'):
-                            num = 23-indite
+                            num = 21-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1267,7 +1267,7 @@ def ingresomain(rut):
 
     for i in range(totalfrentes):
         aux= len(l1[i])
-        for j in range(aux,29):
+        for j in range(aux,21):
             l1[i].append('-')
 
     # imprimir matiz
@@ -1340,7 +1340,7 @@ def ingresomain(rut):
     # llena primer frente para comparar
 
     for i in range(1):
-        for j in range(6,29):
+        for j in range(6,27):
             aux = l1[i][j]
             l2[i].append(aux)
 
@@ -1348,7 +1348,7 @@ def ingresomain(rut):
 
     for i in range(totalfrentes):
         contador = 0
-        for j in range(6,29):
+        for j in range(6,27):
             if(i+1>=6):
                 break
             f2 = l1[i+1][j-contador]
@@ -1358,6 +1358,39 @@ def ingresomain(rut):
                 f1 = l2[i-contador2][j]
                 if(f2!=f1):
                     bandera = bandera
+                    if (f2=='rm' and f1=='l') or (f1=='rm' and f2=='l'): # restringe recurso cuadrilla
+                        bandera = bandera + 1
+                    if (f2=='rm' and f1=='m') or (f1=='rm' and f2=='m') :
+                        bandera = bandera + 1
+                    if (f2=='rm' and f1=='h') or (f1=='rm' and f2=='h'):
+                        bandera = bandera + 1
+                    if (f2=='rm' and f1=='c') or (f1=='rm' and f2=='c'):
+                        bandera = bandera + 1
+                    if (f2=='l' and f1=='m') or (f1=='l' and f2=='m'):
+                        bandera = bandera + 1
+                    if (f2=='l' and f1=='h') or (f1=='l' and f2=='h'):
+                        bandera = bandera + 1
+                    if (f2=='l' and f1=='c') or (f1=='l' and f2=='c'):
+                        bandera = bandera + 1
+                    if (f2=='m' and f1=='h') or (f1=='m' and f2=='h'):
+                        bandera = bandera + 1
+                    if (f2=='m' and f1=='c') or (f1=='m' and f2=='c'):
+                        bandera = bandera + 1
+                    if (f2=='h' and f1=='c') or (f1=='h' and f2=='c'):
+                        bandera = bandera + 1
+                    if (f2=='e' and f1=='lp') or (f1=='e' and f2=='lp'): # restringe recurso LHD
+                        bandera = bandera + 1
+                    if (f2=='sc' and f1=='mg') or (f1=='sc' and f2=='mg'): # restringe recurso topografo
+                        bandera = bandera + 1
+                    if (f2=='sc' and f1=='mt') or (f1=='sc' and f2=='mt'):
+                        bandera = bandera + 1
+                    if (f2=='mg' and f1=='mt') or (f1=='mg' and f2=='mt'):
+                        bandera = bandera + 1
+                    if (f2=='shf' and f1=='sh') or (f1=='shf' and f2=='sh'): # restringe recurso roboshot
+                        bandera = bandera + 1
+                    if (f2=='pp' and f1=='pa') or (f1=='pp' and f2=='pa'): # restringe recurso jumbo
+                        bandera = bandera + 1
+
                 if f2=='-' and f1=='-':
                     bandera = bandera
                 if f2==f1 and f2!='-':
@@ -1379,44 +1412,24 @@ def ingresomain(rut):
     for i in range(totalfrentes):
         print(l2[i],len(l2[i]))
 
- 
-
-    
-                    
-
-
-                        
-
-
-
-
-
-
-
-
-
-            
-    
-
-    
 
     def ventanamatriz():
         win4 = Tk()
         win4.geometry('1080x200')
         frame = Frame(win4)
         frame.pack()
-        for f in range(0,len(l2)):
-                    for j in range(0,len(l2[f])):
-                            x = Entry(frame,width=5)
-                            x.grid(row = f, column = j)
-                            x.insert(END,l2[f][j])
-        extra = ['id','tam','est','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:50','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        extra = ['id','tam','est','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
         for uwu in range(0,27):
             j = Entry(frame,width=5)
             j.grid(row = 10, column = uwu)
             j.insert(END,extra[uwu])
 
 
+        for f in range(0,len(l2)):
+                    for j in range(0,len(l2[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f, column = j)
+                            x.insert(END,l2[f][j])
 
 
     def insertarestadofrentesbd():
@@ -1540,7 +1553,6 @@ def botonregistrar():
         #bd.close()
         win2.destroy()
         
-
     botonbd=Button(frameingresar,text="add bd",command=addbdusuario)
     botonbd.grid(row="4",column="1")
 
