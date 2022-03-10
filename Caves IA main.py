@@ -1169,7 +1169,7 @@ def ingresomain(rut):
     for i in range(totalfrentes):
         l1.append([])
         for j in range(3):
-            l1[i].append(' -')
+            l1[i].append('-')
 
     # selecciona segun tipo
 
@@ -1341,48 +1341,40 @@ def ingresomain(rut):
     # llena primer frente para comparar
 
     for i in range(1):
-        for j in range(23):
-            a = 6
-            k = a+j
-            aux = l1[i][k]
+        for j in range(6,29):
+            aux = l1[i][j]
             l2[i].append(aux)
 
     # compara 
 
-    r = 23
-    cont = 0
-    for i in range(5):
-        b= 1
-        h = b+i
-        for j in range(r):
-            a = 6
-            k = a+j
-            aux = l1[h][k]
-            if (l1[i][k]!=aux):
-                l2[h].append(aux)
-                cont = cont + 1
-                if (cont>=23):
-                    break
-            if (l1[i][k]=='-'):
-                l2[h].append(aux)
-                cont = cont + 1
-                if (cont>=23):
-                    break
-            if (l1[i][k]==aux):
-                x=1
-                while (x==1):
-                    if (l1[i][k]==aux):
-                            l2[h].append('-')
-                            k = k+1
-                            cont = cont + 1
-                            if (cont>=23):
-                                break
-                    if (l1[i][k]!=aux):
-                            l2[h].append(aux)
-                            x = 0
-                            cont = cont + 1
-                            if (cont>=23):
-                                break
+    contador = 0
+    bandera = 0
+    for i in range(totalfrentes):
+        print ("entra",i)
+        for j in range(6,29):
+            if(i+1>=6):
+                break
+            f1 = l1[i][j]
+            f2 = l1[i+1][j-contador]
+            if(f1!=f2):
+                l2[i+1].append(f2)
+            if f1=='-' and f2=='-':
+                l2[i+1].append(f2)
+            if f1==f2 and f2!='-':
+                l2[i+1].append('-')
+                contador = contador + 1
+
+            
+            
+
+
+    
+    
+    
+    
+
+
+        
 
             
             
