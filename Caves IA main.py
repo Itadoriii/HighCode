@@ -132,85 +132,85 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -1116,17 +1116,17 @@ def ingresomain(rut):
     print("tamaño grande", tfg)
 
     # rescato id ( prio ) , tam , est
-    
+    #id
     for i in range(totalfrentes):
         l1.append([])
         for j in range(1):
             l1[i].append(pf[i])
-    
+    #tam
     for i in range(totalfrentes):
         l1.append([])
         for j in range(1):
             l1[i].append(tamor[i])
-            
+    #estado       
     for i in range(totalfrentes):
         l1.append([])
         for j in range(1):
@@ -1178,8 +1178,9 @@ def ingresomain(rut):
         if (l1[i][1] == 'C'):
             for j in range(1):
                 for t in range(40):
+                        #busca inicio act con tfc 
                     if (l1[i][2] == tfc[t]):
-                        posi = t+1
+                        posi = t+1 #siguiente de lista act 
                         break
                 for k in range(21):
                     if (k+posi<40):
@@ -1241,13 +1242,16 @@ def ingresomain(rut):
                     if (l1[i][2] == tfg[t]):
                         posi = t+1
                         break
+                #agrega lista
                 for k in range(21):
+                    #no es tronadura, ciclo sin terminar
                     if (k+posi<51):
                         po = k+posi
                         if(tfg[po]!='q'):
                             l1[i].append(tfg[po])
                         if(tfg[po]=='q'):
                             indite = k
+                    #es tronadura, ciclo terminado
                     if (k+posi>=51):
                         if (l1[i][2] != 'q'):
                             num = 21-indite
@@ -1281,17 +1285,17 @@ def ingresomain(rut):
     # Restriccion recursos
 
     l2 = []
-
+    #id
     for i in range(totalfrentes):
         l2.append([])
         for j in range(1):
             l2[i].append(pf[i])
-    
+    #tam
     for i in range(totalfrentes):
         l2.append([])
         for j in range(1):
             l2[i].append(tamor[i])
-            
+    #estado        
     for i in range(totalfrentes):
         l2.append([])
         for j in range(1):
@@ -1338,7 +1342,8 @@ def ingresomain(rut):
     # ordena restringiendo recursos
 
     # llena primer frente para comparar
-
+    
+    #aqui parte 
     for i in range(1):
         for j in range(6,27):
             aux = l1[i][j]
@@ -1346,14 +1351,18 @@ def ingresomain(rut):
 
     # compara 
 
+    #recorre frentes
     for i in range(totalfrentes):
         contador = 0
+        #recorre posicion en la tabla 
         for j in range(6,27):
-            if(i+1>=6):
+            #bloqueo vertical
+            if(i+1>=totalfrentes):
                 break
             f2 = l1[i+1][j-contador]
             contador2 = 0
             bandera = 0
+            #compara vertical
             while (i-contador2>=0):
                 f1 = l2[i-contador2][j]
                 if(f2!=f1):
