@@ -1334,7 +1334,7 @@ def ingresomain(rut):
     for i in range(totalfrentes):
         l2.append([])
         for j in range(3):
-            l2[i].append(' -')
+            l2[i].append('-')
 
     # ordena restringiendo recursos
 
@@ -1347,48 +1347,34 @@ def ingresomain(rut):
 
     # compara 
 
-    contador = 0
-    bandera = 0
     for i in range(totalfrentes):
-        print ("entra",i)
+        contador = 0
         for j in range(6,29):
             if(i+1>=6):
                 break
-            f1 = l1[i][j]
             f2 = l1[i+1][j-contador]
-            if(f1!=f2):
+            contador2 = 0
+            bandera = 0
+            while (i-contador2>=0):
+                f1 = l2[i-contador2][j]
+                if(f2!=f1):
+                    bandera = bandera
+                if f2=='-' and f1=='-':
+                    bandera = bandera
+                if f2==f1 and f2!='-':
+                    bandera = bandera + 1
+                contador2 = contador2 + 1
+            if (bandera==0):
                 l2[i+1].append(f2)
-            if f1=='-' and f2=='-':
-                l2[i+1].append(f2)
-            if f1==f2 and f2!='-':
+            if (bandera>0):
                 l2[i+1].append('-')
                 contador = contador + 1
 
-            
-            
-
-
-    
-    
-    
-    
-
-
-        
-
-            
-            
-            
-
                     
                     
-
-            
-            
-
     # imprimir matiz recursos
 
-    print("ASIGNACION DE RECURSOS")
+    print("ASIGNACION DE RECURSOS auxiliar")
     print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
     for i in range(totalfrentes):
