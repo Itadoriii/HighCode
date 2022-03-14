@@ -990,9 +990,8 @@ def ingresomain(rut):
     for r in troprosi:
         tp.append(r)
 
-    for p in p2:
-        if (p not in tp):
-            tp.append(p)
+    for r in troprono:
+        tp.append(r)
     
     print("P3", tp)
 
