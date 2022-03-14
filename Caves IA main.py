@@ -1062,17 +1062,19 @@ def ingresomain(rut):
     print("PRIORIZACIÓN", pf)
 
 
-# Algoritmo 2 (sin sectorización)
-
+# Algortimo 2 (aplicando restricciones y almuerzo)
+    
     cursor=bd14.cursor()
     totalfrentes = cursor.execute("select * from frentes")
     print("ALGORITMO 2")
-
     l1= []
+    lr = []
     tamf = []
     opf = []
+    cif = []
     tamor = []
     opeor = []
+    cior = []
 
     cursor.execute("select id_frente, tamaño from frentes")
     tamfn = cursor.fetchall()
@@ -1095,100 +1097,125 @@ def ingresomain(rut):
             if (p == o['id_frente']):
                 opeor.append(o['operacion'])
 
+    cursor.execute("select id_frente, ciclo from estado_frentes")
+    cifn = cursor.fetchall()
+    for x in cifn:
+        cif.append(x)
 
+    for p in pf:
+        for c in cif:
+            if (p == c['id_frente']):
+                cior.append(c['ciclo'])
+
+    
+    
     # indice = [ ID - TAMAÑO - ESTADO_FRENTE - 8:00 - 8:30 - 9:00 - 09:30 - 10:00 - 10:30 - 11:00 - 11:30 - 12:00 - 12:30 - 13:00 - 13:30 - 14:00 - 14:30 - 15:00 - 15:30 - 16:00 - 16:30 - 17:00 - 17:30 - 18:00 - 18:30 - 19:00 - 19:30 ]
-    
-    # tamaños y duraciones c=1 m=2 g=3
 
-    tfc = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','l','l','l','-','-','m','m','m','h','h','h','sh','sh','-','-','mt','pa','pa','pa','c','c','c','q']
-
-    print("tamaño chico", tfc)
-    
-    tfm = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','l','l','l','l','-','-','m','m','m','m','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','c','c','c','q']
-        
-    print("tamaño mediano", tfm)
-
-    tfg = ['rm','e','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','pp','l','l','l','l','l','-','-','m','m','m','m','m','h','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','pa','c','c','c','q']
-
-    print("tamaño grande", tfg)
-
-    # rescato id ( prio ) , tam , est
+    # rescato id ( prio ) , tam , est , cic
     #id
     for i in range(totalfrentes):
-        l1.append([])
+        lr.append([])
         for j in range(1):
-            l1[i].append(pf[i])
+            lr[i].append(pf[i])
     #tam
     for i in range(totalfrentes):
-        l1.append([])
+        lr.append([])
         for j in range(1):
-            l1[i].append(tamor[i])
+            lr[i].append(tamor[i])
     #estado       
     for i in range(totalfrentes):
-        l1.append([])
+        lr.append([])
         for j in range(1):
             if opeor[i] == 'regado_marina':
-                l1[i].append('rm')
+                lr[i].append('rm')
             if opeor[i] == 'extraccion_marina':
-                l1[i].append('e')
+                lr[i].append('e ')
             if opeor[i] == 'acuñadura':
-                l1[i].append('ac')
+                lr[i].append('ac')
             if opeor[i] == 'limpieza_pata':
-                l1[i].append('lp')
+                lr[i].append('lp')
             if opeor[i] == 'escaner':
-                l1[i].append('sc')
+                lr[i].append('sc')
             if opeor[i] == 'mapeo_geomecanico':
-                l1[i].append('mg')
+                lr[i].append('mg')
             if opeor[i] == 'shotcrete_fibra':
-                l1[i].append('shf')
+                lr[i].append('shf')
             if opeor[i] == 'perforacion_pernos':
-                l1[i].append('pp')
+                lr[i].append('pp')
             if opeor[i] == 'lechado_pernos':
-                l1[i].append('l')
+                lr[i].append('l ')
             if opeor[i] == 'instalacion_malla':
-                l1[i].append('m')
+                lr[i].append('m ')
             if opeor[i] == 'hilteo_malla':
-                l1[i].append('h')
+                lr[i].append('h ')
             if opeor[i] == 'proyeccion_shotcrete':
-                l1[i].append('sh')
+                lr[i].append('sh')
             if opeor[i] == 'marcacion_topografica':
-                l1[i].append('mt')
+                lr[i].append('mt')
             if opeor[i] == 'perforacion_avance':
-                l1[i].append('pa')
+                lr[i].append('pa')
             if opeor[i] == 'carguio_explosivos':
-                l1[i].append('c')
+                lr[i].append('c ')
             if opeor[i] == 'tronadura':
-                l1[i].append('q')
+                lr[i].append('q ')
+    #ciclo
+    for i in range(totalfrentes):
+        lr.append([])
+        for j in range(1):
+            lr[i].append(cior[i])
 
-    # guarda espacios hasta las 9:30
+
+    # tamaños segun ciclo
+
+    #ciclo 1
+
+    tfc1 = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','l','l','l','-','-','m','m','m','h','h','h','sh','sh','-','-','mt','pa','pa','pa','c','c','c','q']
+    tfm1 = ['rm','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','l','l','l','l','-','-','m','m','m','m','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','c','c','c','q']
+    tfg1 = ['rm','e','e','e','e','-','ac','-','lp','-','sc','mg','shf','-','-','pp','pp','pp','pp','pp','l','l','l','l','l','-','-','m','m','m','m','m','h','h','h','h','h','sh','sh','-','-','mt','pa','pa','pa','pa','pa','c','c','c','q']
+    
+    
+    # pregunta al usuario el bloque de inicio y termino
+
+    print("[-08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    print("[- 1   - 2   - 3   - 4   - 5   - 6   - 7   - 8   - 9   - 10  - 11  - 12  - 13  - 14  - 15  - 16  - 17  - 18  - 19  - 20  - 21  - 22  - 23  - 24  ]")
+    bloquei = int(input('INGRESE BLOQUE DE INICIO '))
+    bloquei = bloquei - 1
+    bloquet = int(input('INGRESE BLOQUE DE TERMINO '))
+    reco = bloquet-bloquei
+
+
+    # guarda espacios segun defina usuario
 
     for i in range(totalfrentes):
         l1.append([])
-        for j in range(3):
+        for j in range(bloquei):
             l1[i].append('-')
 
+
     # selecciona segun tipo
+
+    # ciclo == 1
 
     posi = 0
 
     for i in range(totalfrentes):
-        if (l1[i][1] == 'C'):
+        if (lr[i][1] == 'C' and lr[i][3]=='1'):
             for j in range(1):
                 for t in range(40):
                         #busca inicio act con tfc 
-                    if (l1[i][2] == tfc[t]):
+                    if (lr[i][2] == tfc1[t]):
                         posi = t+1 #siguiente de lista act 
                         break
-                for k in range(21):
+                for k in range(reco):
                     if (k+posi<40):
                         po = k+posi
-                        if(tfc[po]!='q'):
-                            l1[i].append(tfc[po])   
-                        if(tfc[po]== 'q'):
+                        if(tfc1[po]!='q'):
+                            l1[i].append(tfc1[po])   
+                        if(tfc1[po]== 'q'):
                             indite = k
                     if (k+posi>=40): 
-                        if (l1[i][2] != 'q'):
-                            num = 21-indite
+                        if (lr[i][2] != 'q'):
+                            num = reco-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1198,27 +1225,27 @@ def ingresomain(rut):
                             if (num == 0):
                                 break   
                         po = k
-                        l1[i].append(tfc[po]) 
+                        l1[i].append(tfc1[po]) 
                         
     posi = 0
 
     for i in range(totalfrentes):
-        if (l1[i][1] == 'M'):
+        if (lr[i][1] == 'M' and lr[i][3]=='1'):
             for j in range(1):
                 for t in range(45):
-                    if (l1[i][2] == tfm[t]):
+                    if (lr[i][2] == tfm1[t]):
                         posi = t+1
                         break
-                for k in range(21):
+                for k in range(reco):
                     if (k+posi<45):
                         po = k+posi
-                        if(tfm[po]!='q'):
-                            l1[i].append(tfm[po])
-                        if(tfm[po]=='q'):
+                        if(tfm1[po]!='q'):
+                            l1[i].append(tfm1[po])
+                        if(tfm1[po]=='q'):
                             indite = k
                     if (k+posi>=45):
-                        if (l1[i][2] != 'q'):
-                            num = 21-indite
+                        if (lr[i][2] != 'q'):
+                            num = reco-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1228,30 +1255,30 @@ def ingresomain(rut):
                             if (num == 0):
                                 break    
                         po = k
-                        l1[i].append(tfm[po])
+                        l1[i].append(tfm1[po])
 
     posi = 0
 
     for i in range(totalfrentes):
-        if (l1[i][1] == 'G'):
+        if (lr[i][1] == 'G' and lr[i][3]=='1'):
             for j in range(1):
                 for t in range(51):
-                    if (l1[i][2] == tfg[t]):
+                    if (lr[i][2] == tfg1[t]):
                         posi = t+1
                         break
                 #agrega lista
-                for k in range(21):
+                for k in range(reco):
                     #no es tronadura, ciclo sin terminar
                     if (k+posi<51):
                         po = k+posi
-                        if(tfg[po]!='q'):
-                            l1[i].append(tfg[po])
-                        if(tfg[po]=='q'):
+                        if(tfg1[po]!='q'):
+                            l1[i].append(tfg1[po])
+                        if(tfg1[po]=='q'):
                             indite = k
                     #es tronadura, ciclo terminado
                     if (k+posi>=51):
-                        if (l1[i][2] != 'q'):
-                            num = 21-indite
+                        if (lr[i][2] != 'q'):
+                            num = reco-indite
                             while (num>0):
                                 if (num == 1):
                                     l1[i].append('q')
@@ -1261,183 +1288,24 @@ def ingresomain(rut):
                             if (num == 0):
                                 break 
                         po = k
-                        l1[i].append(tfg[po])
+                        l1[i].append(tfg1[po])
 
-
-    #llena la memoria de las listas a los 26 espacios 
+    #llena la memoria de las listas a los 24 espacios 
 
     for i in range(totalfrentes):
         aux= len(l1[i])
-        for j in range(aux,21):
-            l1[i].append('-')
+        for j in range(aux,24):
+            l1[i].append('-')                    
+
 
     # imprimir matiz
 
-    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    print("[ ID - TAM - EST - CIC -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
     for i in range(totalfrentes):
-        print(l1[i],len(l1[i]))
+        print(lr[i],l1[i],len(l1[i]))
 
-
-    # Restriccion recursos
-
-    l2 = []
-    #id
-    for i in range(totalfrentes):
-        l2.append([])
-        for j in range(1):
-            l2[i].append(pf[i])
-    #tam
-    for i in range(totalfrentes):
-        l2.append([])
-        for j in range(1):
-            l2[i].append(tamor[i])
-    #estado        
-    for i in range(totalfrentes):
-        l2.append([])
-        for j in range(1):
-            if opeor[i] == 'regado_marina':
-                l2[i].append('rm')
-            if opeor[i] == 'extraccion_marina':
-                l2[i].append('e')
-            if opeor[i] == 'acuñadura':
-                l2[i].append('ac')
-            if opeor[i] == 'limpieza_pata':
-                l2[i].append('lp')
-            if opeor[i] == 'escaner':
-                l2[i].append('sc')
-            if opeor[i] == 'mapeo_geomecanico':
-                l2[i].append('mg')
-            if opeor[i] == 'shotcrete_fibra':
-                l2[i].append('shf')
-            if opeor[i] == 'perforacion_pernos':
-                l2[i].append('pp')
-            if opeor[i] == 'lechado_pernos':
-                l2[i].append('l')
-            if opeor[i] == 'instalacion_malla':
-                l2[i].append('m')
-            if opeor[i] == 'hilteo_malla':
-                l2[i].append('h')
-            if opeor[i] == 'proyeccion_shotcrete':
-                l2[i].append('sh')
-            if opeor[i] == 'marcacion_topografica':
-                l2[i].append('mt')
-            if opeor[i] == 'perforacion_avance':
-                l2[i].append('pa')
-            if opeor[i] == 'carguio_explosivos':
-                l2[i].append('c')
-            if opeor[i] == 'tronadura':
-                l2[i].append('q')
-
-    # guarda espacios hasta las 9:30
-
-    for i in range(totalfrentes):
-        l2.append([])
-        for j in range(3):
-            l2[i].append('-')
-
-    # ordena restringiendo recursos
-
-    # llena primer frente para comparar
-    
-    #aqui parte 
-    for i in range(1):
-        for j in range(6,27):
-            aux = l1[i][j]
-            l2[i].append(aux)
-
-    # compara 
-
-    #recorre frentes
-    for i in range(totalfrentes):
-        contador = 0
-        #recorre posicion en la tabla 
-        for j in range(6,27):
-            #bloqueo vertical
-            if(i+1>=totalfrentes):
-                break
-            f2 = l1[i+1][j-contador]
-            contador2 = 0
-            bandera = 0
-            #compara vertical
-            while (i-contador2>=0):
-                f1 = l2[i-contador2][j]
-                if(f2!=f1):
-                    bandera = bandera
-                    if (f2=='rm' and f1=='l') or (f1=='rm' and f2=='l'): # restringe recurso cuadrilla
-                        bandera = bandera + 1
-                    if (f2=='rm' and f1=='m') or (f1=='rm' and f2=='m') :
-                        bandera = bandera + 1
-                    if (f2=='rm' and f1=='h') or (f1=='rm' and f2=='h'):
-                        bandera = bandera + 1
-                    if (f2=='rm' and f1=='c') or (f1=='rm' and f2=='c'):
-                        bandera = bandera + 1
-                    if (f2=='l' and f1=='m') or (f1=='l' and f2=='m'):
-                        bandera = bandera + 1
-                    if (f2=='l' and f1=='h') or (f1=='l' and f2=='h'):
-                        bandera = bandera + 1
-                    if (f2=='l' and f1=='c') or (f1=='l' and f2=='c'):
-                        bandera = bandera + 1
-                    if (f2=='m' and f1=='h') or (f1=='m' and f2=='h'):
-                        bandera = bandera + 1
-                    if (f2=='m' and f1=='c') or (f1=='m' and f2=='c'):
-                        bandera = bandera + 1
-                    if (f2=='h' and f1=='c') or (f1=='h' and f2=='c'):
-                        bandera = bandera + 1
-                    if (f2=='e' and f1=='lp') or (f1=='e' and f2=='lp'): # restringe recurso LHD
-                        bandera = bandera + 1
-                    if (f2=='sc' and f1=='mg') or (f1=='sc' and f2=='mg'): # restringe recurso topografo
-                        bandera = bandera + 1
-                    if (f2=='sc' and f1=='mt') or (f1=='sc' and f2=='mt'):
-                        bandera = bandera + 1
-                    if (f2=='mg' and f1=='mt') or (f1=='mg' and f2=='mt'):
-                        bandera = bandera + 1
-                    if (f2=='shf' and f1=='sh') or (f1=='shf' and f2=='sh'): # restringe recurso roboshot
-                        bandera = bandera + 1
-                    if (f2=='pp' and f1=='pa') or (f1=='pp' and f2=='pa'): # restringe recurso jumbo
-                        bandera = bandera + 1
-
-                if f2=='-' and f1=='-':
-                    bandera = bandera
-                if f2=='q' and f1=='q':
-                    bandera = bandera
-                if f2==f1 and f2!='-':
-                    bandera = bandera + 1
-                contador2 = contador2 + 1
-            if (bandera==0):
-                l2[i+1].append(f2)
-            if (bandera>0):
-                l2[i+1].append('-')
-                contador = contador + 1
-
-                    
-                    
-    # imprimir matiz recursos
-
-    print("ASIGNACION DE RECURSOS auxiliar")
-    print("[ ID - TAM - EST -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-    
-    for i in range(totalfrentes):
-        print(l2[i],len(l2[i]))
-
-
-    def ventanamatriz():
-        win4 = Tk()
-        win4.geometry('1080x200')
-        frame = Frame(win4)
-        frame.pack()
-        extra = ['id','tam','est','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
-        for uwu in range(0,27):
-            j = Entry(frame,width=5)
-            j.grid(row = 0, column = uwu)
-            j.insert(END,extra[uwu])
-
-
-        for f in range(0,len(l2)):
-                    for j in range(0,len(l2[f])):
-                            x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j)
-                            x.insert(END,l2[f][j])
+        
 
 
     def insertarestadofrentesbd():
@@ -1488,9 +1356,6 @@ def ingresomain(rut):
 
     insertarestadofrentes = Button(framemain,text='INPUT ESTADO FRENTES',command=insertarestadofrentesbd)
     insertarestadofrentes.grid(row='11',column="1")
-
-    vermatriz = Button(framemain,text='VER MATRIZ ',command=ventanamatriz)
-    vermatriz.grid(row='12',column="1")
 
 
 def botoningresar():
