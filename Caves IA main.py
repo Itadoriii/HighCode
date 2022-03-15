@@ -1277,6 +1277,7 @@ def ingresomain(rut):
                             indite = k
                     #es tronadura, ciclo terminado
                     if (k+posi>=51):
+                        #restringe q a la ultima posicion
                         if (lr[i][2] != 'q'):
                             num = reco-indite
                             while (num>0):
@@ -1298,14 +1299,126 @@ def ingresomain(rut):
             l1[i].append('-')                    
 
 
-    # imprimir matiz
+    # imprimir matriz 1 (ordenamiento)
 
     print("[ ID - TAM - EST - CIC -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
     for i in range(totalfrentes):
         print(lr[i],l1[i],len(l1[i]))
 
-        
+
+    # Restricciones 
+
+    # longitud actividades no parciales
+
+    lshf = 1
+    lsh = 2
+    lc = 3
+    lq = 1
+
+    # guarda espacios segun defina usuario
+
+    l2 = []
+
+    for i in range(totalfrentes):
+        l2.append([])
+        for j in range(bloquei):
+            l2[i].append('-')
+
+    # llena 1er frente y asigna almuerzo (restringiendo actividades no parciales)
+
+    x = 0
+    cont = 0 
+    recualmu = 0
+    for i in range(1):
+        longi = 1
+        conti = 1
+        for j in range(bloquei,bloquet-1):
+            aux = l1[i][j-cont] 
+            if (aux=='shf'): # restriccion actividad parcial
+                if (longi>0):
+                    longi = lshf - conti
+                    if (longi+j<bloquet-1):
+                        l2[i].append(aux)
+                        conti = conti + 1
+                    else:
+                        l2[i].append('-')
+                        print ("NO CAYO LA ACTIVIDAD", aux)
+                if (longi==0):
+                    longi = 1
+            if (aux=='sh'): # restriccion actividad parcial
+                if (longi>0):
+                    longi = lsh - conti
+                    if (longi+j<bloquet-1):
+                        l2[i].append(aux)
+                        conti = conti + 1
+                    else:
+                        l2[i].append('-')
+                        print ("NO CAYO LA ACTIVIDAD", aux)
+                if (longi==0):
+                    longi = 1
+            if (aux=='c'): # restriccion actividad parcial
+                if (longi>0):
+                    longi = lc - conti
+                    if (longi+j<bloquet-1):
+                        l2[i].append(aux)
+                        conti = conti + 1
+                    else:
+                        l2[i].append('-')
+                        print ("NO CAYO LA ACTIVIDAD", aux)
+                if (longi==0):
+                    longi = 1
+            if (aux=='q'): # restriccion actividad parcial
+                if (longi>0):
+                    longi = lq - conti
+                    if (longi+j<bloquet-1):
+                        l2[i].append(aux)
+                        conti = conti + 1
+                    else:
+                        l2[i].append('-')
+                        print ("NO CAYO LA ACTIVIDAD", aux)
+                if (longi==0):
+                    longi = 1
+            if (aux!='shf' and aux!='sh' and aux!='c' and aux!='q'):
+                if(aux!='-'):
+                    aux2 = aux
+                if (j==10 and x==0):
+                    if(aux=='-'):
+                        l2[i].append('A')
+                        l2[i].append('A')
+                        x = 1
+                        recualmu = aux2
+                    if(aux!='-'):
+                        l2[i].append('A')
+                        l2[i].append('A')
+                        recualmu = aux
+                        x = 1
+                        cont = cont + 1
+                else:
+                        l2[i].append(aux)
+
+    # llena demas frentes y compara resticciones
+
+    
+
+           
+
+
+    #llena la memoria de las listas a los 24 espacios 
+
+    for i in range(totalfrentes):
+        aux= len(l2[i])
+        for j in range(aux,24):
+            l2[i].append('-')     
+
+    # imprimir matiz 2 (restricciones)
+
+    print("[ ID - TAM - EST - CIC -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    
+    for i in range(totalfrentes):
+        print(lr[i],l2[i],len(l2[i]))
+
+    print(recualmu)
 
 
     def insertarestadofrentesbd():
