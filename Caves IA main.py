@@ -25,12 +25,12 @@ import numpy as np
 
 operaciones = [ 
         ['rm','regado_marina','cuadrilla',1,1,1,'marina',0,'si'],
-        ['e','extraccion_marina','lhd',3,3,4,'marina',1,'si'],
+        ['e','extraccion_marina','LHD',3,3,4,'marina',1,'si'],
         ['ac','acunadura','acunador',1,1,1,'marina',1,'si'],
-        ['lp','limpieza_pata','acunador',1,1,1,'marina',1,'si'],
-        ['sc','escaner','acunador',1,1,1,'-',0,'si'],
-        ['mg','mapeo_geomecanico','acunador',1,1,1,'-',0,'si'],
-        ['shf','shotcrete_fibra','acunador',1,1,1,'-',2,'no'],
+        ['lp','limpieza_pata','LHD',1,1,1,'marina',1,'si'],
+        ['sc','escaner','topografo',1,1,1,'-',0,'si'],
+        ['mg','mapeo_geomecanico','topografo',1,1,1,'-',0,'si'],
+        ['shf','shotcrete_fibra','roboshot',1,1,1,'-',2,'no'],
         ['pp','perforacion_pernos','jumbo',3,4,5,'mineria',0,'si'],
         ['l','lechado_pernos','cuadrilla',3,4,5,'mineria',2,'si'],
         ['m','instalacion_malla','cuadrilla',3,4,5,'mineria',0,'si'],
@@ -1779,10 +1779,10 @@ def ingresomain(rut):
 
                                 for y in range(cicloclasic): 
                                     if(f1==operaciones[y][0]):
-                                        rf1 = operaciones[y][0] # guarda recurso actividad
+                                        rf1 = operaciones[y][2] # guarda recurso actividad
                                 for y in range(larg):
                                     if(f0==operaciones[y][0]):
-                                        rf0 = operaciones[y][0] # guarda recurso actividad a comparar
+                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
 
                                 if(rf1==rf0): # si usan el mismo recurso
                                     bandera = bandera + 1
@@ -1926,10 +1926,10 @@ def ingresomain(rut):
 
                                             for y in range(cicloclasic): 
                                                 if(f1==operaciones[y][0]):
-                                                    rf1 = operaciones[y][0] # guarda recurso actividad
+                                                    rf1 = operaciones[y][2] # guarda recurso actividad
                                             for y in range(larg):
                                                 if(f0==operaciones[y][0]):
-                                                    rf0 = operaciones[y][0] # guarda recurso actividad a comparar
+                                                    rf0 = operaciones[y][2] # guarda recurso actividad a comparar
 
                                             if(rf1==rf0): # si usan el mismo recurso
                                                 bandera = bandera + 1
@@ -2177,10 +2177,10 @@ def ingresomain(rut):
 
                                         for y in range(cicloclasic): 
                                             if(f1==operaciones[y][0]):
-                                                rf1 = operaciones[y][0] # guarda recurso actividad
+                                                rf1 = operaciones[y][2] # guarda recurso actividad
                                         for y in range(larg):
                                             if(f0==operaciones[y][0]):
-                                                rf0 = operaciones[y][0] # guarda recurso actividad a comparar
+                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
 
                                         if(rf1==rf0): # si usan el mismo recurso
                                             bandera = bandera + 1
@@ -2325,10 +2325,10 @@ def ingresomain(rut):
 
                                                     for y in range(cicloclasic): 
                                                         if(f1==operaciones[y][0]):
-                                                            rf1 = operaciones[y][0] # guarda recurso actividad
+                                                            rf1 = operaciones[y][2] # guarda recurso actividad
                                                     for y in range(larg):
                                                         if(f0==operaciones[y][0]):
-                                                            rf0 = operaciones[y][0] # guarda recurso actividad a comparar
+                                                            rf0 = operaciones[y][2] # guarda recurso actividad a comparar
 
                                                     if(rf1==rf0): # si usan el mismo recurso
                                                         bandera = bandera + 1
