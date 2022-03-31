@@ -676,7 +676,7 @@ def ingresomain(rut):
         tamaño = len(ides1)
         print(tamaño)
         for i in range(tamaño):
-            busqueda = niveles[i]
+            busqueda = niveles1[i]
             if(busqueda=='HD'):
                 ordenHD.append(ides1[i])
                 opHD.append(operaciones1[i])
