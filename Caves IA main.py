@@ -24,7 +24,7 @@ import numpy as np
 # memoria ciclos
 
 operaciones = [ 
-        ['rm','regado_marina','cuadrilla',1,1,1,'marina',0,'si'],
+        ['rm','regado_marina','jefe_turno',1,1,1,'marina',0,'si'],
         ['e','extraccion_marina','LHD',3,3,4,'marina',1,'si'],
         ['ac','acunadura','acunador',1,1,1,'marina',1,'si'],
         ['lp','limpieza_pata','LHD',1,1,1,'marina',1,'si'],
@@ -1690,6 +1690,7 @@ def ingresomain(rut):
     rf1 = 0
 
     for i in range(1,totalfrentes):
+        print("esto pasa en i = ",i)
 
         limit = bloquei 
         contador = 0 
@@ -1745,6 +1746,7 @@ def ingresomain(rut):
 
                 if (parcial=='si'): #parcial
 
+
                     auxdu = esav
                     contav = 0
 
@@ -1766,35 +1768,34 @@ def ingresomain(rut):
                                 break
 
                             f0 = l1[aux][limit]
+                            print ("F1 = ",f1," F0 = ",f0)
+                            print ("limite = ",limit)
 
                             if(f1!=f0): # si no son iguales
 
                                 if(f0=='-'):
                                     bandera = bandera
-                                    break
 
                                 if(f0=='A'):
                                     bandera = bandera
-                                    break
 
-                                for y in range(cicloclasic): 
-                                    if(f1==operaciones[y][0]):
-                                        rf1 = operaciones[y][2] # guarda recurso actividad
-                                for y in range(larg):
-                                    if(f0==operaciones[y][0]):
-                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                if(rf1==rf0): # si usan el mismo recurso
+                                    for y in range(cicloclasic): 
+                                        if(f1==operaciones[y][0]):
+                                            rf1 = operaciones[y][2] # guarda recurso actividad
+                                    for y in range(larg):
+                                        if(f0==operaciones[y][0]):
+                                            rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+
+                                    print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+
+                                    if(rf1==rf0): # si usan el mismo recurso
+                                        bandera = bandera + 1
+
+                            if(f1!='-' and f1!='q'): # salvedad guion y q
+                                if f1==f0: # si son iguales
                                     bandera = bandera + 1
-
-                            if f1=='-' and f0=='-': # excepcion de igualdad de guion
-                                bandera = bandera
-
-                            if f1=='q' and f0=='q': # excepcion de igualdad de tronadura
-                                bandera = bandera
-
-                            if f1==f0 and f1!='-': # si son iguales
-                                bandera = bandera + 1
                             
                             aux = aux - 1
 
@@ -1803,18 +1804,10 @@ def ingresomain(rut):
                             break
 
                         else: # guarda en la matriz
-                            if (bandera==0):
-                                l1[i].append(f1)
-                                limit = limit + 1
-                                auxdu = auxdu + 1
-                                contav = contav + 1
-                                auxalmu = f1
-
-                            if (bandera>0):
-                                l1[i].append('-') 
-                                limit = limit + 1
 
                             #guarda almuerzo
+
+                            auxalmu = f1
      
                             if (almuerzo==1): #tipo 1
                                 if(limit==13):
@@ -1867,6 +1860,18 @@ def ingresomain(rut):
                                         l1[i].append('A')
                                         limit = limit + 2
 
+                            if (bandera==0):
+                                l1[i].append(f1)
+                                limit = limit + 1
+                                auxdu = auxdu + 1
+                                contav = contav + 1
+
+                            if (bandera>0):
+                                l1[i].append('-') 
+                                limit = limit + 1
+
+                            
+
                     if(auxdu==duracion):
                         
                         #estado_avance = 0  where id_frente = lr[i][0] 
@@ -1913,35 +1918,34 @@ def ingresomain(rut):
                                             break
 
                                         f0 = l1[aux][contadoraux]
+                                        print ("F1 = ",f1," F0 = ",f0)
+                                        print ("limite = ",limit)
 
                                         if(f1!=f0): # si no son iguales
 
                                             if(f0=='-'):
                                                 bandera = bandera
-                                                break
 
                                             if(f0=='A'):
                                                 bandera = bandera
-                                                break
+                                            
+                                            if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                            for y in range(cicloclasic): 
-                                                if(f1==operaciones[y][0]):
-                                                    rf1 = operaciones[y][2] # guarda recurso actividad
-                                            for y in range(larg):
-                                                if(f0==operaciones[y][0]):
-                                                    rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                for y in range(cicloclasic): 
+                                                    if(f1==operaciones[y][0]):
+                                                        rf1 = operaciones[y][2] # guarda recurso actividad
+                                                for y in range(larg):
+                                                    if(f0==operaciones[y][0]):
+                                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                
+                                                print("recurso F1 =", rf1, "recurso F0 = ", rf0)
 
-                                            if(rf1==rf0): # si usan el mismo recurso
+                                                if(rf1==rf0): # si usan el mismo recurso
+                                                    bandera = bandera + 1
+
+                                        if(f1!='-' and f1!='q'): # salvedad guion y q
+                                            if f1==f0 and f1!='-': # si son iguales
                                                 bandera = bandera + 1
-
-                                        if f1=='-' and f0=='-': # excepcion de igualdad de guion
-                                            bandera = bandera
-
-                                        if f1=='q' and f0=='q': # excepcion de igualdad de tronadura
-                                            bandera = bandera
-
-                                        if f1==f0 and f1!='-': # si son iguales
-                                            bandera = bandera + 1
                                         
                                         aux = aux - 1
 
@@ -1953,23 +1957,11 @@ def ingresomain(rut):
                                     x = 1
                                     break
 
-                                else:
-
-                                    if (bandera==0):
-                                        cont = 0
-                                        while(cont<duracion):
-                                                l1[i].append(f1)
-                                                limit = limit + 1
-                                                cont = cont + 1
-                                                auxalmu = f1
-                                        if(cont==duracion):
-                                            x = 1
-
-                                    if (bandera>0):
-                                        l1[i].append('-')
-                                        limit = limit + 1
+                                else: # guarda en la matriz
 
                                     #guarda almuerzo
+
+                                    auxalmu = f1
      
                                     if (almuerzo==1): #tipo 1
                                         if(limit==13):
@@ -2021,6 +2013,32 @@ def ingresomain(rut):
                                                 l1[i].append('A')
                                                 l1[i].append('A')
                                                 limit = limit + 2
+
+                                    if (bandera==0):
+                                        cont = 0
+                                        while(cont<duracion):
+                                                l1[i].append(f1)
+                                                limit = limit + 1
+                                                cont = cont + 1
+                                        if(cont==duracion):
+                                            x = 1
+
+                                    if (bandera>0):
+                                        l1[i].append('-')
+                                        limit = limit + 1
+
+
+                                if(auxdu==duracion):
+                                    
+                                    #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                    if(pausa>0):
+                                        auxpa = 0
+                                        while (auxpa<pausa):
+                                            if(limit<bloquet): # restriccion fin del turno
+                                                l1[i].append('-')
+                                                limit = limit + 1
+                                            auxpa = auxpa + 1
                     
                     if(limit+duracion>=bloquet):
     
@@ -2163,36 +2181,35 @@ def ingresomain(rut):
                                         aux = aux - 1
                                         break
 
-                                    f0 = l1[aux][limit]  
+                                    f0 = l1[aux][limit]
+                                    print ("F1 = ",f1," F0 = ",f0)
+                                    print ("limite = ",limit)
 
                                     if(f1!=f0): # si no son iguales
 
                                         if(f0=='-'):
                                             bandera = bandera
-                                            break
 
                                         if(f0=='A'):
                                             bandera = bandera
-                                            break
 
-                                        for y in range(cicloclasic): 
-                                            if(f1==operaciones[y][0]):
-                                                rf1 = operaciones[y][2] # guarda recurso actividad
-                                        for y in range(larg):
-                                            if(f0==operaciones[y][0]):
-                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                        if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                        if(rf1==rf0): # si usan el mismo recurso
+                                            for y in range(cicloclasic): 
+                                                if(f1==operaciones[y][0]):
+                                                    rf1 = operaciones[y][2] # guarda recurso actividad
+                                            for y in range(larg):
+                                                if(f0==operaciones[y][0]):
+                                                    rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                            
+                                            print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+
+                                            if(rf1==rf0): # si usan el mismo recurso
+                                                    bandera = bandera + 1
+
+                                    if(f1!='-' and f1!='q'): # salvedad guion y q
+                                        if f1==f0: # si son iguales
                                             bandera = bandera + 1
-
-                                    if f1=='-' and f0=='-': # excepcion de igualdad de guion
-                                        bandera = bandera
-
-                                    if f1=='q' and f0=='q': # excepcion de igualdad de tronadura
-                                        bandera = bandera
-
-                                    if f1==f0 and f1!='-': # si son iguales
-                                        bandera = bandera + 1
                                     
                                     aux = aux - 1
 
@@ -2202,18 +2219,9 @@ def ingresomain(rut):
 
                                 else: # guarda en la matriz
 
-                                    if (bandera==0):
-                                        l1[i].append(f1)
-                                        limit = limit + 1
-                                        auxdu = auxdu + 1
-                                        contav = contav + 1
-                                        auxalmu = f1
-
-                                    if (bandera>0):
-                                        l1[i].append('-')
-                                        limit = limit + 1
-
                                     #guarda almuerzo
+
+                                    auxalmu = f1
      
                                     if (almuerzo==1): #tipo 1
                                         if(limit==13):
@@ -2266,6 +2274,16 @@ def ingresomain(rut):
                                                 l1[i].append('A')
                                                 limit = limit + 2
 
+                                    if (bandera==0):
+                                        l1[i].append(f1)
+                                        limit = limit + 1
+                                        auxdu = auxdu + 1
+                                        contav = contav + 1
+
+                                    if (bandera>0):
+                                        l1[i].append('-')
+                                        limit = limit + 1
+
                             if(auxdu==duracion):
                                 
                                 #estado_avance = 0  where id_frente = lr[i][0] 
@@ -2312,35 +2330,34 @@ def ingresomain(rut):
                                                     break
 
                                                 f0 = l1[aux][contadoraux]
+                                                print ("F1 = ",f1," F0 = ",f0)
+                                                print ("limite = ",limit)
 
                                                 if(f1!=f0): # si no son iguales
 
                                                     if(f0=='-'):
                                                         bandera = bandera
-                                                        break
 
                                                     if(f0=='A'):
                                                         bandera = bandera
-                                                        break
 
-                                                    for y in range(cicloclasic): 
-                                                        if(f1==operaciones[y][0]):
-                                                            rf1 = operaciones[y][2] # guarda recurso actividad
-                                                    for y in range(larg):
-                                                        if(f0==operaciones[y][0]):
-                                                            rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                    if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                                    if(rf1==rf0): # si usan el mismo recurso
+                                                        for y in range(cicloclasic): 
+                                                            if(f1==operaciones[y][0]):
+                                                                rf1 = operaciones[y][2] # guarda recurso actividad
+                                                        for y in range(larg):
+                                                            if(f0==operaciones[y][0]):
+                                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                        
+                                                        print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+
+                                                        if(rf1==rf0): # si usan el mismo recurso
+                                                            bandera = bandera + 1
+
+                                                if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                    if f1==f0 and f1!='-': # si son iguales
                                                         bandera = bandera + 1
-
-                                                if f1=='-' and f0=='-': # excepcion de igualdad de guion
-                                                    bandera = bandera
-
-                                                if f1=='q' and f0=='q': # excepcion de igualdad de tronadura
-                                                    bandera = bandera
-
-                                                if f1==f0 and f1!='-': # si son iguales
-                                                    bandera = bandera + 1
                                                 
                                                 aux = aux - 1
 
@@ -2352,23 +2369,11 @@ def ingresomain(rut):
                                             x = 1
                                             break
 
-                                        else:
-
-                                            if (bandera==0):
-                                                cont = 0
-                                                while(cont<duracion):
-                                                        l1[i].append(f1)
-                                                        limit = limit + 1
-                                                        cont = cont + 1
-                                                        auxalmu = f1
-                                                if(cont==duracion):
-                                                    x = 1
-
-                                            if (bandera>0):
-                                                l1[i].append('-')
-                                                limit = limit + 1
+                                        else: # guarda en la matriz
 
                                             #guarda almuerzo
+
+                                            auxalmu = f1
      
                                             if (almuerzo==1): #tipo 1
                                                 if(limit==13):
@@ -2420,6 +2425,31 @@ def ingresomain(rut):
                                                         l1[i].append('A')
                                                         l1[i].append('A')
                                                         limit = limit + 2
+
+                                            if (bandera==0):
+                                                cont = 0
+                                                while(cont<duracion):
+                                                        l1[i].append(f1)
+                                                        limit = limit + 1
+                                                        cont = cont + 1
+                                                if(cont==duracion):
+                                                    x = 1
+
+                                            if (bandera>0):
+                                                l1[i].append('-')
+                                                limit = limit + 1
+
+                                        if(auxdu==duracion):
+                                    
+                                            #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                            if(pausa>0):
+                                                auxpa = 0
+                                                while (auxpa<pausa):
+                                                    if(limit<bloquet): # restriccion fin del turno
+                                                        l1[i].append('-')
+                                                        limit = limit + 1
+                                                    auxpa = auxpa + 1
                             
                             if(limit+duracion>=bloquet):
             
