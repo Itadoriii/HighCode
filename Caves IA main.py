@@ -43,22 +43,22 @@ ciclominero1 = ['regado_marina','extraccion_marina','acuñadura','limpieza_pata'
 # memoria ciclos
 
 operaciones = [ 
-        ['rm','regado_marina','jefe_turno',1,1,1,'marina',0,'si'],
-        ['e','extraccion_marina','LHD',3,3,4,'marina',1,'si'],
-        ['ac','acunadura','acunador',1,1,1,'marina',1,'si'],
-        ['lp','limpieza_pata','LHD',1,1,1,'marina',1,'si'],
-        ['sc','escaner','topografo',1,1,1,'-',0,'si'],
-        ['mg','mapeo_geomecanico','topografo',1,1,1,'-',0,'si'],
-        ['shf','shotcrete_fibra','roboshot',1,1,1,'-',2,'no'],
-        ['pp','perforacion_pernos','jumbo',3,4,5,'mineria',0,'si'],
-        ['l','lechado_pernos','cuadrilla',3,4,5,'mineria',2,'si'],
-        ['m','instalacion_malla','cuadrilla',3,4,5,'mineria',0,'si'],
-        ['h','hilteo_malla','cuadrilla',3,4,5,'mineria',0,'si'],
-        ['sh','proyeccion_shotcrete','roboshot',2,2,2,'mineria',2,'no'],
-        ['mt','marcacion_topografica','topografo',1,1,1,'mineria',0,'si'],
-        ['pa','perforacion_avance','jumbo',3,4,5,'mineria',0,'si'],
-        ['c','carguio_explosivos','cuadrilla',3,3,3,'mineria',0,'no'],
-        ['q','tronadura','-',1,1,1,'mineria',0,'no'],
+        ['rm','regado_marina','jefe_turno',1,1,1,'marina',0,'si','-'],
+        ['e','extraccion_marina','LHD',3,3,4,'marina',1,'si','*e'],
+        ['ac','acunadura','acunador',1,1,1,'marina',1,'si','*ac'],
+        ['lp','limpieza_pata','LHD',1,1,1,'marina',1,'si','*lp'],
+        ['sc','escaner','topografo',1,1,1,'-',0,'si','-'],
+        ['mg','mapeo_geomecanico','topografo',1,1,1,'-',0,'si','-'],
+        ['shf','shotcrete_fibra','roboshot',1,1,1,'-',2,'no','*shf'],
+        ['pp','perforacion_pernos','jumbo',3,4,5,'mineria',0,'si','-'],
+        ['l','lechado_pernos','cuadrilla',3,4,5,'mineria',2,'si','*l'],
+        ['m','instalacion_malla','cuadrilla',3,4,5,'mineria',0,'si','-'],
+        ['h','hilteo_malla','cuadrilla',3,4,5,'mineria',0,'si','-'],
+        ['sh','proyeccion_shotcrete','roboshot',2,2,2,'mineria',2,'no','*sh'],
+        ['mt','marcacion_topografica','topografo',1,1,1,'mineria',0,'si','-'],
+        ['pa','perforacion_avance','jumbo',3,4,5,'mineria',0,'si','-'],
+        ['c','carguio_explosivos','cuadrilla',3,3,3,'mineria',0,'no','-'],
+        ['q','tronadura','-',1,1,1,'mineria',0,'no','-'],
     ]
 ciclos = [ 
     ['p-m-sh','1',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
@@ -1012,7 +1012,7 @@ def ingresomain(rut):
         bnINY.grid(row='2',column='1')
         bnEXT.grid(row='3',column='0')
         bnTI.grid(row='3',column='1')
-    
+
     
     verestadofrentes = Button(framemain,text='VER ESTADO FRENTES',command=verfrentes,width='28')
     verestadofrentes.grid(row='0',column="0")
@@ -1020,6 +1020,7 @@ def ingresomain(rut):
     ingresarfrentes.grid(row='1',column='0')
     generarinforme = Button(framemain,text='GENERAR REPORTE',width='28')
     generarinforme.grid(row = '2',column= '0')
+
 
 #old 
     def verfrentesrut():
@@ -1840,25 +1841,6 @@ def ingresomain(rut):
                             pausa = int(operaciones[l][7])
                             parcial = operaciones[l][8]
 
-                #guarda el almuerzo
-
-                f1 = ciclos[fortycic][2][po-contador]
-
-                if(f1!='-'):
-                    aux2 = f1
-
-                if(limit==9):
-                        if(f1=='-'):
-                            l1[i].append('A')
-                            l1[i].append('A')
-                            limit = limit + 2
-                            recualmu = aux2
-                        if(f1!='-'):
-                            l1[i].append('A')
-                            l1[i].append('A')
-                            limit = limit + 2
-                            recualmu = f1
-
                 # repetidor para cantidad de bloques por actividad
 
                 if (parcial=='si'): #parcial
@@ -1866,16 +1848,26 @@ def ingresomain(rut):
                     auxdu = esav
                     contav = 0
 
+                    f1 = ciclos[fortycic][2][po-contador]
+                    
                     while(auxdu<duracion):
-
-                        f1 = ciclos[fortycic][2][po-contador]
 
                         if(limit<bloquet): # restriccion fin del turno
 
-                            l1[i].append(f1)
-                            limit = limit + 1
-                            contav = contav + 1
-                            auxdu = auxdu + 1
+                            if(limit==9):
+                                l1[i].append('A')
+                                l1[i].append('A')
+                                limit = limit + 2
+                                recualmu = f1
+                            
+                            else:
+                                l1[i].append(f1)
+                                limit = limit + 1
+                                contav = contav + 1
+                                auxdu = auxdu + 1
+
+                                # guardar contav (nuevo estado_avance)
+
                         else:
                             auxdu = auxdu + 1
 
@@ -1886,10 +1878,22 @@ def ingresomain(rut):
                         if(pausa>0):
                             auxpa = 0
                             while (auxpa<pausa):
+
                                 if(limit<bloquet): # restriccion fin del turno
-                                    l1[i].append('-')
-                                    limit = limit + 1
-                                auxpa = auxpa + 1
+
+                                    if(limit==9):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                        recualmu = f1
+
+                                    else:
+                                        l1[i].append('-')
+                                        limit = limit + 1
+                                        auxpa = auxpa + 1
+
+                                else:
+                                    auxpa = auxpa + 1
                     
                     # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
@@ -1898,69 +1902,79 @@ def ingresomain(rut):
                     auxdu = esav
                     contav = 0
 
-                    if(limit+duracion<bloquet):
+                    f1 = ciclos[fortycic][2][po-contador]
 
-                        f1 = ciclos[fortycic][2][po-contador]
+                    if(limit==9):
+                        l1[i].append('A')
+                        l1[i].append('A')
+                        limit = limit + 2
+                        recualmu = f1
 
-                        if(f1!='q'): # no es q (restriccion q a la ultima posicion)
-                            
-                            while(auxdu<duracion):
+                    else:
 
-                                if(limit<bloquet): # restriccion fin del turno
-                                    l1[i].append(f1)
-                                    limit = limit + 1
-                                    contav = contav + 1
-                                    auxdu = auxdu + 1
-                                else:
-                                    auxdu = auxdu + 1
+                        if(limit+duracion<bloquet):
 
-                            if(auxdu==duracion):
+                            f1 = ciclos[fortycic][2][po-contador]
 
-                                #estado_avance = 0  where id_frente = lr[i][0] 
+                            if(f1!='q'): # no es q (restriccion q a la ultima posicion)
+                                
+                                while(auxdu<duracion):
 
-                                if(pausa>0):
-                                    auxpa = 0
-                                    while (auxpa<pausa):
-                                        if(limit<bloquet): # restriccion fin del turno
-                                            l1[i].append('-')
-                                            limit = limit + 1
-                                        auxpa = auxpa + 1
+                                    if(limit<bloquet): # restriccion fin del turno
+                                                
+                                        l1[i].append(f1)
+                                        limit = limit + 1
+                                        contav = contav + 1
+                                        auxdu = auxdu + 1
+
+                                    else:
+                                        auxdu = auxdu + 1
+
+
+                                if(auxdu==duracion):
+
+                                    #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                    if(pausa>0):
+                                        auxpa = 0
+                                        while (auxpa<pausa):
+                                            if(limit<bloquet): # restriccion fin del turno
+                                                if(limit==9):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                                    recualmu = f1
+
+                                                else:
+                                                    l1[i].append('-')
+                                                    limit = limit + 1
+                                                    auxpa = auxpa + 1
+                                            else:
+                                                auxpa = auxpa + 1
 
                             # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
-                        if(f1=='q'):
-                            indite = len(l1[i])
-
+                            if(f1=='q'):
+                                indite = len(l1[i])
                     
-                    if(limit+duracion>=bloquet):
+                        if(limit+duracion>=bloquet):
 
-                        if(limit<bloquet): # restriccion fin del turno
-                            l1[i].append('-')
-                            limit = limit + 1
-                            contador = contador + 1
+                            if(limit<bloquet): # restriccion fin del turno
+
+                                if(limit==9):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                                    recualmu = f1
+
+                                else:
+                                    l1[i].append('-')
+                                    limit = limit + 1
+                                    contador = contador + 1
             
             if(k+posi>=larg):
 
                 if(lr[i][2]!='q'):
-
-                    #guarda el almuerzo
-
-                    f1 = ciclos[fortycic][2][po-contador]
-
-                    if(f1!='-'):
-                        aux2 = f1
-
-                    if(limit==9):
-                            if(f1=='-'):
-                                l1[i].append('A')
-                                l1[i].append('A')
-                                limit = limit + 2
-                                recualmu = aux2
-                            if(f1!='-'):
-                                l1[i].append('A')
-                                l1[i].append('A')
-                                limit = limit + 2
-                                recualmu = f1
 
                     # guarda q al final
 
@@ -1969,12 +1983,25 @@ def ingresomain(rut):
                     while (num>0):
 
                         if(limit<bloquet):
+
                             if (num == 1):
                                 l1[i].append('q')
                                 limit = limit + 1
+
                             if (num !=1):
-                                l1[i].append('-')
-                                limit = limit + 1
+                                #guarda el almuerzo
+
+                                f1 = ciclos[fortycic][2][po-contador]
+
+                                if(limit==9):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                                    recualmu = f1
+
+                                else:
+                                    l1[i].append('-')
+                                    limit = limit + 1
 
                         num = num - 1
                                 
@@ -2014,40 +2041,38 @@ def ingresomain(rut):
 
                         # repetidor para cantidad de bloques por actividad
 
-                        #guarda el almuerzo
-
-                        f1 = ciclos[fortycic][2][po-contador]
-
-                        if(f1!='-'):
-                            aux2 = f1
-
-                        if(limit==9):
-                                if(f1=='-'):
-                                    l1[i].append('A')
-                                    l1[i].append('A')
-                                    limit = limit + 2
-                                    recualmu = aux2
-                                if(f1!='-'):
-                                    l1[i].append('A')
-                                    l1[i].append('A')
-                                    limit = limit + 2
-                                    recualmu = f1
-
                         if (parcial=='si'): #parcial
 
                             auxdu = esav
                             contav = 0
 
-                            while(auxdu<duracion):
+                            f1 = ciclos[fortycic][2][po-contador]
 
-                                f1 = ciclos[fortycic][2][po-contador]
+                            cicloclasic = 15 # ciclo original operaciones
+
+                            for y in range(cicloclasic): 
+                                if(f1==operaciones[y][0]):
+                                    rf1 = operaciones[y][2] # guarda recurso actividad
+                                    ap = operaciones[y][9] # guarda pausa
+                    
+                            while(auxdu<duracion):
 
                                 if(limit<bloquet): # restriccion fin del turno
 
-                                    l1[i].append(f1)
-                                    limit = limit + 1
-                                    contav = contav + 1
-                                    auxdu = auxdu + 1
+                                    if(limit==9):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                        recualmu = f1
+                                    
+                                    else:
+                                        l1[i].append(f1)
+                                        limit = limit + 1
+                                        contav = contav + 1
+                                        auxdu = auxdu + 1
+
+                                        # guardar contav (nuevo estado_avance)
+
                                 else:
                                     auxdu = auxdu + 1
 
@@ -2058,11 +2083,23 @@ def ingresomain(rut):
                                 if(pausa>0):
                                     auxpa = 0
                                     while (auxpa<pausa):
-                                        if(limit<bloquet): # restriccion fin del turno
-                                            l1[i].append('-')
-                                            limit = limit + 1
-                                        auxpa = auxpa + 1
 
+                                        if(limit<bloquet): # restriccion fin del turno
+
+                                            if(limit==9):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                recualmu = f1
+
+                                            else:
+                                                l1[i].append(ap)
+                                                limit = limit + 1
+                                                auxpa = auxpa + 1
+                                        
+                                        else:
+                                            auxpa = auxpa + 1
+                                        
                             # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
                         if (parcial=='no'): #no parcial
@@ -2070,60 +2107,61 @@ def ingresomain(rut):
                             auxdu = esav
                             contav = 0
 
-                            if(limit+duracion<bloquet):
+                            if(limit==9):
+                                l1[i].append('A')
+                                l1[i].append('A')
+                                limit = limit + 2
+                                recualmu = f1
 
-                                f1 = ciclos[fortycic][2][po-contador]
+                            else:
 
-                                if(f1!='q'): # no es q (restriccion q a la ultima posicion)
-                                    
-                                    while(auxdu<duracion):
+                                if(limit+duracion<bloquet):
 
-                                        if(limit<bloquet): # restriccion fin del turno
-                                            l1[i].append(f1)
-                                            limit = limit + 1
-                                            contav = contav + 1
-                                            auxdu = auxdu + 1
-                                        else:
-                                            auxdu = auxdu + 1
+                                    f1 = ciclos[fortycic][2][po-contador]
 
-                                    if(auxdu==duracion):
+                                    if(f1!='q'): # no es q (restriccion q a la ultima posicion)
+                                        
+                                        while(auxdu<duracion):
 
-                                        #estado_avance = 0  where id_frente = lr[i][0] 
+                                            if(limit<bloquet): # restriccion fin del turno
 
-                                        if(pausa>0):
-                                            auxpa = 0
-                                            while (auxpa<pausa):
-                                                if(limit<bloquet): # restriccion fin del turno
-                                                    l1[i].append('-')
-                                                    limit = limit + 1
-                                                auxpa = auxpa + 1
-                                    
+                                                l1[i].append(f1)
+                                                limit = limit + 1
+                                                contav = contav + 1
+                                                auxdu = auxdu + 1
+
+                                            else:
+                                                auxdu = auxdu + 1
+
+                                        if(auxdu==duracion):
+
+                                            #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                            if(pausa>0):
+                                                auxpa = 0
+                                                while (auxpa<pausa):
+                                                    if(limit<bloquet): # restriccion fin del turno
+                                                        if(limit==9):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                            recualmu = f1
+
+                                                        else:
+                                                            l1[i].append('-')
+                                                            limit = limit + 1
+                                                            auxpa = auxpa + 1
+                                                    else:
+                                                        auxpa = auxpa + 1
+                                                    
                                     # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
-                                if(f1=='q'):
-                                    indite = len(l1[i])
+                                if(limit+duracion>=bloquet):
 
-                                    num = bloquet - 1 - indite
-
-                                    while (num>0):
-
-                                        if(limit<bloquet):
-                                            if (num == 1):
-                                                l1[i].append('q')
-                                                limit = limit + 1
-                                            if (num !=1):
-                                                l1[i].append('-')
-                                                limit = limit + 1
-
-                                        num = num - 1
-
-                            
-                            if(limit+duracion>=bloquet):
-
-                                if(limit<bloquet): # restriccion fin del turno
-                                    l1[i].append('-')
-                                    limit = limit + 1
-                                    contador = contador + 1
+                                    if(limit<bloquet): # restriccion fin del turno
+                                        l1[i].append('-')
+                                        limit = limit + 1
+                                        contador = contador + 1
 
     # guarda data almuerzo
 
@@ -2204,69 +2242,401 @@ def ingresomain(rut):
 
                 if (parcial=='si'): #parcial
 
-
-                    auxdu = esav
                     contav = 0
 
-                    while(auxdu<duracion):
+                    f1 = ciclos[fortycic][2][po-contador]
 
+                    x = 0
+
+                    while(x==0): # busqueda vertical total
+
+                        #guarda almuerzo
+
+                        auxalmu = f1
+
+                        if (almuerzo==1): #tipo 1
+                            if(limit==13):
+                                if (auxalmu in otros):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==11):
+                                if (auxalmu in jumbos):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==9):
+                                if (auxalmu in cuadrilla):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+
+                        if (almuerzo==2): #tipo 2
+                            if(limit==13):
+                                if (auxalmu in otros):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==11):
+                                if (auxalmu in cuadrilla):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==9):
+                                if (auxalmu in jumbos):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+
+                        if (almuerzo==3): #tipo 3
+                            if(limit==13):
+                                if (auxalmu in jumbos):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==11):
+                                if (auxalmu in cuadrilla):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                            if(limit==9):
+                                if (auxalmu in otros):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+
+                        contadoraux = limit
+                        auxdu = esav
                         bandera = 0
 
-                        f1 = ciclos[fortycic][2][po-contador]
+                        if (i==2):
 
-                        # busqueda vertical
+                            print ("busqueda total")
+                            print("auxdu = ", auxdu)
+                            print("duracion = ", duracion)
 
-                        aux = i-1
+                        while(auxdu<duracion+pausa): # busqueda vertical total
 
-                        while (aux>=0):
+                            # busqueda vertical fila
+                            if (i==2):
+                                print("Busqueda fila")
+                            aux = i-1
 
-                            if(limit>=bloquet) or (aux<0): # restriccion fin del turno
+                            while (aux>=0):
+                                
+                                if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
 
-                                aux = aux - 1 
-                                break
+                                    f0 = l1[aux][contadoraux]
 
-                            f0 = l1[aux][limit]
-                            print ("F1 = ",f1," F0 = ",f0)
-                            print ("limite = ",limit)
+                                    if (i==2):
 
-                            if(f1!=f0): # si no son iguales
-
-                                if(f0=='-'):
-                                    bandera = bandera
-
-                                if(f0=='A'):
-                                    bandera = bandera
-
-                                if (f0!='-') and (f0!='A'): # salvedad guion y A
+                                        print ("aux = ",aux)
+                                        print ("limite = ",limit)
+                                        print ("contadoraux = ", contadoraux)
+                                        print("auxdu = ", auxdu)
+                                        print ("F1 = ",f1," F0 = ",f0)
 
                                     for y in range(cicloclasic): 
                                         if(f1==operaciones[y][0]):
                                             rf1 = operaciones[y][2] # guarda recurso actividad
+                                            ap1 = operaciones[y][9] # guarda actividad pausa
                                     for y in range(larg):
                                         if(f0==operaciones[y][0]):
                                             rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                            ap0 = operaciones[y][9] # guarda actividad pausa
 
-                                    print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+                                        if(f0==operaciones[y][9]) and (f0!='-'):
+                                            rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                            ap0 = operaciones[y][9] # guarda pausa
 
-                                    if(rf1==rf0): # si usan el mismo recurso
-                                        bandera = bandera + 1
+                                    if(f1!=f0): # si no son iguales
 
-                            if(f1!='-' and f1!='q'): # salvedad guion y q
-                                if f1==f0: # si son iguales
-                                    bandera = bandera + 1
-                            
-                            aux = aux - 1
+                                        if(f0=='-'):
+                                            bandera = bandera
 
-                        if(limit>=bloquet): # termino bucle por find de reco
-                            auxdu = duracion
+                                        if(f0=='A'):
+                                            bandera = bandera
+
+                                        if (f0!='-') and (f0!='A'): # salvedad guion y A
+
+                                            if(rf1==rf0): # si usan el mismo recurso
+                                                    bandera = bandera + 1     
+
+                                    if(f1!='-' and f1!='q'): # salvedad guion y q
+                                        if f1==f0: # si son iguales
+                                            if (i==2):
+                                                print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+                                            bandera = bandera + 1
+
+                                    aux = aux - 1
+                                    if (i==2):
+                                        print ("aux = ",aux)
+
+                                else:
+
+                                    aux = aux - 1
+                                    break
+
+                            contadoraux = contadoraux + 1
+                            auxdu = auxdu + 1
+
+                        if(limit>=bloquet): # restriccion fin del turno
+
+                            x = 1
                             break
 
                         else: # guarda en la matriz
+                            if (i==2):
+                                print ("guarda en la matriz - Bandera = ", bandera)
+
+                            if (bandera==0):
+                                cont = 0
+                                while(cont<duracion):
+
+                                    if(limit>=bloquet): # restriccion fin del turno
+
+                                        x = 1
+                                        break
+
+                                    #guarda almuerzo
+
+                                    auxalmu = f1
+    
+                                    if (almuerzo==1): #tipo 1
+                                        if(limit==13):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==11):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==9):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+
+                                    if (almuerzo==2): #tipo 2
+                                        if(limit==13):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==11):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==9):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+
+                                    if (almuerzo==3): #tipo 3
+                                        if(limit==13):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==11):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+                                        if(limit==9):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                                x=0
+                                                duracion = duracion - cont
+                                                break
+
+                                        l1[i].append(f1)
+                                        limit = limit + 1
+                                        cont = cont + 1
+
+                                if(cont==duracion):
+                                    x = 1
+
+                            if (bandera>0):
+
+                                #guarda almuerzo
+
+                                auxalmu = f1
+
+                                if (almuerzo==1): #tipo 1
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==2): #tipo 2
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==3): #tipo 3
+                                    if(limit==13):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                l1[i].append('-')
+                                limit = limit + 1
+
+                        if(auxdu==duracion+pausa) and (bandera == 0):
+                                
+                            #estado_avance = 0  where id_frente = lr[i][0] 
+
+                            if(pausa>0):
+                                auxpa = 0
+                                while (auxpa<pausa):
+                                    if(limit<bloquet): # restriccion fin del turno
+
+                                        #guarda almuerzo
+
+                                        auxalmu = f1
+        
+                                        if (almuerzo==1): #tipo 1
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==2): #tipo 2
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==3): #tipo 3
+                                            if(limit==13):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        l1[i].append(ap1)
+                                        limit = limit + 1
+                                        auxpa = auxpa + 1
+
+                                    else:
+                                        auxpa = auxpa + 1
+                                    
+                        # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD            
+                            
+
+                if (parcial=='no'): #no parcial
+
+                    contav = 0
+
+                    f1 = ciclos[fortycic][2][po-contador]
+
+                    x=0
+
+                    if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
+
+                        while(x==0): # busqueda vertical total
 
                             #guarda almuerzo
 
                             auxalmu = f1
-     
+
                             if (almuerzo==1): #tipo 1
                                 if(limit==13):
                                     if (auxalmu in otros):
@@ -2318,66 +2688,49 @@ def ingresomain(rut):
                                         l1[i].append('A')
                                         limit = limit + 2
 
-                            if (bandera==0):
-                                l1[i].append(f1)
-                                limit = limit + 1
-                                auxdu = auxdu + 1
-                                contav = contav + 1
-
-                            if (bandera>0):
-                                l1[i].append('-') 
-                                limit = limit + 1
-
-                            
-
-                    if(auxdu==duracion):
-                        
-                        #estado_avance = 0  where id_frente = lr[i][0] 
-
-                        if(pausa>0):
-                            auxpa = 0
-                            while (auxpa<pausa):
-                                if(limit<bloquet): # restriccion fin del turno
-                                    l1[i].append('-')
-                                    limit = limit + 1
-                                auxpa = auxpa + 1
-
-                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
-
-                if (parcial=='no'): #no parcial
-
-                    auxdu = esav
-                    contav = 0
-                
-                    if(limit+duracion<bloquet):
-        
-                        f1 = ciclos[fortycic][2][po-contador]
-
-                        if(f1!='q'): # no es q (restriccion q a la ultima posicion)
-
+                            contadoraux = limit
+                            auxdu = esav
                             bandera = 0
-                            x = 0
 
-                            # busqueda vertical no parcial
-                            while(x==0):
+                            if (i==2):
 
-                                contadoraux = limit
+                                print ("busqueda total")
+                                print("auxdu = ", auxdu)
+                                print("duracion = ", duracion)  
 
-                                while(auxdu<duracion):
+                            while(auxdu<duracion+pausa): # busqueda vertical total
 
-                                    # busqueda vertical
-                                    aux = i-1
+                                # busqueda vertical fila
+                                if (i==2):
+                                    print("Busqueda fila")
+                                aux = i-1
 
-                                    while (aux>=0):
-                                        
-                                        if(limit>=bloquet) or (aux<0): # restriccion fin del turno
+                                while (aux>=0):
 
-                                            aux = aux - 1
-                                            break
+                                    if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
 
                                         f0 = l1[aux][contadoraux]
-                                        print ("F1 = ",f1," F0 = ",f0)
-                                        print ("limite = ",limit)
+
+                                        if (i==2):
+
+                                            print ("aux = ",aux)
+                                            print ("limite = ",limit)
+                                            print ("contadoraux = ", contadoraux)
+                                            print("auxdu = ", auxdu)
+                                            print ("F1 = ",f1," F0 = ",f0)
+
+                                        for y in range(cicloclasic): 
+                                            if(f1==operaciones[y][0]):
+                                                rf1 = operaciones[y][2] # guarda recurso actividad
+                                                ap1 = operaciones[y][9] # guarda actividad pausa
+                                        for y in range(larg):
+                                            if(f0==operaciones[y][0]):
+                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                ap0 = operaciones[y][9] # guarda actividad pausa
+
+                                            if(f0==operaciones[y][9]) and (f0!='-'):
+                                                rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                ap0 = operaciones[y][9] # guarda pausa
 
                                         if(f1!=f0): # si no son iguales
 
@@ -2386,121 +2739,193 @@ def ingresomain(rut):
 
                                             if(f0=='A'):
                                                 bandera = bandera
-                                            
+
                                             if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                                for y in range(cicloclasic): 
-                                                    if(f1==operaciones[y][0]):
-                                                        rf1 = operaciones[y][2] # guarda recurso actividad
-                                                for y in range(larg):
-                                                    if(f0==operaciones[y][0]):
-                                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                
-                                                print("recurso F1 =", rf1, "recurso F0 = ", rf0)
-
                                                 if(rf1==rf0): # si usan el mismo recurso
-                                                    bandera = bandera + 1
+                                                        bandera = bandera + 1   
 
                                         if(f1!='-' and f1!='q'): # salvedad guion y q
-                                            if f1==f0 and f1!='-': # si son iguales
+                                            if f1==f0: # si son iguales
+                                                if (i==2):
+                                                    print("recurso F1 =", rf1, "recurso F0 = ", rf0)
                                                 bandera = bandera + 1
                                         
                                         aux = aux - 1
+                                        if (i==2):
+                                            print ("aux = ",aux)
 
-                                    contadoraux = contadoraux + 1
-                                    auxdu = auxdu + 1
+                                    else :
 
-                                if(limit>=bloquet): # restriccion fin del turno
+                                        aux = aux - 1
+                                        break
 
-                                    x = 1
-                                    break
+                                contadoraux = contadoraux + 1
+                                auxdu = auxdu + 1
 
-                                else: # guarda en la matriz
+                            if(limit>=bloquet): # restriccion fin del turno
 
-                                    #guarda almuerzo
+                                x = 1
+                                break
 
-                                    auxalmu = f1
-     
-                                    if (almuerzo==1): #tipo 1
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in jumbos):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in cuadrilla):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
+                            else: # guarda en la matriz
+                                if (i==2):
+                                    print ("guarda en la matriz - Bandera = ", bandera)
 
-                                    if (almuerzo==2): #tipo 2
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in jumbos):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
+                                #guarda almuerzo
 
-                                    if (almuerzo==3): #tipo 3
-                                        if(limit==13):
-                                            if (auxalmu in jumbos):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in otros):
-                                                l1[i].append('A')
-                                                l1[i].append('A')
-                                                limit = limit + 2
+                                auxalmu = f1
 
-                                    if (bandera==0):
-                                        cont = 0
-                                        while(cont<duracion):
-                                                l1[i].append(f1)
-                                                limit = limit + 1
-                                                cont = cont + 1
-                                        if(cont==duracion):
+                                if (almuerzo==1): #tipo 1
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==2): #tipo 2
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==3): #tipo 3
+                                    if(limit==13):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (bandera==0):
+                                    cont = 0
+                                    while(cont<duracion):
+
+                                        if(limit>=bloquet): # restriccion fin del turno
+
                                             x = 1
-
-                                    if (bandera>0):
-                                        l1[i].append('-')
+                                            break
+                                        
+                                        l1[i].append(f1)
                                         limit = limit + 1
-
-
-                                if(auxdu==duracion):
+                                        cont = cont + 1
                                     
-                                    #estado_avance = 0  where id_frente = lr[i][0] 
+                                    if(cont==duracion):
+                                        x = 1
 
-                                    if(pausa>0):
-                                        auxpa = 0
-                                        while (auxpa<pausa):
-                                            if(limit<bloquet): # restriccion fin del turno
-                                                l1[i].append('-')
-                                                limit = limit + 1
+                                if (bandera>0):
+
+                                    l1[i].append('-')
+                                    limit = limit + 1
+
+                            if(auxdu==duracion+pausa) and (bandera == 0):
+
+                                #estado_avance = 0  where id_frente = lr[i][0]
+
+                                if(pausa>0):
+                                    auxpa = 0
+                                    while (auxpa<pausa):
+                                        if(limit<bloquet): # restriccion fin del turno
+
+                                            l1[i].append(ap1)
+                                            limit = limit + 1
                                             auxpa = auxpa + 1
-                    
-                    if(limit+duracion>=bloquet):
+
+                                        else:
+
+                                            axupa = auxpa + 1
+
+                            # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+
+                    if(limit+duracion+pausa>=bloquet):
     
                         if(limit<bloquet): # restriccion fin del turno
+
+                            #guarda almuerzo
+
+                            auxalmu = f1
+
+                            if (almuerzo==1): #tipo 1
+                                if(limit==13):
+                                    if (auxalmu in otros):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==11):
+                                    if (auxalmu in jumbos):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==9):
+                                    if (auxalmu in cuadrilla):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+
+                            if (almuerzo==2): #tipo 2
+                                if(limit==13):
+                                    if (auxalmu in otros):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==11):
+                                    if (auxalmu in cuadrilla):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==9):
+                                    if (auxalmu in jumbos):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+
+                            if (almuerzo==3): #tipo 3
+                                if(limit==13):
+                                    if (auxalmu in jumbos):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==11):
+                                    if (auxalmu in cuadrilla):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                if(limit==9):
+                                    if (auxalmu in otros):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+
                             l1[i].append('-')
                             limit = limit + 1
 
@@ -2516,68 +2941,71 @@ def ingresomain(rut):
 
                     while (num>0):
 
-                        auxalmu= 'c'
-
                         if(limit<bloquet):
+
                             if (num == 1):
                                 l1[i].append('q')
                                 limit = limit + 1
+
                             if (num !=1):
+
+                                #guarda almuerzo
+
+                                auxalmu = 'c'
+
+                                if (almuerzo==1): #tipo 1
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==2): #tipo 2
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==3): #tipo 3
+                                    if(limit==13):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
                                 l1[i].append('-')
                                 limit = limit + 1
-                            
-                            #guarda almuerzo
-     
-                            if (almuerzo==1): #tipo 1
-                                if(limit==13):
-                                    if (auxalmu in otros):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in jumbos):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in cuadrilla):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-
-                            if (almuerzo==2): #tipo 2
-                                if(limit==13):
-                                    if (auxalmu in otros):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in cuadrilla):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in jumbos):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-
-                            if (almuerzo==3): #tipo 3
-                                if(limit==13):
-                                    if (auxalmu in jumbos):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in cuadrilla):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in otros):
-                                        l1[i].append('A')
-                                        l1[i].append('A')
-                                        limit = limit + 2
 
                         num = num - 1
                                 
@@ -2618,69 +3046,402 @@ def ingresomain(rut):
                         # repetidor para cantidad de bloques por actividad
 
                         if (parcial=='si'): #parcial
-
-                            auxdu = esav
+                            
                             contav = 0
+                            
+                            f1 = ciclos[fortycic][2][po-contador]
+                            
+                            x = 0
 
-                            while(auxdu<duracion):
+                            while(x==0): # busqueda vertical total
 
+                                #guarda almuerzo
+
+                                auxalmu = f1
+
+                                if (almuerzo==1): #tipo 1
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==2): #tipo 2
+                                    if(limit==13):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                if (almuerzo==3): #tipo 3
+                                    if(limit==13):
+                                        if (auxalmu in jumbos):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==11):
+                                        if (auxalmu in cuadrilla):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                    if(limit==9):
+                                        if (auxalmu in otros):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+
+                                contadoraux = limit
+                                auxdu = esav
                                 bandera = 0
 
-                                f1 = ciclos[fortycic][2][po-contador]
+                                if (i==2):
 
-                                # busqueda vertical
+                                    print ("busqueda total")
+                                    print("auxdu = ", auxdu)
+                                    print("duracion = ", duracion)
 
-                                aux = i-1
+                                while(auxdu<duracion+pausa): # busqueda vertical total
 
-                                while (aux>=0):
+                                    # busqueda vertical fila
+                                    if (i==2):
+                                        print("Busqueda fila")
+                                    aux = i-1
 
-                                    if(limit>=bloquet) or (aux<0): # restriccion fin del turno
+                                    while (aux>=0):
 
-                                        aux = aux - 1
-                                        break
+                                        if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
+                                            
+                                            f0 = l1[aux][contadoraux]
 
-                                    f0 = l1[aux][limit]
-                                    print ("F1 = ",f1," F0 = ",f0)
-                                    print ("limite = ",limit)
+                                            if (i==2):
 
-                                    if(f1!=f0): # si no son iguales
-
-                                        if(f0=='-'):
-                                            bandera = bandera
-
-                                        if(f0=='A'):
-                                            bandera = bandera
-
-                                        if (f0!='-') and (f0!='A'): # salvedad guion y A
+                                                print ("aux = ",aux)
+                                                print ("limite = ",limit)
+                                                print ("contadoraux = ", contadoraux)
+                                                print("auxdu = ", auxdu)
+                                                print ("F1 = ",f1," F0 = ",f0)
 
                                             for y in range(cicloclasic): 
                                                 if(f1==operaciones[y][0]):
                                                     rf1 = operaciones[y][2] # guarda recurso actividad
+                                                    ap1 = operaciones[y][9] # guarda actividad pausa
                                             for y in range(larg):
                                                 if(f0==operaciones[y][0]):
                                                     rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                            
-                                            print("recurso F1 =", rf1, "recurso F0 = ", rf0)
+                                                    ap0 = operaciones[y][9] # guarda actividad pausa
 
-                                            if(rf1==rf0): # si usan el mismo recurso
+                                                if(f0==operaciones[y][9]) and (f0!='-'):
+                                                    rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                    ap0 = operaciones[y][9] # guarda pausa
+
+                                            if(f1!=f0): # si no son iguales
+
+                                                if(f0=='-'):
+                                                    bandera = bandera
+
+                                                if(f0=='A'):
+                                                    bandera = bandera
+
+                                                if (f0!='-') and (f0!='A'): # salvedad guion y A
+
+                                                    if(rf1==rf0): # si usan el mismo recurso
+                                                            bandera = bandera + 1     
+
+                                            if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                if f1==f0: # si son iguales
+                                                    if (i==2):
+                                                        print("recurso F1 =", rf1, "recurso F0 = ", rf0)
                                                     bandera = bandera + 1
+                                            
+                                            aux = aux - 1
+                                            if (i==2):
+                                                print ("aux = ",aux)
 
-                                    if(f1!='-' and f1!='q'): # salvedad guion y q
-                                        if f1==f0: # si son iguales
-                                            bandera = bandera + 1
-                                    
-                                    aux = aux - 1
+                                        else:
 
-                                if(limit>=bloquet): # termino bucle por find de reco
-                                    auxdu = duracion
+                                            aux = aux - 1
+                                            break
+
+                                    contadoraux = contadoraux + 1
+                                    auxdu = auxdu + 1
+
+                                if(limit>=bloquet): # restriccion fin del turno
+
+                                    x = 1
                                     break
 
                                 else: # guarda en la matriz
+                                    if (i==2):
+                                        print ("guarda en la matriz - Bandera = ", bandera)
+
+                                    if (bandera==0):
+                                        cont = 0
+                                        while(cont<duracion):
+
+                                            if(limit>=bloquet): # restriccion fin del turno
+
+                                                x = 1
+                                                break
+
+                                            #guarda almuerzo
+
+                                            auxalmu = f1
+            
+                                            if (almuerzo==1): #tipo 1
+                                                if(limit==13):
+                                                    if (auxalmu in otros):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==11):
+                                                    if (auxalmu in jumbos):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==9):
+                                                    if (auxalmu in cuadrilla):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+
+                                            if (almuerzo==2): #tipo 2
+                                                if(limit==13):
+                                                    if (auxalmu in otros):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==11):
+                                                    if (auxalmu in cuadrilla):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==9):
+                                                    if (auxalmu in jumbos):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+
+                                            if (almuerzo==3): #tipo 3
+                                                if(limit==13):
+                                                    if (auxalmu in jumbos):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==11):
+                                                    if (auxalmu in cuadrilla):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+                                                if(limit==9):
+                                                    if (auxalmu in otros):
+                                                        l1[i].append('A')
+                                                        l1[i].append('A')
+                                                        limit = limit + 2
+                                                        x=0
+                                                        duracion = duracion - cont
+                                                        break
+
+                                            l1[i].append(f1)
+                                            limit = limit + 1
+                                            cont = cont + 1
+
+                                        if(cont==duracion):
+                                            x = 1
+
+                                    if (bandera>0):
+
+                                        #guarda almuerzo
+
+                                        auxalmu = f1
+        
+                                        if (almuerzo==1): #tipo 1
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==2): #tipo 2
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==3): #tipo 3
+                                            if(limit==13):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        l1[i].append('-')
+                                        limit = limit + 1
+
+                                if(auxdu==duracion+pausa) and (bandera == 0):
+                                        
+                                    #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                    if(pausa>0):
+                                        auxpa = 0
+                                        while (auxpa<pausa):
+                                            if(limit<bloquet): # restriccion fin del turno
+
+                                                #guarda almuerzo
+
+                                                auxalmu = f1
+                
+                                                if (almuerzo==1): #tipo 1
+                                                    if(limit==13):
+                                                        if (auxalmu in otros):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==11):
+                                                        if (auxalmu in jumbos):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==9):
+                                                        if (auxalmu in cuadrilla):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+
+                                                if (almuerzo==2): #tipo 2
+                                                    if(limit==13):
+                                                        if (auxalmu in otros):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==11):
+                                                        if (auxalmu in cuadrilla):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==9):
+                                                        if (auxalmu in jumbos):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+
+                                                if (almuerzo==3): #tipo 3
+                                                    if(limit==13):
+                                                        if (auxalmu in jumbos):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==11):
+                                                        if (auxalmu in cuadrilla):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+                                                    if(limit==9):
+                                                        if (auxalmu in otros):
+                                                            l1[i].append('A')
+                                                            l1[i].append('A')
+                                                            limit = limit + 2
+
+                                                l1[i].append(ap1)
+                                                limit = limit + 1
+                                                auxpa = auxpa + 1
+
+                                            else:
+                                                auxpa = auxpa + 1
+                                            
+                                # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+                                           
+
+                        if (parcial=='no'): #no parcial
+
+                            contav = 0
+
+                            f1 = ciclos[fortycic][2][po-contador]
+
+                            x=0
+
+                            if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
+
+                                while(x==0): # busqueda vertical total
 
                                     #guarda almuerzo
 
                                     auxalmu = f1
-     
+
                                     if (almuerzo==1): #tipo 1
                                         if(limit==13):
                                             if (auxalmu in otros):
@@ -2732,64 +3493,49 @@ def ingresomain(rut):
                                                 l1[i].append('A')
                                                 limit = limit + 2
 
-                                    if (bandera==0):
-                                        l1[i].append(f1)
-                                        limit = limit + 1
-                                        auxdu = auxdu + 1
-                                        contav = contav + 1
-
-                                    if (bandera>0):
-                                        l1[i].append('-')
-                                        limit = limit + 1
-
-                            if(auxdu==duracion):
-                                
-                                #estado_avance = 0  where id_frente = lr[i][0] 
-
-                                if(pausa>0):
-                                    auxpa = 0
-                                    while (auxpa<pausa):
-                                        if(limit<bloquet): # restriccion fin del turno
-                                            l1[i].append('-')
-                                            limit = limit + 1
-                                        auxpa = auxpa + 1
-
-                            # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
-
-                        if (parcial=='no'): #no parcial
-
-                            auxdu = esav
-                            contav = 0
-                        
-                            if(limit+duracion<bloquet):
-                
-                                f1 = ciclos[fortycic][2][po-contador]
-
-                                if(f1!='q'): # no es q (restriccion q a la ultima posicion)
-
+                                    contadoraux = limit
+                                    auxdu = esav
                                     bandera = 0
-                                    x = 0
 
-                                    # busqueda vertical no parcial
-                                    while(x==0):
+                                    if (i==2):
 
-                                        contadoraux = limit
+                                        print ("busqueda total")
+                                        print("auxdu = ", auxdu)
+                                        print("duracion = ", duracion)  
 
-                                        while(auxdu<duracion):
+                                    while(auxdu<duracion+pausa): # busqueda vertical total
 
-                                            # busqueda vertical
-                                            aux = i-1
+                                        # busqueda vertical fila
+                                        if (i==2):
+                                            print("Busqueda fila")
+                                        aux = i-1
 
-                                            while (aux>=0):
-                                                
-                                                if(limit>=bloquet) or (aux<0): # restriccion fin del turno
+                                        while (aux>=0):
 
-                                                    aux = aux - 1
-                                                    break
+                                            if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
 
                                                 f0 = l1[aux][contadoraux]
-                                                print ("F1 = ",f1," F0 = ",f0)
-                                                print ("limite = ",limit)
+
+                                                if (i==2):
+
+                                                    print ("aux = ",aux)
+                                                    print ("limite = ",limit)
+                                                    print ("contadoraux = ", contadoraux)
+                                                    print("auxdu = ", auxdu)
+                                                    print ("F1 = ",f1," F0 = ",f0)
+
+                                                for y in range(cicloclasic): 
+                                                    if(f1==operaciones[y][0]):
+                                                        rf1 = operaciones[y][2] # guarda recurso actividad
+                                                        ap1 = operaciones[y][9] # guarda actividad pausa
+                                                for y in range(larg):
+                                                    if(f0==operaciones[y][0]):
+                                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                        ap0 = operaciones[y][9] # guarda actividad pausa
+
+                                                    if(f0==operaciones[y][9]) and (f0!='-'):
+                                                        rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                        ap0 = operaciones[y][9] # guarda pausa
 
                                                 if(f1!=f0): # si no son iguales
 
@@ -2801,120 +3547,192 @@ def ingresomain(rut):
 
                                                     if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                                        for y in range(cicloclasic): 
-                                                            if(f1==operaciones[y][0]):
-                                                                rf1 = operaciones[y][2] # guarda recurso actividad
-                                                        for y in range(larg):
-                                                            if(f0==operaciones[y][0]):
-                                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                        
-                                                        print("recurso F1 =", rf1, "recurso F0 = ", rf0)
-
                                                         if(rf1==rf0): # si usan el mismo recurso
-                                                            bandera = bandera + 1
+                                                                bandera = bandera + 1       
 
                                                 if(f1!='-' and f1!='q'): # salvedad guion y q
-                                                    if f1==f0 and f1!='-': # si son iguales
+                                                    if f1==f0: # si son iguales
+                                                        if (i==2):
+                                                            print("recurso F1 =", rf1, "recurso F0 = ", rf0)
                                                         bandera = bandera + 1
                                                 
                                                 aux = aux - 1
+                                                if (i==2):
+                                                    print ("aux = ",aux)
 
-                                            contadoraux = contadoraux + 1
-                                            auxdu = auxdu + 1
+                                            else :
 
-                                        if(limit>=bloquet): # restriccion fin del turno
+                                                aux = aux - 1
+                                                break
 
-                                            x = 1
-                                            break
+                                        contadoraux = contadoraux + 1
+                                        auxdu = auxdu + 1
 
-                                        else: # guarda en la matriz
+                                    if(limit>=bloquet): # restriccion fin del turno
 
-                                            #guarda almuerzo
+                                        x = 1
+                                        break
 
-                                            auxalmu = f1
-     
-                                            if (almuerzo==1): #tipo 1
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in jumbos):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in cuadrilla):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
+                                    else: # guarda en la matriz
+                                        if (i==2):
+                                            print ("guarda en la matriz - Bandera = ", bandera)
 
-                                            if (almuerzo==2): #tipo 2
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in jumbos):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
+                                        #guarda almuerzo
 
-                                            if (almuerzo==3): #tipo 3
-                                                if(limit==13):
-                                                    if (auxalmu in jumbos):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in otros):
-                                                        l1[i].append('A')
-                                                        l1[i].append('A')
-                                                        limit = limit + 2
+                                        auxalmu = f1
 
-                                            if (bandera==0):
-                                                cont = 0
-                                                while(cont<duracion):
-                                                        l1[i].append(f1)
-                                                        limit = limit + 1
-                                                        cont = cont + 1
-                                                if(cont==duracion):
+                                        if (almuerzo==1): #tipo 1
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==2): #tipo 2
+                                            if(limit==13):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (almuerzo==3): #tipo 3
+                                            if(limit==13):
+                                                if (auxalmu in jumbos):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==11):
+                                                if (auxalmu in cuadrilla):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                            if(limit==9):
+                                                if (auxalmu in otros):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+
+                                        if (bandera==0):
+                                            cont = 0
+                                            while(cont<duracion):
+
+                                                if(limit>=bloquet): # restriccion fin del turno
+
                                                     x = 1
-
-                                            if (bandera>0):
-                                                l1[i].append('-')
+                                                    break
+                                                
+                                                l1[i].append(f1)
                                                 limit = limit + 1
+                                                cont = cont + 1
+                                            
+                                            if(cont==duracion):
+                                                x = 1
 
-                                        if(auxdu==duracion):
-                                    
-                                            #estado_avance = 0  where id_frente = lr[i][0] 
+                                        if (bandera>0):
 
-                                            if(pausa>0):
-                                                auxpa = 0
-                                                while (auxpa<pausa):
-                                                    if(limit<bloquet): # restriccion fin del turno
-                                                        l1[i].append('-')
-                                                        limit = limit + 1
+                                            l1[i].append('-')
+                                            limit = limit + 1
+
+                                    if(auxdu==duracion+pausa) and (bandera == 0):
+
+                                        #estado_avance = 0  where id_frente = lr[i][0]
+
+                                        if(pausa>0):
+                                            auxpa = 0
+                                            while (auxpa<pausa):
+                                                if(limit<bloquet): # restriccion fin del turno
+
+                                                    l1[i].append(ap1)
+                                                    limit = limit + 1
                                                     auxpa = auxpa + 1
-                            
-                            if(limit+duracion>=bloquet):
+
+                                                else:
+
+                                                    axupa = auxpa + 1
+
+                                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+
+                            if(limit+duracion+pausa>=bloquet):
             
                                 if(limit<bloquet): # restriccion fin del turno
+
+                                    #guarda almuerzo
+
+                                    auxalmu = f1
+
+                                    if (almuerzo==1): #tipo 1
+                                        if(limit==13):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==11):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==9):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+
+                                    if (almuerzo==2): #tipo 2
+                                        if(limit==13):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==11):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==9):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+
+                                    if (almuerzo==3): #tipo 3
+                                        if(limit==13):
+                                            if (auxalmu in jumbos):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==11):
+                                            if (auxalmu in cuadrilla):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+                                        if(limit==9):
+                                            if (auxalmu in otros):
+                                                l1[i].append('A')
+                                                l1[i].append('A')
+                                                limit = limit + 2
+
                                     l1[i].append('-')
-                                    limit = limit + 1                                 
-                      
+                                    limit = limit + 1
 
     # imprimir matriz 1 (ordenamiento)
 
@@ -2924,6 +3742,33 @@ def ingresomain(rut):
         print(lr[i],l1[i],len(l1[i]))
 
     print ("ALMUERZO 1 RECURSO: ", recualmu)
+
+    def ventanamatriz():
+        win4 = Tk()
+        win4.geometry('1080x200')
+        frame = Frame(win4)
+        frame.pack()
+        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,30):
+            j = Entry(frame,width=5)
+            j.grid(row = 0, column = uwu)
+            j.insert(END,extra[uwu])
+
+
+        for f in range(0,len(lr)):
+                    for j in range(0,len(lr[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j)
+                            x.insert(END,lr[f][j])
+
+        for f in range(0,len(l1)):
+                    for j in range(0,len(l1[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j+6)
+                            x.insert(END,l1[f][j])
+
+    vermatriz = Button(framemain,text='VER MATRIZ ',command=ventanamatriz,width='28')
+    vermatriz.grid(row='3',column="0")
 
         
     def insertarestadofrentesbd():
