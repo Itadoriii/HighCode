@@ -1,4 +1,6 @@
 from ast import Index
+from cProfile import run
+import collections
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
 from itertools import permutations
@@ -19,6 +21,7 @@ from numpy import append, can_cast, char, character, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 import numpy as np
+import openpyxl
 #memo 
 ides1 = []
 ciclos1 = []
@@ -61,22 +64,22 @@ operaciones = [
         ['q','tronadura','-',1,1,1,'mineria',0,'no','-'],
     ]
 ciclos = [ 
-    ['p-m-sh','1',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
-    ['p-m-sh','2',['rm','e','ac','lp','sc','mg','pp','lp','m','mt','l','pa','sh','c','q']],
-    ['p-m-sh','3',['rm','e','ac','lp','sc','mg','pp','lp','m','mt','pa','h','sh','c','q']],
-    ['p-m-sh','4',['rm','e','ac','lp','sc','mg','pp','lp','m','h','sh','mt','pa','c','q']],
-    ['p-m-sh','5',['rm','e','ac','lp','sc','mg','pp','lp','m','h','mt','sh','pa','c','q']],
-    ['p-m-sh','6',['rm','e','ac','lp','sc','mg','pp','lp','m','h','mt','pa','sh','c','q']],
-    ['p-sh-f','1',['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
-    ['pshf','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
-    ['pshf','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
-    ['pshf','4',['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
-    ['pshf','5',['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
-    ['pshf','6',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
-    ['shfpmsh','1',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','lp','c','q']],
-    ['shfpmsh','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','lp','c','q']],
-    ['shfpmsh','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','lp','c','q']]
-]
+        ['p-m-sh','1',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
+        ['p-m-sh','2',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','pa','sh','c','q']],
+        ['p-m-sh','3',['rm','e','ac','lp','sc','mg','pp','l','m','mt','pa','h','sh','c','q']],
+        ['p-m-sh','4',['rm','e','ac','lp','sc','mg','pp','l','m','h','sh','mt','pa','c','q']],
+        ['p-m-sh','5',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','sh','pa','c','q']],
+        ['p-m-sh','6',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','pa','sh','c','q']],
+        ['p-shf','1',['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
+        ['p-shf','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['p-shf','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
+        ['p-shf','4',['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
+        ['p-shf','5',['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
+        ['p-shf','6',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh','1',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['shf-p-m-sh','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
+    ]
 
 #memoria para mostrar tablas frente
 tipos = []
@@ -183,1212 +186,122 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
-def addbdfrentes():
-    win4=Tk()
-    win4.geometry('300x340')
-    frameingreso = Frame(win4)
-    frameingreso.pack()
-
-    txtid=Label(frameingreso,text="ID Frente")
-    txtid.grid(row="0",column="0")
-    entryid= Entry(frameingreso)
-    entryid.grid(row="0",column="1")
-
-    txttipo=Label(frameingreso,text="Tipo de frente")
-    txttipo.grid(row="1",column="0")
-    entrytipo= ttk.Combobox(frameingreso)
-    entrytipo.grid(row="1",column="1")
-    entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
-
-    txtsigla=Label(frameingreso,text="Sigla de frente")
-    txtsigla.grid(row="2",column="0")
-    entrysigla= ttk.Combobox(frameingreso)
-    entrysigla.grid(row="2",column="1")
-    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
-
-    txtsigla=Label(frameingreso,text="Sigla de referencia")
-    txtsigla.grid(row="2",column="0")
-    entrysigla= ttk.Combobox(frameingreso)
-    entrysigla.grid(row="2",column="1")
-    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
-  
-    txtnumero=Label(frameingreso,text="Numero de frente")
-    txtnumero.grid(row="3",column="0")
-    entrynumero= Entry(frameingreso)
-    entrynumero.grid(row="3",column="1")
-
-    txtnumeroreferencias=Label(frameingreso,text="Numero referencia")
-    txtnumeroreferencias.grid(row="4",column="0")
-    entrynumeroreferencias= Entry(frameingreso)
-    entrynumeroreferencias.grid(row="4",column="1")
-
-    txtdireccion=Label(frameingreso,text="Direccion de frente")
-    txtdireccion.grid(row="5",column="0")
-    entrydireccion= ttk.Combobox(frameingreso)
-    entrydireccion.grid(row="5",column="1")
-    entrydireccion['values'] = ('N','S','E','O')
-
-    txtdireccionreferencias=Label(frameingreso,text="Direccion referencia")
-    txtdireccionreferencias.grid(row="6",column="0")
-    entrydireccionreferencias= ttk.Combobox(frameingreso)
-    entrydireccionreferencias.grid(row="6",column="1")
-    entrydireccionreferencias['values'] = ('N','S','E','O')
-
-    txtestado=Label(frameingreso,text="Estado de frente")
-    txtestado.grid(row="7",column="0")
-    entryestado= ttk.Combobox(frameingreso)
-    entryestado.grid(row="7",column="1")
-    entryestado['values'] = ('Activo','Inactivo')
-
-    txttamaño =Label(frameingreso,text="Tamaño de frente")
-    txttamaño.grid(row="8",column="0")
-    entrytamaño= ttk.Combobox(frameingreso)
-    entrytamaño.grid(row="8",column="1")
-    entrytamaño['values'] = ('C','M','G')
-
-    txtrutacritica=Label(frameingreso,text="Ruta critica")
-    txtrutacritica.grid(row="9",column="0")
-    entryrutacritica= ttk.Combobox(frameingreso)
-    entryrutacritica.grid(row="9",column="1")
-    entryrutacritica['values'] = ('Si','No')
-
-    txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
-    txtdistanciamarina.grid(row="10",column="0")
-    entrydistanciamarina= Entry(frameingreso)
-    entrydistanciamarina.grid(row="10",column="1")
-
-    txtnivelfrente=Label(frameingreso,text="Nivel")
-    txtnivelfrente.grid(row="11",column="0")
-    entrynivelfrente= ttk.Combobox(frameingreso)
-    entrynivelfrente.grid(row="11",column="1")
-    entrynivelfrente['values'] = ('PD','HD','INY','EXT','CH')
-
-    txtmacrobloque=Label(frameingreso,text="Macrobloque")
-    txtmacrobloque.grid(row="12",column="0")
-    entrymacrobloque= ttk.Combobox(frameingreso)
-    entrymacrobloque.grid(row="12",column="1")
-    entrymacrobloque['values'] = ('S01','S02','S03','S04','S05')
-
-    txtsector=Label(frameingreso,text="Sector")
-    txtsector.grid(row="13",column="0")
-    entrysector= ttk.Combobox(frameingreso)
-    entrysector.grid(row="13",column="1")
-    entrysector['values'] = ('S1','S2')
-
-    txtcodigo=Label(frameingreso,text="Codigo empresa")
-    txtcodigo.grid(row="14",column="0")
-    entrycodigo= Entry(frameingreso)
-    entrycodigo.grid(row="14",column="1")
+def ventanaalgoritmos():
+    def run():
+        inicio = entryi.get()
+        termino = entryt.get()
+        algoritmos(int(inicio),int(termino))
 
 
-    def llenarfrente():
-        tipo =entrytipo.get()
-        sigla = entrysigla.get()
-        numero = entrynumero.get()
-        numeroreferencias = entrynumeroreferencias.get()
-        direccion = entrydireccion.get()
-        direccionreferencias = entrydireccionreferencias.get()
-        estado =entryestado.get()
-        tamaño = entrytamaño.get()
-        ruta =entryrutacritica.get()
-        distancia =entrydistanciamarina.get()
-        nivel = entrynivelfrente.get() 
-        macrobloque =entrymacrobloque.get()
-        sector = entrysector.get()
-        id = entryid.get()
-        codigoempresa = entrycodigo.get()
-        cursor=bd1.cursor()
-        sql =  "insert into frentes(tipo,sigla,numero,numero_referencia,direccion,direccion_referencia,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,sector,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,numeroreferencias,direccion,direccionreferencias,estado,tamaño,ruta,distancia,nivel,macrobloque,sector,id,codigoempresa)
-        try:
-         cursor.execute(sql)
-         print (sql)
-         cursor.close()
-         bd1.commit()
-         bd1.close()
-        except Exception as e:
-            print("exception : ")
-            
-       # cursor.close()
-        #bd.commit()
-       # bd.close()
+    raiz = Tk()
+    raiz.title('LIMITES DEL HORARIO')
+    framemain = Frame(raiz)
+    framemain.pack()
+    txt1 = Label(framemain,text='BLOQUE INICIO DE TURNO')
+    txt1.grid(row='0',column='0')
+    txt2 = Label(framemain,text='BLOQUE TERMINO DE TURNO')
+    txt2.grid(row='1',column='0')
+    entryi= ttk.Combobox(framemain)
+    entryi.grid(row="0",column="1")
+    entryi['values'] = ('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25')
+    entryt= ttk.Combobox(framemain)
+    entryt.grid(row="1",column="1")
+    entryt['values'] = ('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25')
+    correr = Button(framemain,text='GENERAR REPORTE',command=run, anchor=CENTER)
+    correr.grid(row='3',column='0')
     
-        win4.destroy()
-
-    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
-    botonllenarbd.grid(row="15")
-
-def addequipo():
-    win4=Tk()
-    frameingreso = Frame(win4)
-    frameingreso.pack()
-
-    def llenarequipo():
-        flota= entryflota.get()
-        codigo = entrycod.get()
-        cantidade= entrycantidade.get()
-        nivele= entrynivele.get()
-       
-        cursor=bd2.cursor()
-        sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
-        try:
-         cursor.execute(sql)
-         cursor.close()
-         bd2.commit()
-         bd2.close()
-        except Exception as e:
-         print(e)
-       # cursor.close()
-        #bd.commit()
-       # bd.close()
-        
-        win4.destroy()
-
-
-    txtflota =Label(frameingreso,text="Flota") #lista desplegable
-    txtflota.grid(row="0",column="0")
-    entryflota = ttk.Combobox(frameingreso)
-    entryflota.grid(row="0",column="1")
-    entryflota['values'] = ('Jumbo fortificación','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora')
-
-    txtcodigo=Label(frameingreso,text="Codigo_equipo")
-    txtcodigo.grid(row="1",column="0")
-    entrycod= Entry(frameingreso)
-    entrycod.grid(row="1",column="1")
-
-    txtcantidade=Label(frameingreso,text="Cantidad")
-    txtcantidade.grid(row="2",column="0")
-    entrycantidade= Entry(frameingreso)
-    entrycantidade.grid(row="2",column="1")
-
-    txtnivele=Label(frameingreso,text="Nivel de equipo") 
-    txtnivele.grid(row="3",column="0")
-    entrynivele= ttk.Combobox(frameingreso)
-    entrynivele.grid(row="3",column="1")
-    entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
-
-
-    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
-    botonllenarbd.grid(row="4")
-
-def modificarfrente():
-    win4=Tk()
-    win4.geometry('300x380')
-    frameingreso = Frame(win4)
-    frameingreso.pack()
-
-    txtid=Label(frameingreso,text="ID Frente")
-    txtid.grid(row="0",column="0")
-    entryid= Entry(frameingreso)
-    entryid.grid(row="0",column="1")
-
-    txttipo=Label(frameingreso,text="Tipo ")
-    txttipo.grid(row="1",column="0")
-    entrytipo= ttk.Combobox(frameingreso)
-    entrytipo.grid(row="1",column="1")
-    entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
-
-    txtsigla=Label(frameingreso,text="Sigla")
-    txtsigla.grid(row="2",column="0")
-    entrysigla= ttk.Combobox(frameingreso)
-    entrysigla.grid(row="2",column="1")
-    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
-  
-    txtnumero=Label(frameingreso,text="Numero")
-    txtnumero.grid(row="3",column="0")
-    entrynumero= Entry(frameingreso)
-    entrynumero.grid(row="3",column="1")
-
-    txtnumeroreferencias=Label(frameingreso,text="Numero referencia")
-    txtnumeroreferencias.grid(row="4",column="0")
-    entrynumeroreferencias= Entry(frameingreso)
-    entrynumeroreferencias.grid(row="4",column="1")
-
-    txtdireccion=Label(frameingreso,text="Direccion")
-    txtdireccion.grid(row="5",column="0")
-    entrydireccion= ttk.Combobox(frameingreso)
-    entrydireccion.grid(row="5",column="1")
-    entrydireccion['values'] = ('N','S','E','O')
-
-    txtdireccionreferencias=Label(frameingreso,text="Direccion referencia")
-    txtdireccionreferencias.grid(row="6",column="0")
-    entrydireccionreferencias= ttk.Combobox(frameingreso)
-    entrydireccionreferencias.grid(row="6",column="1")
-    entrydireccionreferencias['values'] = ('N','S','E','O')
-
-    txtestado=Label(frameingreso,text="Estado")
-    txtestado.grid(row="7",column="0")
-    entryestado= ttk.Combobox(frameingreso)
-    entryestado.grid(row="7",column="1")
-    entryestado['values'] = ('Activo','Inactivo')
-
-    txttamaño =Label(frameingreso,text="Tamaño")
-    txttamaño.grid(row="8",column="0")
-    entrytamaño= ttk.Combobox(frameingreso)
-    entrytamaño.grid(row="8",column="1")
-    entrytamaño['values'] = ('C','M','G')
-
-    txtrutacritica=Label(frameingreso,text="Ruta critica")
-    txtrutacritica.grid(row="9",column="0")
-    entryrutacritica= ttk.Combobox(frameingreso)
-    entryrutacritica.grid(row="9",column="1")
-    entryrutacritica['values'] = ('Si','No')
-
-    txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
-    txtdistanciamarina.grid(row="10",column="0")
-    entrydistanciamarina= Entry(frameingreso)
-    entrydistanciamarina.grid(row="10",column="1")
-
-    txtnivelfrente=Label(frameingreso,text="Nivel")
-    txtnivelfrente.grid(row="11",column="0")
-    entrynivelfrente= ttk.Combobox(frameingreso)
-    entrynivelfrente.grid(row="11",column="1")
-    entrynivelfrente['values'] = ('HD','PD','CH','INY','EXT','TI')
-
-    txtmacrobloque=Label(frameingreso,text="Macrobloque")
-    txtmacrobloque.grid(row="12",column="0")
-    entrymacrobloque= ttk.Combobox(frameingreso)
-    entrymacrobloque.grid(row="12",column="1")
-    entrymacrobloque['values'] = ('S01','S02','S03','S04','S05')
-
-    txtsector=Label(frameingreso,text="Sector")
-    txtsector.grid(row="13",column="0")
-    entrysector= ttk.Combobox(frameingreso)
-    entrysector.grid(row="13",column="1")
-    entrysector['values'] = ('S1','S2')
-
-    txtcodigo=Label(frameingreso,text="Codigo empresa")
-    txtcodigo.grid(row="14",column="0")
-    entrycodigo= Entry(frameingreso)
-    entrycodigo.grid(row="14",column="1")
-
-def ingresomain(rut): 
-    def verfrentesmenu():
-        print('entro vf')
-    def addfrentesmenu():
-        win5 = Tk()
-        win5.title('AÑADIR FRENTE')
-        frame = Frame(win5)
-        frame.pack()
-        txtid= Label(frame,text='Id frente',width='23')
-        txtid.grid(column='0',row='0')
-        txttipo = Label(frame,text='Tipo',width='23')
-        txttipo.grid(column='0',row='1')
-        txtsigla = Label(frame,text='Sigla',width='23')
-        txtsigla.grid(column='0',row='2')
-        txtnumero = Label(frame,text='Numero',width='23')
-        txtnumero.grid(column='0',row='3')
-        txtnumeroref = Label(frame,text='Numero referencia',width='23')
-        txtnumeroref.grid(column='0',row='4')
-        txtdir = Label(frame,text='Direccion',width='23')
-        txtdir.grid(column='0',row='5')
-        txtdirref = Label(frame,text='Direccion referencia',width='23')
-        txtdirref.grid(column='0',row='6')
-        txtestado = Label(frame,text='Estado',width='23')
-        txtestado.grid(column='0',row='7')
-        txttam = Label(frame,text='Tamaño',width='23')
-        txttam.grid(column='0',row='8')
-        txtruta = Label(frame,text='Ruta critica',width='23')
-        txtruta.grid(column='0',row='9')
-        txtdmarina = Label(frame,text='Distancia marina',width='23')
-        txtdmarina.grid(column='0',row='10')
-        txtnivel = Label(frame,text='Tipo',width='23')
-        txtnivel.grid(column='0',row='11')
-        txtmacrob = Label(frame,text='Macrobloque',width='23')
-        txtmacrob.grid(column='0',row='12')
-        txtsector = Label(frame,text='Sector',width='23')
-        txtsector.grid(column='0',row='13')
-        txtcodigo = Label(frame,text='Codigo',width='23')
-        txtcodigo.grid(column='0',row='14')
-        txtfortificacion = Label(frame,text='Fortificacion',width='23')
-        txtfortificacion.grid(column='0',row='15')
-        txtciclo = Label(frame,text='Ciclo',width='23')
-        txtciclo.grid(column='0',row='16')
-        txtcriticidad = Label(frame,text='Criticidad',width='23')
-        txtcriticidad.grid(column='0',row='17')
-        
-
-        entryid = Entry(frame,width='23')
-        entryid.grid(column='1',row='0')
-
-    rutt=rut
-    win3 = Tk()
-    win3.title('PROGRAMACION MINERA CAVES IA')
-    win3.config(bg="cornflowerblue")
-    win3.geometry('500x300')
-    framemain = Frame(win3)
-    framemain.pack(expand=1)
-    framemain.config(bg="royalblue", width="500", height="300", relief="sunken")
-    menubar = Menu(win3)
-    win3.config(menu=menubar)
-    menufrentes=Menu(menubar)
-    menuequipos=Menu(menubar)
-    menubar.add_cascade(label='frentes',menu=menufrentes)
-    menubar.add_cascade(label='equipos',menu=menuequipos)
-    menufrentes.add_command(label='añadir nueva frente',command=addfrentesmenu)
-    menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
-    menuequipos.add_command(label='añadir equipo')
-    menuequipos.add_command(label='ver equipo')
-    def verfrentes():
-        numfilas = 0
-        numcolumnas = 2
-        win4 = Tk()
-        win4.title('Estados de frente')
-        datos=Frame(win4)
-        datos.pack()
-        nid = Label(datos,text='  id Frente           ')
-        nid.grid(row='0',column='0')
-        nop = Label(datos,text='operacion anterior')
-        nop.grid(row='0',column='1')
-        tabla=Frame(win4)
-        tabla.pack()
-        def creartablafrentes():
-            
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                        x = Entry(tabla)
-                        x.grid(row = f, column = j)
-                        if (j==0):
-                                x.insert(END,ides1[f])
-                        if (j==1):
-                                x.insert(END,operaciones1[f])
-                        x.config(state='readonly')     
-        cursor = bd3.cursor()
-        cursor2 =  bd3.cursor()
-        sql2 = 'SELECT * from estado_frentes'
-        sql = 'SELECT * from frentes'
-        try:
-            cursor.execute(sql)
-            cursor2.execute(sql2)
-            data = cursor.fetchall()
-            dataprint = cursor2.fetchall()
-            for p in data:
-                codigo=p['codigo_empresa']
-                if (codigo==rutt):
-                    numfilas = numfilas + 1
-
-            for i in data:
-                id = i['id_frente']
-                codigo=i['codigo_empresa']
-                nivel=i['nivel']
-                if(codigo==rutt):
-                    ides1.append(id)
-                    niveles1.append(nivel)
-            for i in dataprint:
-                operacion = i['operacion']
-                idfren = i['id_frente']
-                ciclo = i ['ciclo']
-                for j in ides1:
-                    if(idfren==j):
-                        ciclos1.append(ciclo)
-                        operaciones1.append(operacion)
-            cursor.close()
-            bd3.commit()
-            bd3.close
-        except Exception as e:
-            print(e)
-        
-        creartablafrentes()
-       
-        
-    def ordenarsegunnivel(ides1,operaciones1,niveles):
-        tamaño = len(ides1)
-        print(tamaño)
-        for i in range(tamaño):
-            busqueda = niveles1[i]
-            if(busqueda=='HD'):
-                ordenHD.append(ides1[i])
-                opHD.append(operaciones1[i])
-            if(busqueda=='CH'):
-                ordenCH.append(ides1[i])
-                opCH.append(operaciones1[i])
-            if(busqueda=='EXT'):
-                ordenEXT.append(ides1[i])
-                opEXT.append(operaciones1[i])
-            if(busqueda=='INY'):
-                ordenINY.append(ides1[i])
-                opINY.append(operaciones1[i])
-            if(busqueda=='PD'):
-                ordenPD.append(ides1[i])
-                opPD.append(operaciones1[i])
-            if(busqueda=='TI'):
-                ordenTI.append(ides1[i])
-                opTI.append(operaciones1[i])
     
 
-
-    def enterhd():
-        win4 = Tk()
-        win4.title('HUNDIMIENTO')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        tamaño=len(ordenHD)
-        fren = StringVar()
-        operac = StringVar()
-        direc = StringVar()
-        forti = StringVar()
-        cicl = StringVar()
-        criti = StringVar()
-
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenHD,textvariable='fren')
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1,textvariable=operac)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'],textvariable=direc)
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'],textvariable=forti)
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'],textvariable=cicl)
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Criticidad')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'],textvariable=criti)
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y %H:%M')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            
-        
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
- 
-    def enterpd():
-        win4 = Tk()
-        win4.title('PRODUCCION')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        print(ordenPD)
-        print(opPD)
-        tamaño=len(ordenPD)
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenPD)
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'])
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'])
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'])
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Direccion')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'])
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y %H:%M')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
-        #print(datetime.today()
-    def enterch():
-        win4 = Tk()
-        win4.title('CHANCADO')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        print(ordenCH)
-        print(opCH)
-        tamaño=len(ordenCH)
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenCH)
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'])
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'])
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'])
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Direccion')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'])
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y %H:%M')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
-
-    def enteriny():
-        win4 = Tk()
-        win4.title('INYECCION')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        print(ordenHD)
-        print(opHD)
-        tamaño=len(ordenINY)
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenINY)
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'])
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'])
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'])
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Direccion')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'])
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y %H:%M')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
-
-    def enterext():
-        win4 = Tk()
-        win4.title('EXTRACCION')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        print(ordenHD)
-        print(opHD)
-        tamaño=len(ordenEXT)
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenEXT)
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'])
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'])
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'])
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Direccion')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'])
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y %H:%M')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
-
-    def enterti():
-        win4 = Tk()
-        win4.title('TRANSPORTE INTERMEDIO')
-        frame = Frame(win4)
-        frame.pack()
-        #botones = Frame(win4)
-        #botones.pack()
-        print(ordenHD)
-        print(opHD)
-        tamaño=len(ordenTI)
-        txtfrente = Label(frame,text='ID Frente')
-        txtfrente.grid(row='0',column='0')
-        txtoperacion = Label(frame,text='Operacion')
-        txtoperacion.grid(row='1',column='0')
-        listafrente = ttk.Combobox(frame,values=ordenTI)
-        listafrente.grid(row='0',column='1')
-        listaoperacion = ttk.Combobox(frame,values=ciclominero1)
-        listaoperacion.grid(row='1',column='1')
-        txtdireccion = Label(frame,text='Direccion')
-        txtdireccion.grid(row='2',column='0')
-        listadireccion = ttk.Combobox(frame,values=['N','S','E','O'])
-        listadireccion.grid(row='2',column='1')
-        txtforti = Label(frame,text='Fortificacion')
-        txtforti.grid(row='3',column='0')
-        listaforti = ttk.Combobox(frame,values=['p-m-sh','p-shf','shf-p-m-sh'])
-        listaforti.grid(row='3',column='1')
-        txtciclo = Label(frame,text='Ciclo')
-        txtciclo.grid(row='4',column='0')
-        listaciclo= ttk.Combobox(frame,values=['1','2','3','4','5','6'])
-        listaciclo.grid(row='4',column='1')
-        txtcriticidad = Label(frame,text='Direccion')
-        txtcriticidad.grid(row='5',column='0')
-        listacriticidad = ttk.Combobox(frame,values=['alta','baja'])
-        listacriticidad.grid(row='5',column='1')
-        def addestadofrentebd():
-            frente = listafrente.get()
-            operacion = listaoperacion.get()
-            direccion = listadireccion.get()
-            fortificacion = listaforti.get()
-            ciclo = listaciclo.get()
-            critici = listacriticidad.get()
-            fecha = datetime.today().strftime('%d-%m-%y')
-            print(frente,operacion,direccion,fortificacion,ciclo,critici,fecha)
-            print(frente,operacion,fecha)
-            
-        botonsalvar = Button(frame,text='Guardar',command=addestadofrentebd)
-        botonsalvar.grid(row='6',column='1')
-
-    def inputdata():
-        ventana = Tk()
-        ventana.title('NIVELES ')
-        frame1 = Frame(ventana)
-        frame1.pack()
-        ventana.geometry('250x150')
-        #txtidfrente = Label(frame1,text='ID FRENTE : ')
-        #txtidfrente.grid(row='0',column='0')
-        #listafrentes = ttk.Combobox(frame1,values=ides)
-        #listafrentes.grid(row='0',column='1')
-        txtgenerico = Label(frame1,text='SELECCIONAR NIVEL:')
-        txtgenerico.grid(row='0',column='0')
-        ordenarsegunnivel(ides1,operaciones1,niveles1)
-        bnHD = Button(frame1,text='HD',width='3',command=enterhd)
-        bnPD = Button(frame1,text='PD',width='3',command=enterpd)
-        bnCH = Button(frame1,text='CH',width='3',command=enterch)
-        bnINY = Button(frame1,text='INY',width='3',command=enteriny)
-        bnEXT = Button(frame1,text='EXT',width='3',command=enterext)
-        bnTI = Button(frame1,text='TI',width='3',command=enterti)
-        bnHD.grid(row='1',column='0')
-        bnPD.grid(row='1',column='1')
-        bnCH.grid(row='2',column='0')
-        bnINY.grid(row='2',column='1')
-        bnEXT.grid(row='3',column='0')
-        bnTI.grid(row='3',column='1')
-
     
-    verestadofrentes = Button(framemain,text='VER ESTADO FRENTES',command=verfrentes,width='28')
-    verestadofrentes.grid(row='0',column="0")
-    ingresarfrentes = Button(framemain,text='CAMBIAR ESTADO FRENTES',command=inputdata,width='28')
-    ingresarfrentes.grid(row='1',column='0')
-    generarinforme = Button(framemain,text='GENERAR REPORTE',width='28')
-    generarinforme.grid(row = '2',column= '0')
-
-
-#old 
-    def verfrentesrut():
-        numfilas = 1
-        numcolumnas = 14
-        win4 = Tk()
-        win4.title('Frentes asociados al RUT')
-        tabla=Frame(win4)
-        tabla.pack()
-        def creartablafrentes():
-               for f in range(numfilas):
-                    for j in range(numcolumnas):
-                            x = Entry(tabla)
-                            x.grid(row = f, column = j)
-                            if (j==0):
-                                x.insert(END,tipos[f])
-                            if (j==1):
-                                x.insert(END,siglas[f])
-                            if (j==2):
-                                x.insert(END,numeros[f])
-                            if (j==3):
-                                x.insert(END,numeroreferencias[f])    
-                            if (j==4):
-                                x.insert(END,direcciones[f])
-                            if (j==5):
-                                x.insert(END,direccionreferencias[f])
-                            if (j==6):
-                                x.insert(END,estados[f])
-                            if (j==7):
-                                x.insert(END,tamanios[f])
-                            if (j==8):
-                                x.insert(END,rutas[f])
-                            if (j==9):
-                                x.insert(END,distancias[f])
-                            if (j==10):
-                                x.insert(END,niveles[f])
-                            if (j==11):
-                                x.insert(END,macrobloques[f])
-                            if (j==12):
-                                x.insert(END,sector[f])
-                            if (j==13):
-                             x.insert(END,ides[f])   
-                        
-        cursor = bd3.cursor()
-        cursor2 =  bd3.cursor()
-        sql2 = 'SELECT * from usuarios'
-        sql = 'SELECT * from frentes'
-        try:
-            cursor.execute(sql)
-            cursor2.execute(sql2)
-            data = cursor.fetchall()
-            users = cursor2.fetchall()
-
-            for p in data:
-                codigo=p['codigo_empresa']
-                if (codigo==rutt):
-                    numfilas = numfilas + 1
-
-            for i in data:
-                tipo = i['tipo']
-                sigla = i['sigla']
-                numero = i['numero']
-                numeroreferencia = i['numero_referencia']
-                direccion = i['direccion']
-                direccionreferencia = i['direccion_referencia']
-                estado = i['estado']
-                tamaño = i['tamaño']
-                ruta = i['ruta_critica']
-                distancia = i['distancia_marina']
-                nivel = i['nivel']
-                macrobloque = i['macrobloque']
-                sectores = i['sector']
-                id = i['id_frente']
-                codigo=i['codigo_empresa']
-                if(codigo==rutt):
-                    tipos.append(tipo)
-                    siglas.append(sigla)
-                    numeros.append(numero)
-                    numeroreferencias.append(numeroreferencia)
-                    direcciones.append(direccion)
-                    direccionreferencias.append(direccionreferencia)
-                    estados.append(estado)
-                    tamanios.append(tamaño)
-                    rutas.append(ruta)
-                    distancias.append(distancia)
-                    niveles.append(nivel)
-                    macrobloques.append(macrobloque)
-                    sector.append(sectores)
-                    ides.append(id)
-            cursor.close()
-            bd3.commit()
-            bd3.close
-        except Exception as e:
-            print(e)
-        creartablafrentes()
-
-    def vereequipos():
-        numfilas = 1
-        numcolumnas = 4
-        win4 = Tk()
-        win4.title('Recurso_equipos')
-        tabla = Frame(win4)
-        tabla.pack()
-        def creartablaequipos():
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                    x = Entry(tabla)
-                    x.grid(row = f, column = j)
-                    if(j==0):
-                        x.insert(END,flota[f])
-                    if(j==1):
-                        x.insert(END,codigoequipo[f])
-                    if(j==2):
-                        x.insert(END,cantidad[f])
-                    if(j==3):
-                        x.insert(END,niveleq[f])
-        
-        cursor = bd4.cursor()
-    
-        sql =  "SELECT * from recurso_equipos"
-        try: 
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            
-            for i in data:
-                flotaa = i ['flota']
-                flota.append(flotaa)
-                codigoequipoo = i ['codigo_equipo']
-                codigoequipo.append(codigoequipoo)
-                cantidadd = i ['cantidad']
-                cantidad.append(cantidadd)
-                niveleqq = i ['nivel']
-                niveleq.append(niveleqq)
-                numfilas = numfilas + 1
-
-            cursor.close()
-            bd4.commit()
-            bd4.close()
-        except Exception as e :
-                print("exception : ",e)      
-        creartablaequipos()
-
-    def verestadoservicios():
-        numfilas = 1
-        numcolumnas = 6
-        win4 = Tk()
-        win4.title('Estado servicios')
-        tabla = Frame(win4)
-        tabla.pack()
-        def creartablaservicios():
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                    x = Entry(tabla)
-                    x.grid(row = f, column = j)
-                    if(j==0):
-                        x.insert(0,estadoservicio[f])
-                    if(j==1):
-                        x.insert(0,notaestado[f])
-                    if(j==2):
-                        x.insert(0,pkservicio[f])
-                    if(j==3):
-                        x.insert(0,notapk[f])
-                    if(j==4):
-                        x.insert(0,fecha[f])
-                    if(j==5):
-                        x.insert(0,idfrente[f])
-
-        cursor = bd5.cursor()
-
-        sql =  "SELECT * from estado_servicios"
-        try: 
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                estadoservicioo = i ['estado_servicio']
-                estadoservicio.append(estadoservicioo)
-                notaestadoo = i ['nota_estado']
-                notaestado.append(notaestadoo)
-                pkservicioo = i ['pk_servicio']
-                pkservicio.append(pkservicioo)
-                notapka = i ['nota_pk']
-                notapk.append(notapka)
-                fechaa = i ['fecha']
-                fecha.append(fechaa)
-                idfrentee = i ['id_frente']
-                idfrente.append(idfrentee)
-                numfilas = numfilas + 1
-
-            cursor.close()
-            bd5.commit()
-            bd5.close()
-        except Exception as e :
-                print("exception : ",e )
-        creartablaservicios()
-
-    def veravances():
-        numfilas = 1
-        numcolumnas = 6
-        win4 = Tk()
-        win4.title('Avances')
-        tabla=Frame(win4)
-        tabla.pack()
-        def creartablaavance(): 
-            for f in range(numfilas):
-                for j in range (numcolumnas):
-                    x = Entry(tabla)
-                    x.grid(row = f, column = j)
-                    if(j==0):
-                            x.insert(0,avance[f])
-                    if(j==1):
-                            x.insert(0,nivel[f])
-                    if(j==2):
-                            x.insert(0,notaactividad[f])
-                    if(j==3):
-                            x.insert(0,pkacumulado[f])
-                    if(j==4):
-                            x.insert(0,fechaav[f])
-                    if(j==5):
-                            x.insert(0,idfrenteav[f])
-
-        cursor = bd6.cursor()
-
-        sql =  "SELECT * from avances"
-        try:
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                avancee = i ['avance']
-                avance.append(avancee)
-                nivelav = i ['nivel']
-                nivel.append(nivelav)
-                notaactividadd = i ['nota_actividad']
-                notaactividad.append(notaactividadd)
-                pkacumuladoo = i ['pk_acumulado']
-                pkacumulado.append(pkacumuladoo)
-                fechaavv = i ['fecha']
-                fechaav.append(fechaavv)
-                idfrenteavv = i ['id_frente']
-                idfrenteav.append(idfrenteavv)
-                numfilas = numfilas + 1
-
-            cursor.close()
-            bd6.commit()
-            bd6.close()
-        except Exception as e :
-            print("exception : ",e )
-        creartablaavance()
-    def estadofrentes():
-        numfilas = 1
-        numcolumnas = 7
-        win4 = Tk()
-        win4.title('Estado frentes')
-        tabla = Frame(win4)
-        tabla.pack()
-        def creartablaestadofrentes():
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                    x = Entry(tabla)
-                    x.grid(row = f, column = j)
-                    if(j==0):
-                        x.insert(0,operacion[f])
-                    if(j==1):
-                        x.insert(0,estadoavance[f])
-                    if(j==2):
-                        x.insert(0,observaciones[f])
-                    if(j==3):
-                        x.insert(0,fechaf[f])
-                    if(j==4):
-                        x.insert(0,criticidad[f])
-                    if(j==5):
-                        x.insert(0,direccion[f])
-                    if(j==6):
-                        x.insert(0,idfrentef[f])
-
-        cursor = bd7.cursor()
-        sql = "SELECT * from estado_frentes"  
-        try:
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                operacionn = i ['operacion']
-                operacion.append(operacionn)
-                estadoavancee = i ['estado_avance']
-                estadoavance.append(estadoavancee)
-                observacioness = i ['observaciones']
-                observaciones.append(observacioness)
-                fechaff = i ['fecha']
-                fechaf.append(fechaff)
-                criticidadd = i ['criticidad']
-                criticidad.append(criticidadd)
-                direccionn = i ['direccion']
-                direccion.append(direccionn)
-                idfrenteff = i['id_frente']
-                idfrentef.append(idfrenteff)
-                numfilas = numfilas + 1
-            
-            cursor.close()
-            bd7.commit()
-            bd7.close()
-        except Exception as e :
-                print("exception : ",e )
-        creartablaestadofrentes()
-    def verestadoequipos():
-        numfilas = 1
-        numcolumnas = 5
-        win4 = Tk()
-        win4.title('Estado equipos')
-        tabla = Frame(win4)
-        tabla.pack()
-        def creartablaestadoequipos():
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                    x = Entry(tabla)
-                    x.grid(row = f, column = j)
-                    if(j==0):
-                        x.insert(END,flotae[f])
-                    if(j==1):
-                        x.insert(END,nivel[f])
-                    if(j==2):
-                        x.insert(END,fechae[f])
-                    if(j==3):
-                        x.insert(END,estadoe[f])    
-                    if(j==4):
-                        x.insert(END,codigoe[f])
-
-        cursor = bd8.cursor()
-
-        sql = "SELECT * from estado_equipos"
-        try:
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            
-            for i in data:
-                flotaee = i ['flota']
-                flotae.append(flotaee)
-                nivell = i ['nivel']
-                nivel.append(nivell)
-                fechaee = i ['fecha']
-                fechae.append(fechaee)
-                estadoee = i ['estado']
-                estadoe.append(estadoee)
-                codigoee = i ['codigo_equipo']
-                codigoe.append(codigoee)
-                numfilas = numfilas + 1
-            
-            cursor.close()
-            bd8.commit()
-            bd8.close()
-        except Exception as e :
-            print("exception : ",e )
-        creartablaestadoequipos()
-#old botones 
-        
-
-
-# algoritmo 1
+def algoritmos(inicio,termino):
     
     cursor=bd13.cursor()
     totalfrentes = cursor.execute("select * from frentes")
     print("TOTAL FRENTES")
     print(totalfrentes)
-
-# Definir listas para priorizacion
-
-# Ruta critica 
+    #ruta
     print("RUTA CRITICA")
     rutacri = []
     rs = []
@@ -1407,9 +320,7 @@ def ingresomain(rut):
         rn.append(e)
 
     print("P1", rutacri)
-
-# Urgencia
-
+    #urgencia
     print("URGENCIA")
     urgencia = []
     p2 = []
@@ -1429,7 +340,7 @@ def ingresomain(rut):
     
     print("P2", p2)
 
-# Tronadura proxima
+    # Tronadura proxima
 
     print("TRONADURA PROXIMA") 
     troprosi = []
@@ -1612,7 +523,7 @@ def ingresomain(rut):
         
     print("P5", p5)
 
-# distancia a pique 
+ # distancia a pique 
 
     print("DISTANCIA A PIQUE") 
     dista = []
@@ -1633,8 +544,6 @@ def ingresomain(rut):
             pf.append(p)
 
     print("PRIORIZACIÓN", pf)
-
-    # Algoritmo 2
 
     cursor=bd14.cursor()
     totalfrentes = cursor.execute("select * from frentes")
@@ -1773,9 +682,9 @@ def ingresomain(rut):
 
     print("[-08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     print("[- 1   - 2   - 3   - 4   - 5   - 6   - 7   - 8   - 9   - 10  - 11  - 12  - 13  - 14  - 15  - 16  - 17  - 18  - 19  - 20  - 21  - 22  - 23  - 24  ]")
-    bloquei = int(input('INGRESE BLOQUE DE INICIO '))
+    bloquei = inicio
     bloquei = bloquei - 1
-    bloquet = int(input('INGRESE BLOQUE DE TERMINO '))
+    bloquet = termino
     reco = bloquet-bloquei
 
     # guarda espacios segun defina usuario
@@ -3742,33 +2651,842 @@ def ingresomain(rut):
         print(lr[i],l1[i],len(l1[i]))
 
     print ("ALMUERZO 1 RECURSO: ", recualmu)
+    
+    
+    excel = openpyxl.load_workbook('base.xlsx')
+    hoja = excel.active
+    for i in range(totalfrentes):
+        for j in range(termino):
+            hoja.cell(row=i+9,column=j+3).value = l1[i][j]
+    for i in range(totalfrentes):
+        hoja.cell(row=i+9,column=2).value = lr[i][0]
 
-    def ventanamatriz():
-        win4 = Tk()
-        win4.geometry('1080x200')
-        frame = Frame(win4)
+    excel.save("turno prototipo .xls") 
+
+    
+
+
+def addbdfrentes():
+    win4=Tk()
+    win4.geometry('300x340')
+    frameingreso = Frame(win4)
+    frameingreso.pack()
+
+    txtid=Label(frameingreso,text="ID Frente")
+    txtid.grid(row="0",column="0")
+    entryid= Entry(frameingreso)
+    entryid.grid(row="0",column="1")
+
+    txttipo=Label(frameingreso,text="Tipo de frente")
+    txttipo.grid(row="1",column="0")
+    entrytipo= ttk.Combobox(frameingreso)
+    entrytipo.grid(row="1",column="1")
+    entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
+
+    txtsigla=Label(frameingreso,text="Sigla de frente")
+    txtsigla.grid(row="2",column="0")
+    entrysigla= ttk.Combobox(frameingreso)
+    entrysigla.grid(row="2",column="1")
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
+
+    txtsigla=Label(frameingreso,text="Sigla de referencia")
+    txtsigla.grid(row="2",column="0")
+    entrysigla= ttk.Combobox(frameingreso)
+    entrysigla.grid(row="2",column="1")
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
+  
+    txtnumero=Label(frameingreso,text="Numero de frente")
+    txtnumero.grid(row="3",column="0")
+    entrynumero= Entry(frameingreso)
+    entrynumero.grid(row="3",column="1")
+
+    txtnumeroreferencias=Label(frameingreso,text="Numero referencia")
+    txtnumeroreferencias.grid(row="4",column="0")
+    entrynumeroreferencias= Entry(frameingreso)
+    entrynumeroreferencias.grid(row="4",column="1")
+
+    txtdireccion=Label(frameingreso,text="Direccion de frente")
+    txtdireccion.grid(row="5",column="0")
+    entrydireccion= ttk.Combobox(frameingreso)
+    entrydireccion.grid(row="5",column="1")
+    entrydireccion['values'] = ('N','S','E','O')
+
+    txtdireccionreferencias=Label(frameingreso,text="Direccion referencia")
+    txtdireccionreferencias.grid(row="6",column="0")
+    entrydireccionreferencias= ttk.Combobox(frameingreso)
+    entrydireccionreferencias.grid(row="6",column="1")
+    entrydireccionreferencias['values'] = ('N','S','E','O')
+
+    txtestado=Label(frameingreso,text="Estado de frente")
+    txtestado.grid(row="7",column="0")
+    entryestado= ttk.Combobox(frameingreso)
+    entryestado.grid(row="7",column="1")
+    entryestado['values'] = ('Activo','Inactivo')
+
+    txttamaño =Label(frameingreso,text="Tamaño de frente")
+    txttamaño.grid(row="8",column="0")
+    entrytamaño= ttk.Combobox(frameingreso)
+    entrytamaño.grid(row="8",column="1")
+    entrytamaño['values'] = ('C','M','G')
+
+    txtrutacritica=Label(frameingreso,text="Ruta critica")
+    txtrutacritica.grid(row="9",column="0")
+    entryrutacritica= ttk.Combobox(frameingreso)
+    entryrutacritica.grid(row="9",column="1")
+    entryrutacritica['values'] = ('Si','No')
+
+    txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
+    txtdistanciamarina.grid(row="10",column="0")
+    entrydistanciamarina= Entry(frameingreso)
+    entrydistanciamarina.grid(row="10",column="1")
+
+    txtnivelfrente=Label(frameingreso,text="Nivel")
+    txtnivelfrente.grid(row="11",column="0")
+    entrynivelfrente= ttk.Combobox(frameingreso)
+    entrynivelfrente.grid(row="11",column="1")
+    entrynivelfrente['values'] = ('PD','HD','INY','EXT','CH')
+
+    txtmacrobloque=Label(frameingreso,text="Macrobloque")
+    txtmacrobloque.grid(row="12",column="0")
+    entrymacrobloque= ttk.Combobox(frameingreso)
+    entrymacrobloque.grid(row="12",column="1")
+    entrymacrobloque['values'] = ('S01','S02','S03','S04','S05')
+
+    txtsector=Label(frameingreso,text="Sector")
+    txtsector.grid(row="13",column="0")
+    entrysector= ttk.Combobox(frameingreso)
+    entrysector.grid(row="13",column="1")
+    entrysector['values'] = ('S1','S2')
+
+    txtcodigo=Label(frameingreso,text="Codigo empresa")
+    txtcodigo.grid(row="14",column="0")
+    entrycodigo= Entry(frameingreso)
+    entrycodigo.grid(row="14",column="1")
+
+
+    def llenarfrente():
+        tipo =entrytipo.get()
+        sigla = entrysigla.get()
+        numero = entrynumero.get()
+        numeroreferencias = entrynumeroreferencias.get()
+        direccion = entrydireccion.get()
+        direccionreferencias = entrydireccionreferencias.get()
+        estado =entryestado.get()
+        tamaño = entrytamaño.get()
+        ruta =entryrutacritica.get()
+        distancia =entrydistanciamarina.get()
+        nivel = entrynivelfrente.get() 
+        macrobloque =entrymacrobloque.get()
+        sector = entrysector.get()
+        id = entryid.get()
+        codigoempresa = entrycodigo.get()
+        cursor=bd1.cursor()
+        sql =  "insert into frentes(tipo,sigla,numero,numero_referencia,direccion,direccion_referencia,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,sector,id_frente,codigo_empresa) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,numeroreferencias,direccion,direccionreferencias,estado,tamaño,ruta,distancia,nivel,macrobloque,sector,id,codigoempresa)
+        try:
+         cursor.execute(sql)
+         print (sql)
+         cursor.close()
+         bd1.commit()
+         bd1.close()
+        except Exception as e:
+            print("exception : ")
+            
+       # cursor.close()
+        #bd.commit()
+       # bd.close()
+    
+        win4.destroy()
+
+    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
+    botonllenarbd.grid(row="15")
+
+def addequipo():
+    win4=Tk()
+    frameingreso = Frame(win4)
+    frameingreso.pack()
+
+    def llenarequipo():
+        flota= entryflota.get()
+        codigo = entrycod.get()
+        cantidade= entrycantidade.get()
+        nivele= entrynivele.get()
+       
+        cursor=bd2.cursor()
+        sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
+        try:
+         cursor.execute(sql)
+         cursor.close()
+         bd2.commit()
+         bd2.close()
+        except Exception as e:
+         print(e)
+       # cursor.close()
+        #bd.commit()
+       # bd.close()
+        
+        win4.destroy()
+
+
+    txtflota =Label(frameingreso,text="Flota") #lista desplegable
+    txtflota.grid(row="0",column="0")
+    entryflota = ttk.Combobox(frameingreso)
+    entryflota.grid(row="0",column="1")
+    entryflota['values'] = ('Jumbo fortificación','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora')
+
+    txtcodigo=Label(frameingreso,text="Codigo_equipo")
+    txtcodigo.grid(row="1",column="0")
+    entrycod= Entry(frameingreso)
+    entrycod.grid(row="1",column="1")
+
+    txtcantidade=Label(frameingreso,text="Cantidad")
+    txtcantidade.grid(row="2",column="0")
+    entrycantidade= Entry(frameingreso)
+    entrycantidade.grid(row="2",column="1")
+
+    txtnivele=Label(frameingreso,text="Nivel de equipo") 
+    txtnivele.grid(row="3",column="0")
+    entrynivele= ttk.Combobox(frameingreso)
+    entrynivele.grid(row="3",column="1")
+    entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
+
+
+    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
+    botonllenarbd.grid(row="4")
+
+def modificarfrente():
+    win4=Tk()
+    win4.geometry('300x380')
+    frameingreso = Frame(win4)
+    frameingreso.pack()
+
+    txtid=Label(frameingreso,text="ID Frente")
+    txtid.grid(row="0",column="0")
+    entryid= Entry(frameingreso)
+    entryid.grid(row="0",column="1")
+
+    txttipo=Label(frameingreso,text="Tipo ")
+    txttipo.grid(row="1",column="0")
+    entrytipo= ttk.Combobox(frameingreso)
+    entrytipo.grid(row="1",column="1")
+    entrytipo['values'] = ('Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton extraccion')
+
+    txtsigla=Label(frameingreso,text="Sigla")
+    txtsigla.grid(row="2",column="0")
+    entrysigla= ttk.Combobox(frameingreso)
+    entrysigla.grid(row="2",column="1")
+    entrysigla['values'] = ('CAB','CAL','ZA','FRI','FRE')
+  
+    txtnumero=Label(frameingreso,text="Numero")
+    txtnumero.grid(row="3",column="0")
+    entrynumero= Entry(frameingreso)
+    entrynumero.grid(row="3",column="1")
+
+    txtnumeroreferencias=Label(frameingreso,text="Numero referencia")
+    txtnumeroreferencias.grid(row="4",column="0")
+    entrynumeroreferencias= Entry(frameingreso)
+    entrynumeroreferencias.grid(row="4",column="1")
+
+    txtdireccion=Label(frameingreso,text="Direccion")
+    txtdireccion.grid(row="5",column="0")
+    entrydireccion= ttk.Combobox(frameingreso)
+    entrydireccion.grid(row="5",column="1")
+    entrydireccion['values'] = ('N','S','E','O')
+
+    txtdireccionreferencias=Label(frameingreso,text="Direccion referencia")
+    txtdireccionreferencias.grid(row="6",column="0")
+    entrydireccionreferencias= ttk.Combobox(frameingreso)
+    entrydireccionreferencias.grid(row="6",column="1")
+    entrydireccionreferencias['values'] = ('N','S','E','O')
+
+    txtestado=Label(frameingreso,text="Estado")
+    txtestado.grid(row="7",column="0")
+    entryestado= ttk.Combobox(frameingreso)
+    entryestado.grid(row="7",column="1")
+    entryestado['values'] = ('Activo','Inactivo')
+
+    txttamaño =Label(frameingreso,text="Tamaño")
+    txttamaño.grid(row="8",column="0")
+    entrytamaño= ttk.Combobox(frameingreso)
+    entrytamaño.grid(row="8",column="1")
+    entrytamaño['values'] = ('C','M','G')
+
+    txtrutacritica=Label(frameingreso,text="Ruta critica")
+    txtrutacritica.grid(row="9",column="0")
+    entryrutacritica= ttk.Combobox(frameingreso)
+    entryrutacritica.grid(row="9",column="1")
+    entryrutacritica['values'] = ('Si','No')
+
+    txtdistanciamarina=Label(frameingreso,text="Distancia Marina")
+    txtdistanciamarina.grid(row="10",column="0")
+    entrydistanciamarina= Entry(frameingreso)
+    entrydistanciamarina.grid(row="10",column="1")
+
+    txtnivelfrente=Label(frameingreso,text="Nivel")
+    txtnivelfrente.grid(row="11",column="0")
+    entrynivelfrente= ttk.Combobox(frameingreso)
+    entrynivelfrente.grid(row="11",column="1")
+    entrynivelfrente['values'] = ('HD','PD','CH','INY','EXT','TI')
+
+    txtmacrobloque=Label(frameingreso,text="Macrobloque")
+    txtmacrobloque.grid(row="12",column="0")
+    entrymacrobloque= ttk.Combobox(frameingreso)
+    entrymacrobloque.grid(row="12",column="1")
+    entrymacrobloque['values'] = ('S01','S02','S03','S04','S05')
+
+    txtsector=Label(frameingreso,text="Sector")
+    txtsector.grid(row="13",column="0")
+    entrysector= ttk.Combobox(frameingreso)
+    entrysector.grid(row="13",column="1")
+    entrysector['values'] = ('S1','S2')
+
+    txtcodigo=Label(frameingreso,text="Codigo empresa")
+    txtcodigo.grid(row="14",column="0")
+    entrycodigo= Entry(frameingreso)
+    entrycodigo.grid(row="14",column="1")
+
+def ingresomain(rut): 
+    def verfrentesmenu():
+        print('entro vf')
+    def addfrentesmenu():
+        win5 = Tk()
+        win5.title('AÑADIR FRENTE')
+        frame = Frame(win5)
         frame.pack()
-        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
-        for uwu in range(0,30):
-            j = Entry(frame,width=5)
-            j.grid(row = 0, column = uwu)
-            j.insert(END,extra[uwu])
+        txtid= Label(frame,text='Id frente',width='23')
+        txtid.grid(column='0',row='0')
+        txttipo = Label(frame,text='Tipo',width='23')
+        txttipo.grid(column='0',row='1')
+        txtsigla = Label(frame,text='Sigla',width='23')
+        txtsigla.grid(column='0',row='2')
+        txtnumero = Label(frame,text='Numero',width='23')
+        txtnumero.grid(column='0',row='3')
+        txtnumeroref = Label(frame,text='Numero referencia',width='23')
+        txtnumeroref.grid(column='0',row='4')
+        txtdir = Label(frame,text='Direccion',width='23')
+        txtdir.grid(column='0',row='5')
+        txtdirref = Label(frame,text='Direccion referencia',width='23')
+        txtdirref.grid(column='0',row='6')
+        txtestado = Label(frame,text='Estado',width='23')
+        txtestado.grid(column='0',row='7')
+        txttam = Label(frame,text='Tamaño',width='23')
+        txttam.grid(column='0',row='8')
+        txtruta = Label(frame,text='Ruta critica',width='23')
+        txtruta.grid(column='0',row='9')
+        txtdmarina = Label(frame,text='Distancia marina',width='23')
+        txtdmarina.grid(column='0',row='10')
+        txtnivel = Label(frame,text='Tipo',width='23')
+        txtnivel.grid(column='0',row='11')
+        txtmacrob = Label(frame,text='Macrobloque',width='23')
+        txtmacrob.grid(column='0',row='12')
+        txtsector = Label(frame,text='Sector',width='23')
+        txtsector.grid(column='0',row='13')
+        txtcodigo = Label(frame,text='Codigo',width='23')
+        txtcodigo.grid(column='0',row='14')
+        txtfortificacion = Label(frame,text='Fortificacion',width='23')
+        txtfortificacion.grid(column='0',row='15')
+        txtciclo = Label(frame,text='Ciclo',width='23')
+        txtciclo.grid(column='0',row='16')
+        txtcriticidad = Label(frame,text='Criticidad',width='23')
+        txtcriticidad.grid(column='0',row='17')
+        
+
+        entryid = Entry(frame,width='23')
+        entryid.grid(column='1',row='0')
+    
+    #codigo de la ventana principal
+    rutt=rut
+    win3 = Tk()
+    win3.title('PROGRAMACION MINERA CAVES IA')
+    win3.config(bg="cornflowerblue")
+    win3.geometry('500x300')
+    framemain = Frame(win3)
+    framemain.pack(expand=1)
+    framemain.config(bg="royalblue", width="500", height="300", relief="sunken")
+    menubar = Menu(win3)
+    win3.config(menu=menubar)
+    menufrentes=Menu(menubar)
+    menuequipos=Menu(menubar)
+    menubar.add_cascade(label='frentes',menu=menufrentes)
+    menubar.add_cascade(label='equipos',menu=menuequipos)
+    menufrentes.add_command(label='añadir nueva frente',command=addfrentesmenu)
+    menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
+    menuequipos.add_command(label='añadir equipo')
+    menuequipos.add_command(label='ver equipo')
+    def verfrentes():
+        numfilas = 0
+        numcolumnas = 2
+        win4 = Tk()
+        win4.title('Estados de frente')
+        datos=Frame(win4)
+        datos.pack()
+        nid = Label(datos,text='  id Frente           ')
+        nid.grid(row='0',column='0')
+        nop = Label(datos,text='operacion anterior')
+        nop.grid(row='0',column='1')
+        tabla=Frame(win4)
+        tabla.pack()
+        def creartablafrentes():
+            
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                        x = Entry(tabla)
+                        x.grid(row = f, column = j)
+                        if (j==0):
+                                x.insert(END,ides1[f])
+                        if (j==1):
+                                x.insert(END,operaciones1[f])
+                        x.config(state='readonly')     
+        cursor = bd3.cursor()
+        cursor2 =  bd3.cursor()
+        sql2 = 'SELECT * from estado_frentes'
+        sql = 'SELECT * from frentes'
+        try:
+            cursor.execute(sql)
+            cursor2.execute(sql2)
+            data = cursor.fetchall()
+            dataprint = cursor2.fetchall()
+            for p in data:
+                codigo=p['codigo_empresa']
+                if (codigo==rutt):
+                    numfilas = numfilas + 1
+
+            for i in data:
+                id = i['id_frente']
+                codigo=i['codigo_empresa']
+                nivel=i['nivel']
+                if(codigo==rutt):
+                    ides1.append(id)
+                    niveles1.append(nivel)
+            for i in dataprint:
+                operacion = i['operacion']
+                idfren = i['id_frente']
+                ciclo = i ['ciclo']
+                for j in ides1:
+                    if(idfren==j):
+                        ciclos1.append(ciclo)
+                        operaciones1.append(operacion)
+            cursor.close()
+            bd3.commit()
+            bd3.close
+        except Exception as e:
+            print(e)
+        
+        creartablafrentes()
+       
+        
+    def ordenarsegunnivel(ides1,operaciones1,niveles):
+        tamaño = len(ides1)
+        print(tamaño)
+        for i in range(tamaño):
+            busqueda = niveles1[i]
+            if(busqueda=='HD'):
+                ordenHD.append(ides1[i])
+                opHD.append(operaciones1[i])
+            if(busqueda=='CH'):
+                ordenCH.append(ides1[i])
+                opCH.append(operaciones1[i])
+            if(busqueda=='EXT'):
+                ordenEXT.append(ides1[i])
+                opEXT.append(operaciones1[i])
+            if(busqueda=='INY'):
+                ordenINY.append(ides1[i])
+                opINY.append(operaciones1[i])
+            if(busqueda=='PD'):
+                ordenPD.append(ides1[i])
+                opPD.append(operaciones1[i])
+            if(busqueda=='TI'):
+                ordenTI.append(ides1[i])
+                opTI.append(operaciones1[i])
+    
+
+   
+    def inputdata():
+        print(rut)
+
+    
+    verestadofrentes = Button(framemain,text='VER ESTADO FRENTES',command=verfrentes,width='28')
+    verestadofrentes.grid(row='0',column="0")
+    ingresarfrentes = Button(framemain,text='CAMBIAR ESTADO FRENTES',command=inputdata,width='28')
+    ingresarfrentes.grid(row='1',column='0')
+    algoritmoboton = Button(framemain,text='CORRER ALGORITMO',command=ventanaalgoritmos,width='28')
+    algoritmoboton.grid(row='2',column='0')
+    
 
 
-        for f in range(0,len(lr)):
-                    for j in range(0,len(lr[f])):
-                            x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j)
-                            x.insert(END,lr[f][j])
+#old 
+    def verfrentesrut():
+        numfilas = 1
+        numcolumnas = 14
+        win4 = Tk()
+        win4.title('Frentes asociados al RUT')
+        tabla=Frame(win4)
+        tabla.pack()
+        def creartablafrentes():
+               for f in range(numfilas):
+                    for j in range(numcolumnas):
+                            x = Entry(tabla)
+                            x.grid(row = f, column = j)
+                            if (j==0):
+                                x.insert(END,tipos[f])
+                            if (j==1):
+                                x.insert(END,siglas[f])
+                            if (j==2):
+                                x.insert(END,numeros[f])
+                            if (j==3):
+                                x.insert(END,numeroreferencias[f])    
+                            if (j==4):
+                                x.insert(END,direcciones[f])
+                            if (j==5):
+                                x.insert(END,direccionreferencias[f])
+                            if (j==6):
+                                x.insert(END,estados[f])
+                            if (j==7):
+                                x.insert(END,tamanios[f])
+                            if (j==8):
+                                x.insert(END,rutas[f])
+                            if (j==9):
+                                x.insert(END,distancias[f])
+                            if (j==10):
+                                x.insert(END,niveles[f])
+                            if (j==11):
+                                x.insert(END,macrobloques[f])
+                            if (j==12):
+                                x.insert(END,sector[f])
+                            if (j==13):
+                             x.insert(END,ides[f])   
+                        
+        cursor = bd3.cursor()
+        cursor2 =  bd3.cursor()
+        sql2 = 'SELECT * from usuarios'
+        sql = 'SELECT * from frentes'
+        try:
+            cursor.execute(sql)
+            cursor2.execute(sql2)
+            data = cursor.fetchall()
+            users = cursor2.fetchall()
 
-        for f in range(0,len(l1)):
-                    for j in range(0,len(l1[f])):
-                            x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j+6)
-                            x.insert(END,l1[f][j])
+            for p in data:
+                codigo=p['codigo_empresa']
+                if (codigo==rutt):
+                    numfilas = numfilas + 1
 
-    vermatriz = Button(framemain,text='VER MATRIZ ',command=ventanamatriz,width='28')
-    vermatriz.grid(row='3',column="0")
+            for i in data:
+                tipo = i['tipo']
+                sigla = i['sigla']
+                numero = i['numero']
+                numeroreferencia = i['numero_referencia']
+                direccion = i['direccion']
+                direccionreferencia = i['direccion_referencia']
+                estado = i['estado']
+                tamaño = i['tamaño']
+                ruta = i['ruta_critica']
+                distancia = i['distancia_marina']
+                nivel = i['nivel']
+                macrobloque = i['macrobloque']
+                sectores = i['sector']
+                id = i['id_frente']
+                codigo=i['codigo_empresa']
+                if(codigo==rutt):
+                    tipos.append(tipo)
+                    siglas.append(sigla)
+                    numeros.append(numero)
+                    numeroreferencias.append(numeroreferencia)
+                    direcciones.append(direccion)
+                    direccionreferencias.append(direccionreferencia)
+                    estados.append(estado)
+                    tamanios.append(tamaño)
+                    rutas.append(ruta)
+                    distancias.append(distancia)
+                    niveles.append(nivel)
+                    macrobloques.append(macrobloque)
+                    sector.append(sectores)
+                    ides.append(id)
+            cursor.close()
+            bd3.commit()
+            bd3.close
+        except Exception as e:
+            print(e)
+        creartablafrentes()
+
+    def vereequipos():
+        numfilas = 1
+        numcolumnas = 4
+        win4 = Tk()
+        win4.title('Recurso_equipos')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaequipos():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(END,flota[f])
+                    if(j==1):
+                        x.insert(END,codigoequipo[f])
+                    if(j==2):
+                        x.insert(END,cantidad[f])
+                    if(j==3):
+                        x.insert(END,niveleq[f])
+        
+        cursor = bd4.cursor()
+    
+        sql =  "SELECT * from recurso_equipos"
+        try: 
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            
+            for i in data:
+                flotaa = i ['flota']
+                flota.append(flotaa)
+                codigoequipoo = i ['codigo_equipo']
+                codigoequipo.append(codigoequipoo)
+                cantidadd = i ['cantidad']
+                cantidad.append(cantidadd)
+                niveleqq = i ['nivel']
+                niveleq.append(niveleqq)
+                numfilas = numfilas + 1
+
+            cursor.close()
+            bd4.commit()
+            bd4.close()
+        except Exception as e :
+                print("exception : ",e)      
+        creartablaequipos()
+
+    def verestadoservicios():
+        numfilas = 1
+        numcolumnas = 6
+        win4 = Tk()
+        win4.title('Estado servicios')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaservicios():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(0,estadoservicio[f])
+                    if(j==1):
+                        x.insert(0,notaestado[f])
+                    if(j==2):
+                        x.insert(0,pkservicio[f])
+                    if(j==3):
+                        x.insert(0,notapk[f])
+                    if(j==4):
+                        x.insert(0,fecha[f])
+                    if(j==5):
+                        x.insert(0,idfrente[f])
+
+        cursor = bd5.cursor()
+
+        sql =  "SELECT * from estado_servicios"
+        try: 
+            cursor.execute(sql)
+            data = cursor.fetchall()
+
+            for i in data:
+                estadoservicioo = i ['estado_servicio']
+                estadoservicio.append(estadoservicioo)
+                notaestadoo = i ['nota_estado']
+                notaestado.append(notaestadoo)
+                pkservicioo = i ['pk_servicio']
+                pkservicio.append(pkservicioo)
+                notapka = i ['nota_pk']
+                notapk.append(notapka)
+                fechaa = i ['fecha']
+                fecha.append(fechaa)
+                idfrentee = i ['id_frente']
+                idfrente.append(idfrentee)
+                numfilas = numfilas + 1
+
+            cursor.close()
+            bd5.commit()
+            bd5.close()
+        except Exception as e :
+                print("exception : ",e )
+        creartablaservicios()
+
+    def veravances():
+        numfilas = 1
+        numcolumnas = 6
+        win4 = Tk()
+        win4.title('Avances')
+        tabla=Frame(win4)
+        tabla.pack()
+        def creartablaavance(): 
+            for f in range(numfilas):
+                for j in range (numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                            x.insert(0,avance[f])
+                    if(j==1):
+                            x.insert(0,nivel[f])
+                    if(j==2):
+                            x.insert(0,notaactividad[f])
+                    if(j==3):
+                            x.insert(0,pkacumulado[f])
+                    if(j==4):
+                            x.insert(0,fechaav[f])
+                    if(j==5):
+                            x.insert(0,idfrenteav[f])
+
+        cursor = bd6.cursor()
+
+        sql =  "SELECT * from avances"
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+
+            for i in data:
+                avancee = i ['avance']
+                avance.append(avancee)
+                nivelav = i ['nivel']
+                nivel.append(nivelav)
+                notaactividadd = i ['nota_actividad']
+                notaactividad.append(notaactividadd)
+                pkacumuladoo = i ['pk_acumulado']
+                pkacumulado.append(pkacumuladoo)
+                fechaavv = i ['fecha']
+                fechaav.append(fechaavv)
+                idfrenteavv = i ['id_frente']
+                idfrenteav.append(idfrenteavv)
+                numfilas = numfilas + 1
+
+            cursor.close()
+            bd6.commit()
+            bd6.close()
+        except Exception as e :
+            print("exception : ",e )
+        creartablaavance()
+    def estadofrentes():
+        numfilas = 1
+        numcolumnas = 7
+        win4 = Tk()
+        win4.title('Estado frentes')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaestadofrentes():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(0,operacion[f])
+                    if(j==1):
+                        x.insert(0,estadoavance[f])
+                    if(j==2):
+                        x.insert(0,observaciones[f])
+                    if(j==3):
+                        x.insert(0,fechaf[f])
+                    if(j==4):
+                        x.insert(0,criticidad[f])
+                    if(j==5):
+                        x.insert(0,direccion[f])
+                    if(j==6):
+                        x.insert(0,idfrentef[f])
+
+        cursor = bd7.cursor()
+        sql = "SELECT * from estado_frentes"  
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+
+            for i in data:
+                operacionn = i ['operacion']
+                operacion.append(operacionn)
+                estadoavancee = i ['estado_avance']
+                estadoavance.append(estadoavancee)
+                observacioness = i ['observaciones']
+                observaciones.append(observacioness)
+                fechaff = i ['fecha']
+                fechaf.append(fechaff)
+                criticidadd = i ['criticidad']
+                criticidad.append(criticidadd)
+                direccionn = i ['direccion']
+                direccion.append(direccionn)
+                idfrenteff = i['id_frente']
+                idfrentef.append(idfrenteff)
+                numfilas = numfilas + 1
+            
+            cursor.close()
+            bd7.commit()
+            bd7.close()
+        except Exception as e :
+                print("exception : ",e )
+        creartablaestadofrentes()
+    def verestadoequipos():
+        numfilas = 1
+        numcolumnas = 5
+        win4 = Tk()
+        win4.title('Estado equipos')
+        tabla = Frame(win4)
+        tabla.pack()
+        def creartablaestadoequipos():
+            for f in range(numfilas):
+                for j in range(numcolumnas):
+                    x = Entry(tabla)
+                    x.grid(row = f, column = j)
+                    if(j==0):
+                        x.insert(END,flotae[f])
+                    if(j==1):
+                        x.insert(END,nivel[f])
+                    if(j==2):
+                        x.insert(END,fechae[f])
+                    if(j==3):
+                        x.insert(END,estadoe[f])    
+                    if(j==4):
+                        x.insert(END,codigoe[f])
+
+        cursor = bd8.cursor()
+
+        sql = "SELECT * from estado_equipos"
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            
+            for i in data:
+                flotaee = i ['flota']
+                flotae.append(flotaee)
+                nivell = i ['nivel']
+                nivel.append(nivell)
+                fechaee = i ['fecha']
+                fechae.append(fechaee)
+                estadoee = i ['estado']
+                estadoe.append(estadoee)
+                codigoee = i ['codigo_equipo']
+                codigoe.append(codigoee)
+                numfilas = numfilas + 1
+            
+            cursor.close()
+            bd8.commit()
+            bd8.close()
+        except Exception as e :
+            print("exception : ",e )
+        creartablaestadoequipos()
+#old botones 
+        
+
+
+# algoritmo 1
+    
+    
+# Definir listas para priorizacion
+
+# Ruta critica 
+
+
+# Urgencia
+
+    
+
+    
+
+    # Algoritmo 2
+
+    
 
         
     def insertarestadofrentesbd():
@@ -3826,6 +3544,7 @@ def botoningresar():
         if(i==rut):
             win.destroy()
             if(j==password):
+                
                 ingresomain(k)
 
 def botonregistrar():
