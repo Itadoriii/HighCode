@@ -1,6 +1,7 @@
 from ast import Index
 from cProfile import run
 import collections
+import tkinter as tk 
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
 from itertools import permutations
@@ -3103,7 +3104,67 @@ def ingresomain(rut):
 
    
     def inputdata():
-       
+        def quefortes(frente):
+            for i in tipopmsh:
+                if(frente==i):
+                    return 'p-m-sh' 
+            for i in tipopshf:
+                if(frente==i):
+                    return 'p-shf'
+            for i in tiposhfpmsh:
+                if(frente==i):
+                    return 'shf-p-m-sh'
+        def quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa):
+            lista = list()
+            lista.append(pp)
+            lista.append(l)
+            lista.append(m)
+            lista.append(mt)
+            lista.append(h)
+            lista.append(psh)
+            lista.append(pa)
+            for i in range(len(lista)):
+                aux = lista[i]
+                if(aux=='si'): 
+                    lista[i]='1'
+                if(aux=='no'):
+                    lista[i]='0'
+            fort = quefortes(frente)
+            if(operacion=='perforacion_pernos'):
+                match fort:
+                    case 'p-m-sh':
+                        print('pueden ser todos')
+                    case 'p-shf':
+                        unos = 0
+                        for i in lista:
+                            if(i=='1'):
+                                unos = unos + 1
+                        print(unos)
+                        if(unos==1):
+                            print('ciclo 456')
+                        if(unos==2):
+                            print('ciclo 12')
+                        if(unos==3):
+                            print('ciclo 3')
+                    case 'shf-p-m-sh':
+                        unos = 0
+                        for i in lista:
+                            if(i=='1'):
+                                unos = unos + 1
+                        print(unos)
+                        if(unos==1):
+                            print('ciclo 1')
+                        if(unos==2):
+                            print('ciclo 2')
+                        if(unos==3):
+                            print('ciclo 3')
+            if(operacion=='')
+
+
+
+                
+            
+            print(lista)
         #DIVIDIR FRENTES POR NIVEL 
         cursor = bd14.cursor()
         sql = 'select * from frentes'
@@ -3116,11 +3177,15 @@ def ingresomain(rut):
         nivelpd = []
         nivelch = []
         niveliny = []
+        tipopmsh = []
+        tiposhfpmsh = []
+        tipopshf = []
         #ordena id segun nivel 
         for i in data :
             cod = i['codigo_empresa']
             idfren = i['id_frente']
             nivel = i['nivel']
+            tipofort =i['tipofort']
             if(cod==rut):
                 match nivel:
                     case 'TI':
@@ -3141,6 +3206,16 @@ def ingresomain(rut):
                     case 'INY':
                         print(nivel,idfren)
                         niveliny.append(idfren)
+            if(cod==rut):
+                match tipofort:
+                    case 'p-m-sh':
+                        tipopmsh.append(idfren)
+                    case 'p-shf':
+                        tipopshf.append(idfren)
+                    case 'shf-p-m-sh':
+                        tiposhfpmsh.append(idfren)
+
+
         #codigo ventana botones de nivel 
         def inhd():
             print('entro')
@@ -3631,29 +3706,64 @@ def ingresomain(rut):
             listoperacion = ttk.Combobox(frame)
             listoperacion.grid(row='1',column='1')
             listoperacion['values'] = ciclominero1
+            
             def chequear():
                 frente = listfrente.get()
                 operacion = listoperacion.get()
                 # 'pp','l','m','mt','h','sh','pa',
                 if(operacion=='perforacion_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                        
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+
+
+                   
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
                 if (operacion=='lechado_pernos'):
                     print(frente,operacion)
