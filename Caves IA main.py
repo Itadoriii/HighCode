@@ -1,7 +1,6 @@
 from ast import Index
 from cProfile import run
 import collections
-from copy import deepcopy
 import tkinter as tk 
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
@@ -26,7 +25,6 @@ from pkg_resources import PathMetadata
 import pymysql.cursors
 import numpy as np
 import openpyxl
-import copy
 #memo 
 ides1 = []
 ciclos1 = []
@@ -69,21 +67,21 @@ operaciones = [
         ['q','tronadura','-',1,1,1,'mineria',0,'no','-'],
     ]
 ciclos = [ 
-        ['p-m-sh',1,['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
-        ['p-m-sh',2,['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','pa','sh','c','q']],
-        ['p-m-sh',3,['rm','e','ac','lp','sc','mg','pp','l','m','mt','pa','h','sh','c','q']],
-        ['p-m-sh',4,['rm','e','ac','lp','sc','mg','pp','l','m','h','sh','mt','pa','c','q']],
-        ['p-m-sh',5,['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','sh','pa','c','q']],
-        ['p-m-sh',6,['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','pa','sh','c','q']],
-        ['p-shf',1,['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
-        ['p-shf',2,['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
-        ['p-shf',3,['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
-        ['p-shf',4,['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
-        ['p-shf',5,['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
-        ['p-shf',6,['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
-        ['shf-p-m-sh',1,['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
-        ['shf-p-m-sh',2,['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
-        ['shf-p-m-sh',3,['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
+        ['p-m-sh','1',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
+        ['p-m-sh','2',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','pa','sh','c','q']],
+        ['p-m-sh','3',['rm','e','ac','lp','sc','mg','pp','l','m','mt','pa','h','sh','c','q']],
+        ['p-m-sh','4',['rm','e','ac','lp','sc','mg','pp','l','m','h','sh','mt','pa','c','q']],
+        ['p-m-sh','5',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','sh','pa','c','q']],
+        ['p-m-sh','6',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','pa','sh','c','q']],
+        ['p-shf','1',['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
+        ['p-shf','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['p-shf','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
+        ['p-shf','4',['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
+        ['p-shf','5',['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
+        ['p-shf','6',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh','1',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['shf-p-m-sh','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
     ]
 
 #memoria para mostrar tablas frente
@@ -191,88 +189,90 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='admin',
+                             password='1312',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+
+ciclosyfrentes = []
 def ventanaalgoritmos():
     def run():
         inicio = entryi.get()
@@ -296,8 +296,11 @@ def ventanaalgoritmos():
     entryt['values'] = ('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25')
     correr = Button(framemain,text='GENERAR REPORTE',command=run, anchor=CENTER)
     correr.grid(row='3',column='0')
+    
+    
 
     
+
 def algoritmos(inicio,termino):
     
     # Algoritmo 1
@@ -317,7 +320,10 @@ def algoritmos(inicio,termino):
         ['F5',5],
         ['F6',6]
     ]
-
+    for i in range(0,len(ciclosyfrentes)):
+        if(len(ciclosyfrentes[i])==1):
+            ciclosyfrentes[i].append('1')
+    print(ciclosyfrentes)
     #ruta
     print("RUTA CRITICA")
     rutacri = []
@@ -420,9 +426,9 @@ def algoritmos(inicio,termino):
             operfnaux.append('q')
 
     for r in range(totalfrentes):
-        for c in range(len(ciclosyfrente)):
-            if(idaux[r] == ciclosyfrente[c][0]):
-                cicloaux.append(ciclosyfrente[c][1])
+        for c in range(len(ciclosyfrentes)):
+            if(idaux[r] == ciclosyfrentes[c][0]):
+                cicloaux.append(ciclosyfrentes[c][1])
 
     for r in range(totalfrentes):
         for c in range(15):
@@ -2654,8 +2660,6 @@ def algoritmos(inicio,termino):
     excel.save("turno prototipo .xls") 
 
     
-
-
 def addbdfrentes():
     win4=Tk()
     win4.geometry('300x340')
@@ -3002,6 +3006,31 @@ def ingresomain(rut):
     menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
     menuequipos.add_command(label='añadir equipo')
     menuequipos.add_command(label='ver equipo')
+    def addestadofrentes(frente,operacion):
+        bd15 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='1312',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+        print(frente,operacion)
+        fecha = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        print(fecha)
+        cursor = bd15.cursor()
+        sql = "insert into estado_frentes(id_frente,operacion,fecha) value('%s','%s','%s')" % (frente, operacion, fecha)
+        try:
+            
+            cursor.execute(sql)
+            bd15.commit()
+            cursor.close()
+            
+        
+        except Exception as e:
+            print(e)
+        bd15.close()
+       
+        
+        
     def verfrentes():
         numfilas = 0
         numcolumnas = 2
@@ -3016,6 +3045,11 @@ def ingresomain(rut):
         tabla=Frame(win4)
         tabla.pack()
         def creartablafrentes():
+            
+            
+
+            
+
             
             for f in range(numfilas):
                 for j in range(numcolumnas):
@@ -3066,6 +3100,7 @@ def ingresomain(rut):
         
     def ordenarsegunnivel(ides1,operaciones1,niveles):
         tamaño = len(ides1)
+        
         print(tamaño)
         for i in range(tamaño):
             busqueda = niveles1[i]
@@ -3091,6 +3126,13 @@ def ingresomain(rut):
 
    #añadir atributo tipofort en tabla frentes
     def inputdata():
+        def pushfrente(frente,ciclo):
+            print('push',frente,ciclo)
+            tam = len(ciclosyfrentes)
+            for i in range(0,tam):
+                if (ciclosyfrentes[i][0]==frente):
+                    ciclosyfrentes[i].append(ciclo)
+            print(ciclosyfrentes)
         def quefortes(frente):
             for i in tipopmsh:
                 if(frente==i):
@@ -3111,6 +3153,8 @@ def ingresomain(rut):
             lista.append(h)
             lista.append(psh)
             lista.append(pa)
+            
+            
             for i in range(len(lista)):
                 aux = lista[i]
                 if(aux=='si'): 
@@ -3130,10 +3174,20 @@ def ingresomain(rut):
                         print(unos)
                         if(unos==1):
                             print('ciclo 4,5,6')
+                            ciclo = '4'
+                            pushfrente(frente,ciclo)
+
+                            
                         if(unos==2):
                             print('ciclo 1,2')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==3):
                             print('ciclo 3')
+                            ciclo = '3'
+                            pushfrente(frente,ciclo)
+                           
                     case 'shf-p-m-sh':
                         unos = 0
                         for i in lista:
@@ -3142,14 +3196,21 @@ def ingresomain(rut):
                         print(unos)
                         if(unos==1):
                             print('ciclo 1')
+                            ciclo= '1'
+                            pushfrente(frente,ciclo)
                         if(unos==2):
                             print('ciclo 2')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
                         if(unos==3):
                             print('ciclo 3')
+                            ciclo = '3'
+                            pushfrente(frente,ciclo)
             if(operacion=='lechado_pernos'):
                 match fort:
                     case 'p-m-sh':
                         print('pueden ser todos')
+                        ciclo = '1'
                     case 'p-shf':
                         unos = 0
                         for i in lista:
@@ -3157,20 +3218,39 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 4')
+                            ciclo = '4'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==2):
                             print('ciclo 1,5')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==3):
-                            print('ciclo 2,,3,6')
+                            print('ciclo 2,3,6')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
+                            
                     case 'shf-p-m-sh':
                         print('pueden ser todos')
+                        ciclo = '1'
+                        pushfrente(frente,ciclo)
+                        
             if(operacion=='mapeo_geomecanico'):
                 match fort:
                     case 'p-m-sh':
                         print('pueden ser todos')
+                        ciclo = '1'
+                        pushfrente(frente,ciclo)
+                        
                     case 'p-shf':
                         print('no hay')
+                        ciclo = '0'
+                        pushfrente(frente,ciclo)
                     case 'shf-p-m-sh':
                         print('no hay')
+                        ciclo = '0'
+                        pushfrente(frente,ciclo)
             if(operacion=='marcacion_topografica'):
                 match fort:
                     case 'p-m-sh':
@@ -3180,10 +3260,18 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==3):
                             print('ciclo 1,2,3')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
                         if(unos==4):
                             print('ciclo 5,6')
+                            ciclo = '5'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==5):
                             print('ciclo 4')
+                            ciclo = '4'
+                            pushfrente(frente,ciclo)
+                            
                         
                     case 'p-shf':
                         unos = 0
@@ -3192,10 +3280,16 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==0):
                             print('ciclo 1,2,3')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
                         if(unos==1):
                             print('ciclo 5,6')
+                            ciclo = '5'
+                            pushfrente(frente,ciclo)
                         if(unos==2):
-                            print('ciclo 2,,3,6')
+                            print('ciclo 2,3,6')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
                     case 'shf-p-m-sh':
                         unos = 0
                         for i in lista:
@@ -3203,8 +3297,12 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==0):
                             print('ciclo 2,3')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
                         if(unos==1):
-                            print('ciclo 1')                        
+                            print('ciclo 1')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)                        
             if(operacion=='hilteo_malla'):
                 match fort:
                     case 'p-m-sh':
@@ -3214,10 +3312,17 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==3):
                             print('ciclo 5,6,7')
+                            ciclo = '5'
+                            pushfrente(frente,ciclo)
+                        
                         if(unos==4):
                             print('ciclo 1,2')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
                         if(unos==5):
                             print('ciclo 4')
+                            ciclo = '4'
+                            pushfrente(frente,ciclo)
                     case 'p-shf':
                         print('no hay')
                     case 'shf-p-m-sh':
@@ -3231,10 +3336,19 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==4):
                             print('ciclo 4')
+                            ciclo = '4'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==5):
                             print('ciclo 1,5')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==6):
                             print('ciclo 2,3,6')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
+                            
                     case 'p-shf':
                         print('no hay')
                     case 'shf-p-m-sh':
@@ -3248,10 +3362,17 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==4):
                             print('ciclo 3')
+                            ciclo = '3'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==5):
                             print('ciclo 6,2')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
                         if(unos==6):
                             print('ciclo 1,4,5')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
                     case 'p-shf':
                         unos = 0
                         for i in lista:
@@ -3259,10 +3380,19 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 3')
+                            ciclo = '3'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==2):
                             print('ciclo 2,6')
+                            ciclo = '2'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==3):
                             print('ciclo 1,4,5')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
+                            
                         
                     case 'shf-p-m-sh':
                         unos = 0
@@ -3271,8 +3401,14 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 3')
+                            ciclo = '3'
+                            pushfrente(frente,ciclo)
+                            
                         if(unos==2):
                             print('ciclo 1,2')
+                            ciclo = '1'
+                            pushfrente(frente,ciclo)
+                            
                       
             print(lista)
         #DIVIDIR FRENTES POR NIVEL 
@@ -3294,6 +3430,9 @@ def ingresomain(rut):
         for i in data :
             cod = i['codigo_empresa']
             idfren = i['id_frente']
+            e = list()
+            e.append(idfren)
+            ciclosyfrentes.append(e)
             nivel = i['nivel']
             tipofort =i['tipofort']
             if(cod==rut):
@@ -3327,6 +3466,7 @@ def ingresomain(rut):
 
 
         #codigo ventana botones de nivel 
+       
         def inhd():
             print('entro')
             winhd = Tk()
@@ -3344,459 +3484,415 @@ def ingresomain(rut):
             listoperacion = ttk.Combobox(frame)
             listoperacion.grid(row='1',column='1')
             listoperacion['values'] = ciclominero1
+            
             def chequear():
                 frente = listfrente.get()
                 operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
                 # 'pp','l','m','mt','h','sh','pa',
                 if(operacion=='perforacion_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
                 if (operacion=='lechado_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                  
                 if(operacion=='instalacion_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='marcacion_topografica'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='hilteo_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                   
                 if(operacion=='proyeccion_shotcrete'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='perforacion_avance'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-            verificar = Button(frame,text='Verificar',command=chequear)
-            verificar.grid(row='2',column='0')
-        def inext():
-            print('entro')
-            winhd = Tk()
-            winhd.title('FRENTES NIVEL HD')
-            frame = Frame(winhd)
-            frame.pack()
-            marcadores = Frame(winhd)
-            txtfrente = Label(frame,text='ID FRENTE:')
-            txtfrente.grid(row='0',column='0')
-            listfrente = ttk.Combobox(frame)
-            listfrente.grid(row='0',column='1')
-            listfrente['values']=nivelext
-            txtoperacion = Label(frame,text='Operacion:')
-            txtoperacion.grid(row='1',column='0')
-            listoperacion = ttk.Combobox(frame)
-            listoperacion.grid(row='1',column='1')
-            listoperacion['values'] = ciclominero1
-            def chequear():
-                frente = listfrente.get()
-                operacion = listoperacion.get()
-                # 'pp','l','m','mt','h','sh','pa',
-                if(operacion=='perforacion_pernos'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
 
-                if (operacion=='lechado_pernos'):
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='instalacion_malla'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='marcacion_topografica'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='hilteo_malla'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='proyeccion_shotcrete'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='perforacion_avance'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-            verificar = Button(frame,text='Verificar',command=chequear)
-            verificar.grid(row='2',column='0')
-        def inch():
-            print('entro')
-            winhd = Tk()
-            winhd.title('FRENTES NIVEL HD')
-            frame = Frame(winhd)
-            frame.pack()
-            marcadores = Frame(winhd)
-            txtfrente = Label(frame,text='ID FRENTE:')
-            txtfrente.grid(row='0',column='0')
-            listfrente = ttk.Combobox(frame)
-            listfrente.grid(row='0',column='1')
-            listfrente['values']=nivelch
-            txtoperacion = Label(frame,text='Operacion:')
-            txtoperacion.grid(row='1',column='0')
-            listoperacion = ttk.Combobox(frame)
-            listoperacion.grid(row='1',column='1')
-            listoperacion['values'] = ciclominero1
-            def chequear():
-                frente = listfrente.get()
-                operacion = listoperacion.get()
-                # 'pp','l','m','mt','h','sh','pa',
-                if(operacion=='perforacion_pernos'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
-                if (operacion=='lechado_pernos'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='instalacion_malla'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='marcacion_topografica'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='hilteo_malla'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='proyeccion_shotcrete'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-                if(operacion=='perforacion_avance'):
-                    print(frente,operacion)
-                    marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
-
+                else:
+                    ciclo = '1'
+                    
             verificar = Button(frame,text='Verificar',command=chequear)
             verificar.grid(row='2',column='0')
         def inpd():
@@ -3820,6 +3916,7 @@ def ingresomain(rut):
             def chequear():
                 frente = listfrente.get()
                 operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
                 # 'pp','l','m','mt','h','sh','pa',
                 if(operacion=='perforacion_pernos'):
                     def getchek():
@@ -3838,36 +3935,43 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
 
@@ -3888,36 +3992,43 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
                   
@@ -3938,36 +4049,43 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
                     
@@ -3988,36 +4106,43 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
                     
@@ -4038,36 +4163,43 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
                    
@@ -4088,40 +4220,133 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
                     
                 if(operacion=='perforacion_avance'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+
+                else:
+                    ciclo = '1'
+                    
+            verificar = Button(frame,text='Verificar',command=chequear)
+            verificar.grid(row='2',column='0')
+        def inch():
+            print('entro')
+            winhd = Tk()
+            winhd.title('FRENTES NIVEL HD')
+            frame = Frame(winhd)
+            frame.pack()
+            marcadores = Frame(winhd)
+            txtfrente = Label(frame,text='ID FRENTE:')
+            txtfrente.grid(row='0',column='0')
+            listfrente = ttk.Combobox(frame)
+            listfrente.grid(row='0',column='1')
+            listfrente['values']=nivelch
+            txtoperacion = Label(frame,text='Operacion:')
+            txtoperacion.grid(row='1',column='0')
+            listoperacion = ttk.Combobox(frame)
+            listoperacion.grid(row='1',column='1')
+            listoperacion['values'] = ciclominero1
+            
+            def chequear():
+                frente = listfrente.get()
+                operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
+                # 'pp','l','m','mt','h','sh','pa',
+                if(operacion=='perforacion_pernos'):
                     def getchek():
                         pp=pplist.get()
                         l=llist.get()
@@ -4138,38 +4363,391 @@ def ingresomain(rut):
                     pplist = ttk.Combobox(marcadores)
                     pplist.grid(row='1',column='1')
                     pplist['values']=['si','no']
+                    pplist.current(1)
                     l = Label(marcadores,text='Lechado pernos')
                     l.grid(row='2',column='0')
                     llist = ttk.Combobox(marcadores)
                     llist.grid(row='2',column='1')
                     llist['values']=['si','no']
+                    llist.current(1)
                     m = Label(marcadores,text='Instalacion malla')
                     m.grid(row='3',column='0')
                     mlist = ttk.Combobox(marcadores)
                     mlist.grid(row='3',column='1')
                     mlist['values']=['si','no']
+                    mlist.current(1)
                     mt = Label(marcadores,text='Marcacion topografica')
                     mt.grid(row='4',column='0')
                     mtlist = ttk.Combobox(marcadores)
                     mtlist.grid(row='4',column='1')
                     mtlist['values']=['si','no']
+                    mtlist.current(1)
                     h = Label(marcadores,text='Hilteo malla')
                     h.grid(row='5',column='0')
                     hlist = ttk.Combobox(marcadores)
                     hlist.grid(row='5',column='1')
                     hlist['values']=['si','no']
+                    hlist.current(1)
                     psh = Label(marcadores,text='Proyeccion shotcrete')
                     psh.grid(row='6',column='0')
                     pshlist = ttk.Combobox(marcadores)
                     pshlist.grid(row='6',column='1')
                     pshlist['values']=['si','no']
+                    pshlist.current(1)
                     pa = Label(marcadores,text='Perforacion avance')
                     pa.grid(row='7',column='0')
                     palist = ttk.Combobox(marcadores)
                     palist.grid(row='7',column='1')
                     palist['values']=['si','no']
+                    palist.current(1)
                     cualciclo = Button(marcadores,text='Ciclo',command=getchek)
                     cualciclo.grid(row='8',column='0')
+
+                if (operacion=='lechado_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                  
+                if(operacion=='instalacion_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='marcacion_topografica'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='hilteo_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                   
+                if(operacion=='proyeccion_shotcrete'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='perforacion_avance'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+
+                else:
+                    ciclo = '1'
                     
             verificar = Button(frame,text='Verificar',command=chequear)
             verificar.grid(row='2',column='0')
@@ -4190,144 +4768,843 @@ def ingresomain(rut):
             listoperacion = ttk.Combobox(frame)
             listoperacion.grid(row='1',column='1')
             listoperacion['values'] = ciclominero1
+            
             def chequear():
                 frente = listfrente.get()
                 operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
                 # 'pp','l','m','mt','h','sh','pa',
                 if(operacion=='perforacion_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
                 if (operacion=='lechado_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                  
                 if(operacion=='instalacion_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='marcacion_topografica'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='hilteo_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                   
                 if(operacion=='proyeccion_shotcrete'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='perforacion_avance'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+
+                else:
+                    ciclo = '1'
+                    
+            verificar = Button(frame,text='Verificar',command=chequear)
+            verificar.grid(row='2',column='0')
+        def inext():
+            print('entro')
+            winhd = Tk()
+            winhd.title('FRENTES NIVEL HD')
+            frame = Frame(winhd)
+            frame.pack()
+            marcadores = Frame(winhd)
+            txtfrente = Label(frame,text='ID FRENTE:')
+            txtfrente.grid(row='0',column='0')
+            listfrente = ttk.Combobox(frame)
+            listfrente.grid(row='0',column='1')
+            listfrente['values']=nivelext
+            txtoperacion = Label(frame,text='Operacion:')
+            txtoperacion.grid(row='1',column='0')
+            listoperacion = ttk.Combobox(frame)
+            listoperacion.grid(row='1',column='1')
+            listoperacion['values'] = ciclominero1
+            
+            def chequear():
+                frente = listfrente.get()
+                operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
+                # 'pp','l','m','mt','h','sh','pa',
+                if(operacion=='perforacion_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+
+                if (operacion=='lechado_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                  
+                if(operacion=='instalacion_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='marcacion_topografica'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='hilteo_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                   
+                if(operacion=='proyeccion_shotcrete'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
+                if(operacion=='perforacion_avance'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+
+                    print(frente,operacion)
+                    marcadores.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+
+                else:
+                    ciclo = '1'
+                    
             verificar = Button(frame,text='Verificar',command=chequear)
             verificar.grid(row='2',column='0')
         def inti():
@@ -4347,149 +5624,418 @@ def ingresomain(rut):
             listoperacion = ttk.Combobox(frame)
             listoperacion.grid(row='1',column='1')
             listoperacion['values'] = ciclominero1
+            
             def chequear():
                 frente = listfrente.get()
                 operacion = listoperacion.get()
+                addestadofrentes(frente,operacion)
                 # 'pp','l','m','mt','h','sh','pa',
                 if(operacion=='perforacion_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
                 if (operacion=='lechado_pernos'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                  
                 if(operacion=='instalacion_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='marcacion_topografica'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='hilteo_malla'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                   
                 if(operacion=='proyeccion_shotcrete'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
+                    
                 if(operacion=='perforacion_avance'):
+                    def getchek():
+                        pp=pplist.get()
+                        l=llist.get()
+                        m=mlist.get()
+                        mt=mtlist.get()
+                        h=hlist.get()
+                        psh=pshlist.get()
+                        pa=palist.get()
+                        quecicloes(frente,operacion,pp,l,m,mt,h,psh,pa)
+
                     print(frente,operacion)
                     marcadores.pack()
-                    pp = Checkbutton(marcadores,text='Perforacion pernos',onvalue=1,offvalue=0)
-                    pp.pack()
-                    l = Checkbutton(marcadores,text='Lechado pernos',onvalue=1,offvalue=0)
-                    l.pack()
-                    m = Checkbutton(marcadores,text='Instalacion malla',onvalue=1,offvalue=0)
-                    m.pack()
-                    mt = Checkbutton(marcadores,text='Marcacion topografica',onvalue=1,offvalue=0)
-                    mt.pack()
-                    h = Checkbutton(marcadores,text='Hilteo malla',onvalue=1,offvalue=0)
-                    h.pack()
-                    psh = Checkbutton(marcadores,text='Proyeccion shotcrete',onvalue=1,offvalue=0)
-                    psh.pack()
-                    pa = Checkbutton(marcadores,text='Perforacion avance',onvalue=1,offvalue=0)
-                    pa.pack()
-                    cualciclo = Button(marcadores,text='Ciclo')
-                    cualciclo.pack()
+                    pp = Label(marcadores,text='Perforacion pernos')
+                    pp.grid(row='1',column='0')
+                    pplist = ttk.Combobox(marcadores)
+                    pplist.grid(row='1',column='1')
+                    pplist['values']=['si','no']
+                    pplist.current(1)
+                    l = Label(marcadores,text='Lechado pernos')
+                    l.grid(row='2',column='0')
+                    llist = ttk.Combobox(marcadores)
+                    llist.grid(row='2',column='1')
+                    llist['values']=['si','no']
+                    llist.current(1)
+                    m = Label(marcadores,text='Instalacion malla')
+                    m.grid(row='3',column='0')
+                    mlist = ttk.Combobox(marcadores)
+                    mlist.grid(row='3',column='1')
+                    mlist['values']=['si','no']
+                    mlist.current(1)
+                    mt = Label(marcadores,text='Marcacion topografica')
+                    mt.grid(row='4',column='0')
+                    mtlist = ttk.Combobox(marcadores)
+                    mtlist.grid(row='4',column='1')
+                    mtlist['values']=['si','no']
+                    mtlist.current(1)
+                    h = Label(marcadores,text='Hilteo malla')
+                    h.grid(row='5',column='0')
+                    hlist = ttk.Combobox(marcadores)
+                    hlist.grid(row='5',column='1')
+                    hlist['values']=['si','no']
+                    hlist.current(1)
+                    psh = Label(marcadores,text='Proyeccion shotcrete')
+                    psh.grid(row='6',column='0')
+                    pshlist = ttk.Combobox(marcadores)
+                    pshlist.grid(row='6',column='1')
+                    pshlist['values']=['si','no']
+                    pshlist.current(1)
+                    pa = Label(marcadores,text='Perforacion avance')
+                    pa.grid(row='7',column='0')
+                    palist = ttk.Combobox(marcadores)
+                    palist.grid(row='7',column='1')
+                    palist['values']=['si','no']
+                    palist.current(1)
+                    cualciclo = Button(marcadores,text='Ciclo',command=getchek)
+                    cualciclo.grid(row='8',column='0')
 
+                else:
+                    ciclo = '1'
+                    
             verificar = Button(frame,text='Verificar',command=chequear)
             verificar.grid(row='2',column='0')
-
-
+        
             
         raiz = Tk()
         raiz.title('ORDEN SEGUN NIVEL')
