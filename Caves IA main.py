@@ -67,21 +67,21 @@ operaciones = [
         ['q','tronadura','-',1,1,1,'mineria',0,'no','-'],
     ]
 ciclos = [ 
-        ['p-m-sh','1',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
-        ['p-m-sh','2',['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','pa','sh','c','q']],
-        ['p-m-sh','3',['rm','e','ac','lp','sc','mg','pp','l','m','mt','pa','h','sh','c','q']],
-        ['p-m-sh','4',['rm','e','ac','lp','sc','mg','pp','l','m','h','sh','mt','pa','c','q']],
-        ['p-m-sh','5',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','sh','pa','c','q']],
-        ['p-m-sh','6',['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','pa','sh','c','q']],
-        ['p-shf','1',['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
-        ['p-shf','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
-        ['p-shf','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
-        ['p-shf','4',['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
-        ['p-shf','5',['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
-        ['p-shf','6',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
-        ['shf-p-m-sh','1',['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
-        ['shf-p-m-sh','2',['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
-        ['shf-p-m-sh','3',['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
+        ['p-m-sh',1,['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','sh','pa','c','q']],
+        ['p-m-sh',2,['rm','e','ac','lp','sc','mg','pp','l','m','mt','h','pa','sh','c','q']],
+        ['p-m-sh',3,['rm','e','ac','lp','sc','mg','pp','l','m','mt','pa','h','sh','c','q']],
+        ['p-m-sh',4,['rm','e','ac','lp','sc','mg','pp','l','m','h','sh','mt','pa','c','q']],
+        ['p-m-sh',5,['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','sh','pa','c','q']],
+        ['p-m-sh',6,['rm','e','ac','lp','sc','mg','pp','l','m','h','mt','pa','sh','c','q']],
+        ['p-shf',1,['rm','e','ac','lp','sc','mg','shf','mt','pp','l','pa','c','q']],
+        ['p-shf',2,['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['p-shf',3,['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']],
+        ['p-shf',4,['rm','e','ac','lp','sc','mg','shf','pp','l','mt','pa','c','q']],
+        ['p-shf',5,['rm','e','ac','lp','sc','mg','shf','pp','mt','l','pa','c','q']],
+        ['p-shf',6,['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh',1,['rm','e','ac','lp','sc','mg','shf','pp','mt','pa','l','c','q']],
+        ['shf-p-m-sh',2,['rm','e','ac','lp','sc','mg','shf','mt','pp','pa','l','c','q']],
+        ['shf-p-m-sh',3,['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
     ]
 
 #memoria para mostrar tablas frente
@@ -189,85 +189,85 @@ codigoe.append('Codigo Equipo')
 
 bd1 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd2 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd3 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd4 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd5 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd6 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd7 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd8 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd9 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd10 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd11 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd12 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd13 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
 bd14 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -3009,7 +3009,7 @@ def ingresomain(rut):
     def addestadofrentes(frente,operacion):
         bd15 = pymysql.connect(host='localhost',
                              user='root',
-                             password='1312',
+                             password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -3353,7 +3353,7 @@ def ingresomain(rut):
                         print('no hay')
                     case 'shf-p-m-sh':
                         print('no hay ')
-            if(operacion=='proyeccion_avance'):
+            if(operacion=='perforacion_avance'):
                 match fort:
                     case 'p-m-sh':
                         unos = 0
