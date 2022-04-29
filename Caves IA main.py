@@ -20,11 +20,13 @@ from turtle import clear
 from unittest import signals
 from urllib.request import AbstractBasicAuthHandler
 from datetime import datetime
+from mysqlx import Column
 from numpy import append, can_cast, char, character, mat, matrix
 from pkg_resources import PathMetadata 
 import pymysql.cursors
 import numpy as np
 import openpyxl
+import copy
 #memo 
 ides1 = []
 ciclos1 = []
@@ -271,6 +273,8 @@ bd14 = pymysql.connect(host='localhost',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+matricitaa =  []
+matricitaa2 =  []
 
 ciclosyfrentes = []
 def ventanaalgoritmos():
@@ -278,6 +282,30 @@ def ventanaalgoritmos():
         inicio = entryi.get()
         termino = entryt.get()
         algoritmos(int(inicio),int(termino))
+    
+    def ventanamatriz():
+        win4 = Tk()
+        win4.geometry('1080x200')
+        frame = Frame(win4)
+        frame.pack()
+        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,30):
+            j = Entry(frame,width=5)
+            j.grid(row = 0, column = uwu)
+            j.insert(END,extra[uwu])
+
+        for f in range(0,len(matricitaa2)):
+                    for j in range(0,len(matricitaa2[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j)
+                            x.insert(END,matricitaa2[f][j])
+
+        for f in range(0,len(matricitaa)):
+                    for j in range(0,len(matricitaa[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j+6)
+                            x.insert(END,matricitaa[f][j])
+    
 
 
     raiz = Tk()
@@ -296,6 +324,9 @@ def ventanaalgoritmos():
     entryt['values'] = ('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25')
     correr = Button(framemain,text='GENERAR REPORTE',command=run, anchor=CENTER)
     correr.grid(row='3',column='0')
+    vmatrix = Button(framemain,text='matriz ',command=ventanamatriz)
+    vmatrix.grid(row='3',column='1')
+
     
     
 
@@ -2656,11 +2687,20 @@ def algoritmos(inicio,termino):
     for i in range(totalfrentes):
         for j in range(termino):
             hoja.cell(row=i+9,column=j+3).value = l1[i][j]
+
     for i in range(totalfrentes):
         hoja.cell(row=i+9,column=2).value = lr[i][0]
+    
 
     excel.save("turno prototipo .xls") 
-
+    
+    for i in range(termino):
+        matricitaa2.append(lr[i])
+    for i in range (totalfrentes):
+        matricitaa.append(l1[i])
+        
+    print('matricitaa')
+    print(matricitaa)
     
 def addbdfrentes():
     win4=Tk()
