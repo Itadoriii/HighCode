@@ -301,7 +301,9 @@ def ventanaalgoritmos():
 
     
 
-def algoritmos(inicio,termino):
+def algoritmos(inicio,termino): 
+
+    print(ciclosyfrentes)
     
     # Algoritmo 1
 
@@ -322,7 +324,7 @@ def algoritmos(inicio,termino):
     ]
     for i in range(0,len(ciclosyfrentes)):
         if(len(ciclosyfrentes[i])==1):
-            ciclosyfrentes[i].append('1')
+            ciclosyfrentes[i].append(1)
     print(ciclosyfrentes)
     #ruta
     print("RUTA CRITICA")
@@ -3165,7 +3167,8 @@ def ingresomain(rut):
             if(operacion=='perforacion_pernos'):
                 match fort:
                     case 'p-m-sh':
-                        print('pueden ser todos')
+                        ciclo = 1
+                        pushfrente(frente,ciclo)
                     case 'p-shf':
                         unos = 0
                         for i in lista:
@@ -3174,18 +3177,18 @@ def ingresomain(rut):
                         print(unos)
                         if(unos==1):
                             print('ciclo 4,5,6')
-                            ciclo = '4'
+                            ciclo = 4
                             pushfrente(frente,ciclo)
 
                             
                         if(unos==2):
                             print('ciclo 1,2')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                             
                         if(unos==3):
                             print('ciclo 3')
-                            ciclo = '3'
+                            ciclo = 3
                             pushfrente(frente,ciclo)
                            
                     case 'shf-p-m-sh':
@@ -3196,21 +3199,22 @@ def ingresomain(rut):
                         print(unos)
                         if(unos==1):
                             print('ciclo 1')
-                            ciclo= '1'
+                            ciclo= 1
                             pushfrente(frente,ciclo)
                         if(unos==2):
                             print('ciclo 2')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                         if(unos==3):
                             print('ciclo 3')
-                            ciclo = '3'
+                            ciclo = 3
                             pushfrente(frente,ciclo)
             if(operacion=='lechado_pernos'):
                 match fort:
                     case 'p-m-sh':
                         print('pueden ser todos')
-                        ciclo = '1'
+                        ciclo = 1
+                        pushfrente(frente,ciclo)
                     case 'p-shf':
                         unos = 0
                         for i in lista:
@@ -3218,38 +3222,38 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 4')
-                            ciclo = '4'
+                            ciclo = 4
                             pushfrente(frente,ciclo)
                             
                         if(unos==2):
                             print('ciclo 1,5')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                             
                         if(unos==3):
                             print('ciclo 2,3,6')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                             
                     case 'shf-p-m-sh':
                         print('pueden ser todos')
-                        ciclo = '1'
+                        ciclo = 1
                         pushfrente(frente,ciclo)
                         
             if(operacion=='mapeo_geomecanico'):
                 match fort:
                     case 'p-m-sh':
                         print('pueden ser todos')
-                        ciclo = '1'
+                        ciclo = 1
                         pushfrente(frente,ciclo)
                         
                     case 'p-shf':
                         print('no hay')
-                        ciclo = '0'
+                        ciclo = 0
                         pushfrente(frente,ciclo)
                     case 'shf-p-m-sh':
                         print('no hay')
-                        ciclo = '0'
+                        ciclo = 0
                         pushfrente(frente,ciclo)
             if(operacion=='marcacion_topografica'):
                 match fort:
@@ -3260,16 +3264,16 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==3):
                             print('ciclo 1,2,3')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                         if(unos==4):
                             print('ciclo 5,6')
-                            ciclo = '5'
+                            ciclo = 5
                             pushfrente(frente,ciclo)
                             
                         if(unos==5):
                             print('ciclo 4')
-                            ciclo = '4'
+                            ciclo = 4
                             pushfrente(frente,ciclo)
                             
                         
@@ -3280,15 +3284,15 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==0):
                             print('ciclo 1,2,3')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                         if(unos==1):
                             print('ciclo 5,6')
-                            ciclo = '5'
+                            ciclo = 5
                             pushfrente(frente,ciclo)
                         if(unos==2):
                             print('ciclo 2,3,6')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                     case 'shf-p-m-sh':
                         unos = 0
@@ -3297,11 +3301,11 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==0):
                             print('ciclo 2,3')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                         if(unos==1):
                             print('ciclo 1')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)                        
             if(operacion=='hilteo_malla'):
                 match fort:
@@ -3312,16 +3316,16 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==3):
                             print('ciclo 5,6,7')
-                            ciclo = '5'
+                            ciclo = 5
                             pushfrente(frente,ciclo)
                         
                         if(unos==4):
                             print('ciclo 1,2')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                         if(unos==5):
                             print('ciclo 4')
-                            ciclo = '4'
+                            ciclo = 4
                             pushfrente(frente,ciclo)
                     case 'p-shf':
                         print('no hay')
@@ -3336,17 +3340,17 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==4):
                             print('ciclo 4')
-                            ciclo = '4'
+                            ciclo = 4
                             pushfrente(frente,ciclo)
                             
                         if(unos==5):
                             print('ciclo 1,5')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                             
                         if(unos==6):
                             print('ciclo 2,3,6')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                             
                     case 'p-shf':
@@ -3362,16 +3366,16 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==4):
                             print('ciclo 3')
-                            ciclo = '3'
+                            ciclo = 3
                             pushfrente(frente,ciclo)
                             
                         if(unos==5):
                             print('ciclo 6,2')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                         if(unos==6):
                             print('ciclo 1,4,5')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                     case 'p-shf':
                         unos = 0
@@ -3380,17 +3384,17 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 3')
-                            ciclo = '3'
+                            ciclo = 3
                             pushfrente(frente,ciclo)
                             
                         if(unos==2):
                             print('ciclo 2,6')
-                            ciclo = '2'
+                            ciclo = 2
                             pushfrente(frente,ciclo)
                             
                         if(unos==3):
                             print('ciclo 1,4,5')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                             
                         
@@ -3401,16 +3405,16 @@ def ingresomain(rut):
                                 unos = unos + 1
                         if(unos==1):
                             print('ciclo 3')
-                            ciclo = '3'
+                            ciclo = 3
                             pushfrente(frente,ciclo)
                             
                         if(unos==2):
                             print('ciclo 1,2')
-                            ciclo = '1'
+                            ciclo = 1
                             pushfrente(frente,ciclo)
                             
                       
-            print(lista)
+            
         #DIVIDIR FRENTES POR NIVEL 
         cursor = bd14.cursor()
         sql = 'select * from frentes'
