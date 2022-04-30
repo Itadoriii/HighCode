@@ -2984,50 +2984,139 @@ def ingresomain(rut):
     def verfrentesmenu():
         print('entro vf')
     def addfrentesmenu():
+
         win5 = Tk()
         win5.title('AÑADIR FRENTE')
         frame = Frame(win5)
         frame.pack()
-        txtid= Label(frame,text='Id frente',width='23')
-        txtid.grid(column='0',row='0')
         txttipo = Label(frame,text='Tipo',width='23')
         txttipo.grid(column='0',row='1')
+        comtipo = ttk.Combobox(frame)
+        comtipo.grid(column ='1',row='1')
+        comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
         txtsigla = Label(frame,text='Sigla',width='23')
         txtsigla.grid(column='0',row='2')
+        comsigla = ttk.Combobox(frame)
+        comsigla.grid(column ='1',row='2')
+        comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
         txtnumero = Label(frame,text='Numero',width='23')
         txtnumero.grid(column='0',row='3')
+        comnum = Entry(frame,width='23')
+        comnum.grid(column ='1',row='3')
         txtnumeroref = Label(frame,text='Numero referencia',width='23')
         txtnumeroref.grid(column='0',row='4')
+        comnumref = Entry(frame,width='23')
+        comnumref.grid(column ='1',row='4') 
         txtdir = Label(frame,text='Direccion',width='23')
         txtdir.grid(column='0',row='5')
+        comdir = ttk.Combobox(frame)
+        comdir.grid(column ='1',row='5')
+        comdir['values']=['N','S','E','O'] 
         txtdirref = Label(frame,text='Direccion referencia',width='23')
         txtdirref.grid(column='0',row='6')
+        comdirref = ttk.Combobox(frame)
+        comdirref.grid(column ='1',row='6')
+        comdirref['values']=['N','S','E','O'] 
         txtestado = Label(frame,text='Estado',width='23')
         txtestado.grid(column='0',row='7')
+        comestado = ttk.Combobox(frame)
+        comestado.grid(column ='1',row='7')
+        comestado['values'] = ['Activo','Inactivo']
         txttam = Label(frame,text='Tamaño',width='23')
         txttam.grid(column='0',row='8')
+        comtam = ttk.Combobox(frame)
+        comtam.grid(column ='1',row='8') 
+        comtam['values'] = ['C','M','G']
         txtruta = Label(frame,text='Ruta critica',width='23')
         txtruta.grid(column='0',row='9')
+        comruta = ttk.Combobox(frame)
+        comruta.grid(column ='1',row='9')
+        comruta['values'] = ['Si','No'] 
         txtdmarina = Label(frame,text='Distancia marina',width='23')
         txtdmarina.grid(column='0',row='10')
-        txtnivel = Label(frame,text='Tipo',width='23')
+        comdmarina = Entry(frame,width='23')
+        comdmarina.grid(column ='1',row='10')
+        txtnivel = Label(frame,text='Nivel',width='23')
         txtnivel.grid(column='0',row='11')
+        comnivel = ttk.Combobox(frame)
+        comnivel.grid(column ='1',row='11')
+        comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
         txtmacrob = Label(frame,text='Macrobloque',width='23')
         txtmacrob.grid(column='0',row='12')
+        commacrob = ttk.Combobox(frame)
+        commacrob.grid(column ='1',row='12')
+        commacrob['values'] = ['S01','S02']
         txtsector = Label(frame,text='Sector',width='23')
         txtsector.grid(column='0',row='13')
+        comsector = ttk.Combobox(frame)
+        comsector.grid(column ='1',row='13')
+        comsector['values'] = ['S1','S2']  
         txtcodigo = Label(frame,text='Codigo',width='23')
         txtcodigo.grid(column='0',row='14')
+        comcodigo = ttk.Combobox(frame)
+        comcodigo.grid(column ='1',row='14')
+        comcodigo['values'] = ['ce1','ce2']
         txtfortificacion = Label(frame,text='Fortificacion',width='23')
         txtfortificacion.grid(column='0',row='15')
-        txtciclo = Label(frame,text='Ciclo',width='23')
-        txtciclo.grid(column='0',row='16')
-        txtcriticidad = Label(frame,text='Criticidad',width='23')
-        txtcriticidad.grid(column='0',row='17')
+        comfortificacion = ttk.Combobox(frame)
+        comfortificacion.grid(column ='1',row='15') 
+        comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+        txtfoco = Label(frame,text='Foco',width='23')
+        txtfoco.grid(column='0',row='16')
+        comfoco = ttk.Combobox(frame)
+        comfoco.grid(column ='1',row='16')
+        comfoco['values'] = [0,1]
+        txtlargo = Label(frame,text='Largo',width='23')
+        txtlargo.grid(column='0',row='17')
+        comlargo = Entry(frame,width='23')
+        comlargo.grid(column ='1',row='17')
         
 
-        entryid = Entry(frame,width='23')
-        entryid.grid(column='1',row='0')
+        def  pushfrente():
+
+            tipo = comtipo.get()
+            sigla = comsigla.get()
+            numero = comnum.get()
+            numeroref = comnumref.get()
+            direccion = comdir.get()
+            direccionref = comdirref.get()
+            estado = comestado.get()
+            tam = comtam.get()
+            ruta = comruta.get()
+            marina = comdmarina.get()
+            lvl = comtipo.get()
+            macro = commacrob.get()
+            sector = comsector.get()
+            codigo = comcodigo.get()
+            forti = comfortificacion.get()
+            foco = comfoco.get()
+            largo = comlargo.get()
+    
+            ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + '/' + direccionref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+            print(ide)
+            bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+            cursor = bd.cursor()
+            sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,foco,largo) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,foco,largo)
+            try:
+                cursor.execute(sql)
+                bd.commit()
+                cursor.close()
+            except Exception as e:
+                print(e)
+            bd.close()
+
+
+            #print(tipo,sigla,numero)
+
+        botonfrentes = Button(frame,text='Añadir a la base de datos',command=pushfrente)
+        botonfrentes.grid(column='0',row='18')
+        
+
+        
     
     #codigo de la ventana principal
     rutt=rut
