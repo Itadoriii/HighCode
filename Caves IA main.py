@@ -333,8 +333,9 @@ def ventanaalgoritmos():
     
 
 def algoritmos(inicio,termino): 
-
+    '''
     print(ciclosyfrentes)
+    '''
     
     # Algoritmo 1
 
@@ -353,10 +354,13 @@ def algoritmos(inicio,termino):
         ['F5',5],
         ['F6',6]
     ]
+
+    '''
     for i in range(0,len(ciclosyfrentes)):
         if(len(ciclosyfrentes[i])==1):
             ciclosyfrentes[i].append(1)
-    print(ciclosyfrentes)
+    '''
+    print(ciclosyfrente)
     #ruta
     print("RUTA CRITICA")
     rutacri = []
@@ -459,9 +463,9 @@ def algoritmos(inicio,termino):
             operfnaux.append('q')
 
     for r in range(totalfrentes):
-        for c in range(len(ciclosyfrentes)):
-            if(idaux[r] == ciclosyfrentes[c][0]):
-                cicloaux.append(ciclosyfrentes[c][1])
+        for c in range(len(ciclosyfrente)):
+            if(idaux[r] == ciclosyfrente[c][0]):
+                cicloaux.append(ciclosyfrente[c][1])
 
     for r in range(totalfrentes):
         for c in range(15):
@@ -666,7 +670,8 @@ def algoritmos(inicio,termino):
             if(p==f['id_frente']):
                 foor.append(f['fortificacion'])
 
-     # rescato id ( prio ) , tam , est , estado_av, fort
+    # rescato id ( prio ) , tam , est , estado_av, fort
+    
     #id
     for i in range(totalfrentes):
         lr.append([])
@@ -1139,6 +1144,140 @@ def algoritmos(inicio,termino):
 
     if (recualmu in otros):
         almuerzo = 3
+
+    # consultas bd algoritmo final
+    
+    nif = []
+    nior = []
+    tpf = []
+    tpor = []
+    nuf = []
+    nuor = []
+    dif = []
+    dior = []
+    tpref = []
+    tprefor = []
+    nuref = []
+    nurefor = []
+    diref = []
+    direfor = []
+
+    cursor.execute("select id_frente, nivel from frentes")
+    nivfn = cursor.fetchall()
+    for x in nivfn:
+        nif.append(x)
+
+    for p in pf:
+        for n in nif:
+            if(p==n['id_frente']):
+                nior.append(n['nivel'])
+
+    cursor.execute("select id_frente, tipo from frentes")
+    tipfn = cursor.fetchall()
+    for x in tipfn:
+        tpf.append(x)
+
+    for p in pf:
+        for t in tpf:
+            if(p==t['id_frente']):
+                tpor.append(t['tipo'])
+
+    cursor.execute("select id_frente, numero from frentes")
+    numfn = cursor.fetchall()
+    for x in numfn:
+        nuf.append(x)
+
+    for p in pf:
+        for n in nuf:
+            if(p==n['id_frente']):
+                nuor.append(n['numero'])
+
+    cursor.execute("select id_frente, direccion from frentes")
+    dicfn = cursor.fetchall()
+    for x in dicfn:
+        dif.append(x)
+
+    for p in pf:
+        for d in dif:
+            if(p==d['id_frente']):
+                dior.append(d['direccion'])
+
+    cursor.execute("select id_frente, tipo_referencia from frentes")
+    tiprfn = cursor.fetchall()
+    for x in tiprfn:
+        tpref.append(x)
+
+    for p in pf:
+        for t in tpref:
+            if(p==t['id_frente']):
+                tprefor.append(t['tipo_referencia'])
+
+    cursor.execute("select id_frente, numero_referencia from frentes")
+    numrfn = cursor.fetchall()
+    for x in numrfn:
+        nuref.append(x)
+
+    for p in pf:
+        for n in nuref:
+            if(p==n['id_frente']):
+                nurefor.append(n['numero_referencia'])
+
+    cursor.execute("select id_frente, direccion_referencia from frentes")
+    dicrfn = cursor.fetchall()
+    for x in dicrfn:
+        diref.append(x)
+
+    for p in pf:
+        for d in diref:
+            if(p==d['id_frente']):
+                direfor.append(d['direccion_referencia'])
+    
+    #guardo todo en lista 
+
+    algofin = []
+
+    #nivel
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(nior[i])
+
+    #tipo frente
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(tpor[i])
+
+    #numero frente
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(nuor[i])
+    
+    #dirección frente
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(dior[i])
+
+    #tipo referencia
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(tprefor[i])
+
+    #numero referencia
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(nurefor[i])
+
+    #direccion referencia
+    for i in range(totalfrentes):
+        algofin.append([])
+        for j in range(1):
+            algofin[i].append(direfor[i])
+
 
 
     # llena demas frentes
@@ -2674,10 +2813,10 @@ def algoritmos(inicio,termino):
 
     # imprimir matriz 1 (ordenamiento)
 
-    print("[ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+    print("[ ID - TAM - OPE - EST - FOR - NIV - TIP - NUM - DIR - TIR - NUR - DRE -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
     for i in range(totalfrentes):
-        print(lr[i],l1[i],len(l1[i]))
+        print(lr[i], algofin[i], l1[i], len(l1[i]))
 
     print ("ALMUERZO 1 RECURSO: ", recualmu)
     
