@@ -22,7 +22,6 @@ from urllib.request import AbstractBasicAuthHandler
 from datetime import datetime
 from mysqlx import Column
 from numpy import append, can_cast, char, character, mat, matrix
-from pkg_resources import PathMetadata 
 import pymysql.cursors
 import numpy as np
 import openpyxl
@@ -3300,73 +3299,65 @@ def ingresomain(rut):
         bd15.close()
        
         
-        
+    #funcion boton ver frentes
     def verfrentes():
-        numfilas = 0
+        numfilas = 0 
         numcolumnas = 2
-        win4 = Tk()
-        win4.title('Estados de frente')
-        datos=Frame(win4)
-        datos.pack()
-        nid = Label(datos,text='  id Frente           ')
-        nid.grid(row='0',column='0')
-        nop = Label(datos,text='operacion anterior')
-        nop.grid(row='0',column='1')
-        tabla=Frame(win4)
-        tabla.pack()
-        def creartablafrentes():
-            
-            
-
-            
-
-            
-            for f in range(numfilas):
-                for j in range(numcolumnas):
-                        x = Entry(tabla)
-                        x.grid(row = f, column = j)
-                        if (j==0):
-                                x.insert(END,ides1[f])
-                        if (j==1):
-                                x.insert(END,operaciones1[f])
-                        x.config(state='readonly')     
-        cursor = bd3.cursor()
-        cursor2 =  bd3.cursor()
-        sql2 = 'SELECT * from estado_frentes'
-        sql = 'SELECT * from frentes'
+        winverfrentes  = Tk()
+        winverfrentes.title('ULTIMA OPERACION')
+        framever = Frame(winverfrentes)
+        framever.pack()
+        txtid = Label(framever,text='FRENTE:')
+        txtop = Label(framever,text='OPERACION:')
+        txtid.grid(row = 0,column= 0)
+        txtop.grid(row = 0,column= 1)
+        print(rutt)
+        bd16= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd16.cursor()
+        idmuestra = []
+        sql = "select * from frentes "
+        sql2 = "select * from estado_frentes ORDER BY fecha DESC"
         try:
             cursor.execute(sql)
-            cursor2.execute(sql2)
-            data = cursor.fetchall()
-            dataprint = cursor2.fetchall()
-            for p in data:
-                codigo=p['codigo_empresa']
-                if (codigo==rutt):
-                    numfilas = numfilas + 1
-
-            for i in data:
-                id = i['id_frente']
-                codigo=i['codigo_empresa']
-                nivel=i['nivel']
-                if(codigo==rutt):
-                    ides1.append(id)
-                    niveles1.append(nivel)
-            for i in dataprint:
-                operacion = i['operacion']
-                idfren = i['id_frente']
-                ciclo = i ['ciclo']
-                for j in ides1:
-                    if(idfren==j):
-                        ciclos1.append(ciclo)
-                        operaciones1.append(operacion)
+            data1 = cursor.fetchall()
+            cursor.execute(sql2)
+            data2 = cursor.fetchall()
+            bd16.commit()
             cursor.close()
-            bd3.commit()
-            bd3.close
         except Exception as e:
             print(e)
+        bd16.close()
+        for i in data1:
+            codigo = i['codigo_empresa']
+            ide = i['id_frente']
+            if(codigo == rutt):
+                numfilas = numfilas + 1
+                listad = []
+                listad .append(ide)
+                idmuestra.append(listad)
+        for j in data2:
+            idee = j['id_frente']
+            op = j['operacion']
+            for k in range(len(idmuestra)):
+                if(idee==idmuestra[k][0]):
+                    idmuestra[k].append(op)
         
-        creartablafrentes()
-       
+        for l in range(0,numfilas):
+            for ll in range(numcolumnas):
+
+                x = Entry(framever)
+                x.grid(row=l+1,column=ll)
+                if(ll==0):
+                    x.insert(END,idmuestra[l][ll])
+                if(ll==1):
+                    x.insert(END,idmuestra[l][ll])
+                x.config(state='readonly')
+
+
         
     def ordenarsegunnivel(ides1,operaciones1,niveles):
         tamaño = len(ides1)
@@ -3918,7 +3909,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
@@ -3990,7 +3981,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
@@ -4084,7 +4075,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
@@ -4155,7 +4146,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
@@ -4304,7 +4295,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
@@ -4404,7 +4395,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
@@ -4459,7 +4450,7 @@ def ingresomain(rut):
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            compp['values'] = ['HECHO','NO HECHO']
+                            combpp['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
