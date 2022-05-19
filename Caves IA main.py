@@ -10,7 +10,7 @@ from msilib.schema import ComboBox
 from operator import index
 from optparse import Values
 from re import L
-from sys import api_version
+from sys import api_version, winver
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -2976,6 +2976,8 @@ def addbdfrentes():
 
 def addequipo():
     win4=Tk()
+    win4.title('Añadir recurso equipo')
+    win4.config(bg='cornflowerblue')
     frameingreso = Frame(win4)
     frameingreso.pack()
 
@@ -2985,41 +2987,43 @@ def addequipo():
         cantidade= entrycantidade.get()
         nivele= entrynivele.get()
        
-        cursor=bd2.cursor()
         sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd.cursor()
         try:
-         cursor.execute(sql)
-         cursor.close()
-         bd2.commit()
-         bd2.close()
+            cursor.execute(sql)
+            bd.commit()
+            cursor.close()
         except Exception as e:
-         print(e)
-       # cursor.close()
-        #bd.commit()
-       # bd.close()
+            print(e)
+        bd.close()
         
         win4.destroy()
 
 
     txtflota =Label(frameingreso,text="Flota") #lista desplegable
     txtflota.grid(row="0",column="0")
-    entryflota = ttk.Combobox(frameingreso)
+    entryflota = ttk.Combobox(frameingreso,width=20)
     entryflota.grid(row="0",column="1")
     entryflota['values'] = ('Jumbo fortificación','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora')
 
     txtcodigo=Label(frameingreso,text="Codigo_equipo")
     txtcodigo.grid(row="1",column="0")
-    entrycod= Entry(frameingreso)
+    entrycod= Entry(frameingreso,width=23)
     entrycod.grid(row="1",column="1")
 
     txtcantidade=Label(frameingreso,text="Cantidad")
     txtcantidade.grid(row="2",column="0")
-    entrycantidade= Entry(frameingreso)
+    entrycantidade= Entry(frameingreso,width=23)
     entrycantidade.grid(row="2",column="1")
 
     txtnivele=Label(frameingreso,text="Nivel de equipo") 
     txtnivele.grid(row="3",column="0")
-    entrynivele= ttk.Combobox(frameingreso)
+    entrynivele= ttk.Combobox(frameingreso,width=20)
     entrynivele.grid(row="3",column="1")
     entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
 
@@ -3030,6 +3034,7 @@ def addequipo():
 def modificarfrente():
     win4=Tk()
     win4.geometry('300x380')
+    win4.config(bg='cornflowerblue')
     frameingreso = Frame(win4)
     frameingreso.pack()
 
@@ -3119,8 +3124,157 @@ def modificarfrente():
     entrycodigo.grid(row="14",column="1")
 
 def ingresomain(rut): 
+
     def verfrentesmenu():
-        print('entro vf')
+        #memoria
+        idver = []
+        tipover = []
+        siglaver = []
+        numerover = []
+        direcver = []
+        estadover = []
+        tamver = []
+        rutaver = []
+        dismarver = []
+        nivelver = []
+        macrover = []
+        sectorver = []
+        numrefver = []
+        dirrefver = []
+        focover = []
+        largover = []
+        sql = 'select * from frentes'
+        bdver = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor =  bdver.cursor()
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            bdver.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        bdver.close()
+
+        for i in data:
+            id=i['id_frente']
+            tipo=i['tipo']
+            sigla=i['sigla']
+            num=i['numero']
+            numref=i['numero_referencia']
+            dir=i['direccion']
+            dirref=i['direccion_referencia']
+            estado=i['estado']
+            tam=i['tamaño']
+            ruta=i['ruta_critica']
+            dismar=i['distancia_marina']
+            nivel=i['nivel']
+            macro=i['macrobloque']
+            sectorr=i['sector']
+            foco=i['foco']
+            largo=i['largo']
+            codigo=i['codigo_empresa']
+            if(codigo==rutt):
+                idver.append(id)
+                tipover.append(tipo)
+                siglaver.append(sigla)
+                numerover.append(num)
+                direcver.append(dir)
+                estadover.append(estado)
+                tamver.append(tam)
+                rutaver.append(ruta)
+                dismarver.append(dismar)
+                nivelver.append(nivel)
+                macrover.append(macro)
+                sectorver.append(sectorr)
+                numrefver.append(numref)
+                dirrefver.append(dirref)
+                focover.append(foco)
+                largover.append(largo)
+                print(codigo)
+        
+        ventanaverfrentes = Tk()
+        ventanaverfrentes.title('FRENTES ASOCIADOS ')
+        frame = Frame(ventanaverfrentes)
+        frame.pack()
+        for i in range(0,len(idver)+1): 
+            for j in range(0,16): 
+                x = Entry(frame)
+                x.grid(row=i,column=j)
+                
+                if (i==0):
+                    match j:
+                        case 0:
+                            x.insert(END,'Id')
+                        case 1:
+                            x.insert(END,'Tipo')
+                        case 2:
+                            x.insert(END,'Sigla')
+                        case 3:
+                            x.insert(END,'Numero')
+                        case 4:
+                            x.insert(END,'Direccion')
+                        case 5:
+                            x.insert(END,'Estado')
+                        case 6:
+                            x.insert(END,'Tamaño')
+                        case 7:
+                            x.insert(END,'Ruta C.')
+                        case 8:
+                            x.insert(END,'Dist.Mar')
+                        case 9:
+                            x.insert(END,'Nivel')
+                        case 10:
+                            x.insert(END,'Macrobloque')
+                        case 11:
+                            x.insert(END,'Sector')
+                        case 12:
+                            x.insert(END,'Num.Ref')
+                        case 13:
+                            x.insert(END,'Dir.Ref')
+                        case 14:
+                            x.insert(END,'Foco')
+                        case 15:
+                            x.insert(END,'Largo')
+                else:
+                    match j:
+                        case 0:
+                            x.insert(END,idver[i-1])
+                        case 1:
+                            x.insert(END,tipover[i-1])
+                        case 2:
+                            x.insert(END,siglaver[i-1])
+                        case 3:
+                            x.insert(END,numerover[i-1])
+                        case 4:
+                            x.insert(END,direcver[i-1])
+                        case 5:
+                            x.insert(END,estadover[i-1])
+                        case 6:
+                            x.insert(END,tamver[i-1])
+                        case 7:
+                            x.insert(END,rutaver[i-1])
+                        case 8:
+                            x.insert(END,dismarver[i-1])
+                        case 9:
+                            x.insert(END,nivelver[i-1])
+                        case 10:
+                            x.insert(END,macrover[i-1])
+                        case 11:
+                            x.insert(END,sectorver[i-1])
+                        case 12:
+                            x.insert(END,numrefver[i-1])
+                        case 13:
+                            x.insert(END,dirrefver[i-1])
+                        case 14:
+                            x.insert(END,focover[i-1])
+                        case 15:
+                            x.insert(END,largover[i-1])
+                
+
     def addfrentesmenu():
 
         win5 = Tk()
@@ -3252,9 +3406,162 @@ def ingresomain(rut):
 
         botonfrentes = Button(frame,text='Añadir a la base de datos',command=pushfrente)
         botonfrentes.grid(column='0',row='18')
-        
+    
 
+    def addequipomenu():
+
+        def addequipobd():
+            print('uwu')
+            flota = listflota.get()
+            codigo = entrycodigo.get()
+            print(flota,codigo)
+            sql = "insert into equipos(flota,codigo_equipo) value('%s','%s')"%(flota,codigo)
+            bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+            cursor = bd.cursor()
+            try:
+                cursor.execute(sql)
+                bd.commit()
+                cursor.close()
+            except Exception as e:
+                print(e)
+            bd.close()
+
+        winaddequipos = Tk()
+        winaddequipos.title('Añadir equipo')
+        frame=Frame(winaddequipos)
+        frame.pack()
+        txtflota = Label(frame,text='Flota')
+        txtflota.grid(row='0',column='0')
+        txtcod = Label(frame,text='Codigo')
+        txtcod.grid(row='1',column='0')
+        listflota = ttk.Combobox(frame)
+        listflota.grid(row='0',column='1')
+        listflota['values'] = ['Jumbo fortificacion','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora']
+        entrycodigo = Entry(frame,width=23)
+        entrycodigo.grid(row='1',column='1')
+
+        botonaddequipo = Button(frame,text='Añadir Equipo',command=addequipobd)
+        botonaddequipo.grid(row='3',column='0')
         
+       
+
+
+    def verequipomenu():
+        winverequipo = Tk()
+        winverequipo.title('Ver equipos')
+        frame = Frame(winverequipo)
+        frame.pack()
+        sql = 'select * from equipos'
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd.cursor()
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            bd.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        bd.close()
+        verflota = []
+        vercodigo = []
+        for i in data:
+            flota = i['flota']
+            cod = i['codigo_equipo']
+            verflota.append(flota)
+            vercodigo.append(cod)
+
+        for i in range(0,len(verflota)+1):
+            for j in range(0,2):
+                x = Entry(frame)
+                x.grid(row=i,column=j)
+                if(i==0):
+                    match j:
+                        case 0:
+                            x.insert(END,'Flota')
+                        case 1:
+                            x.insert(END,'Codigo')
+                else:
+                    match j:
+                        case 0:
+                            x.insert(END,verflota[i-1])
+                        case 1:
+                            x.insert(END,vercodigo[i-1])
+
+    def verestadoequipomenu():
+        winverestadoequipos = Tk()
+        winverestadoequipos.title('Ver estado equipos')
+        frame = Frame(winverestadoequipos)
+        frame.pack()
+        sql = 'select * from estado_equipos'
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd.cursor()
+        try:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            bd.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        verflota = []
+        vernivel = []
+        verfecha = []
+        verestado = []
+        vercod = []
+
+        for i in data:
+            flota = i['flota']
+            nivel = i['nivel']
+            fecha = i['fecha']
+            estado = i['estado']
+            codigo = i['codigo_equipo']
+            verflota.append(flota)
+            vernivel.append(nivel)
+            verfecha.append(fecha)
+            verestado.append(estado)
+            vercod.append(codigo)
+
+        for i in range(0,len(verflota)+1):
+            for j in range(5):
+                x = Entry(frame)
+                x.grid(row=i,column=j)
+                if(i==0):
+                    match j:
+                        case 0:
+                            x.insert(END,'Flota')
+                        case 1:
+                            x.insert(END,'Nivel')
+                        case 2:
+                            x.insert(END,'Fecha')
+                        case 3:
+                            x.insert(END,'Estado')
+                        case 4:
+                            x.insert(END,'Codigo')
+                else:
+                    match j :
+                        case 0:
+                            x.insert(END,verflota[i-1])
+                        case 1:
+                            x.insert(END,vernivel[i-1])
+                        case 2:
+                            x.insert(END,verfecha[i-1])
+                        case 3:
+                            x.insert(END,verestado[i-1])
+                        case 4:
+                            x.insert(END,vercod[i-1])
+
+
     
     #codigo de la ventana principal
     rutt=rut
@@ -3273,8 +3580,10 @@ def ingresomain(rut):
     menubar.add_cascade(label='equipos',menu=menuequipos)
     menufrentes.add_command(label='añadir nueva frente',command=addfrentesmenu)
     menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
-    menuequipos.add_command(label='añadir equipo')
-    menuequipos.add_command(label='ver equipo')
+    menuequipos.add_command(label='añadir equipos',command=addequipomenu)
+    menuequipos.add_command(label='añadir recursoequipo',command=addequipo)
+    menuequipos.add_command(label='ver equipos',command=verequipomenu)
+    menuequipos.add_command(label='ver estado equipos',command=verestadoequipomenu)
     def addestadofrentes(frente,operacion,fort):
         bd15 = pymysql.connect(host='localhost',
                              user='root',
