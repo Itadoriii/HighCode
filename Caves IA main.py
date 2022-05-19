@@ -85,6 +85,14 @@ ciclos = [
         ['shf-p-m-sh',3,['rm','e','ac','lp','sc','mg','shf','mt','pa','pp','l','c','q']]
     ]
 
+#memoria servicios equipos
+# [ equipo , energía , drenaje , agua , airecomprimido]
+services = [
+        ['jumbo','si','si','si','no'],
+        ['roboshot','no','no','si','si'],
+    ]
+
+
 #memoria para mostrar tablas frente
 tipos = []
 tipos.append('tipo')
@@ -417,7 +425,7 @@ def algoritmos(inicio,termino):
     cicloaux = []
     naux = []
     operfnaux = []
-    cursor.execute("select id_frente,operacion,fortificacion from estado_frentes")
+    cursor.execute("select distinct id_frente,operacion,fortificacion from estado_frentes order by fecha desc")
     trop = cursor.fetchall()
     for t in trop:
         fren = t['id_frente']
@@ -569,7 +577,7 @@ def algoritmos(inicio,termino):
     print("EXTRACCION MARINA")
     idtro = []
     p5 = []
-    cursor.execute("select id_frente from estado_frentes where operacion = 'tronadura' ")
+    cursor.execute("select distinct id_frente from estado_frentes where operacion = 'tronadura' order by fecha desc ")
     tro = cursor.fetchall()
     for c in tro:
         x = c['id_frente']
@@ -639,7 +647,7 @@ def algoritmos(inicio,termino):
                 tamor.append(t['tamaño'])
 
     
-    cursor.execute("select id_frente, operacion from estado_frentes")
+    cursor.execute("select distinct id_frente, operacion from estado_frentes order by fecha desc")
     opfn = cursor.fetchall()
     for x in opfn:
         opf.append(x)
@@ -649,7 +657,7 @@ def algoritmos(inicio,termino):
             if (p == o['id_frente']):
                 opeor.append(o['operacion'])
 
-    cursor.execute("select id_frente, estado_avance from estado_frentes")
+    cursor.execute("select distinct id_frente, estado_avance from estado_frentes order by fecha desc")
     eafn = cursor.fetchall()
     for x in eafn:
         eaf.append(x)
@@ -659,7 +667,7 @@ def algoritmos(inicio,termino):
             if(p == e['id_frente']):
                 eaor.append(e['estado_avance'])
 
-    cursor.execute("select id_frente, fortificacion from estado_frentes")
+    cursor.execute("select distinct id_frente, fortificacion from estado_frentes order by fecha desc")
     fofn= cursor.fetchall()
     for x in fofn:
         fof.append(x)
@@ -1453,6 +1461,17 @@ def algoritmos(inicio,termino):
                                                 rf0 = operaciones[y][2] # guarda recurso pausa a comparar
                                                 ap0 = operaciones[y][9] # guarda pausa
 
+                                        if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                            if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                    for x in range(2):
+                                                        if(rf1==services[x][0]):
+                                                            for w in range(2):
+                                                                if(rf0==services[w][0]):
+                                                                    for z in range(1,5):
+                                                                        if(services[x][z]==services[w][z]):
+                                                                            bandera = bandera + 1
+
                                         if(f1!=f0): # si no son iguales
 
                                             if(f0=='-'):
@@ -1818,6 +1837,17 @@ def algoritmos(inicio,termino):
                                                 if(f0==operaciones[y][9]) and (f0!='-'):
                                                     rf0 = operaciones[y][2] # guarda recurso pausa a comparar
                                                     ap0 = operaciones[y][9] # guarda pausa
+
+                                            if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                    if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                        for x in range(2):
+                                                            if(rf1==services[x][0]):
+                                                                for w in range(2):
+                                                                    if(rf0==services[w][0]):
+                                                                        for z in range(1,5):
+                                                                            if(services[x][z]==services[w][z]):
+                                                                                bandera = bandera + 1
 
                                             if(f1!=f0): # si no son iguales
 
@@ -2221,6 +2251,17 @@ def algoritmos(inicio,termino):
                                                         rf0 = operaciones[y][2] # guarda recurso pausa a comparar
                                                         ap0 = operaciones[y][9] # guarda pausa
 
+                                                if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                    if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                        if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                            for x in range(2):
+                                                                if(rf1==services[x][0]):
+                                                                    for w in range(2):
+                                                                        if(rf0==services[w][0]):
+                                                                            for z in range(1,5):
+                                                                                if(services[x][z]==services[w][z]):
+                                                                                    bandera = bandera + 1
+
                                                 if(f1!=f0): # si no son iguales
 
                                                     if(f0=='-'):
@@ -2582,6 +2623,17 @@ def algoritmos(inicio,termino):
                                                         if(f0==operaciones[y][9]) and (f0!='-'):
                                                             rf0 = operaciones[y][2] # guarda recurso pausa a comparar
                                                             ap0 = operaciones[y][9] # guarda pausa
+
+                                                    if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                        if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                            if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                                for x in range(2):
+                                                                    if(rf1==services[x][0]):
+                                                                        for w in range(2):
+                                                                            if(rf0==services[w][0]):
+                                                                                for z in range(1,5):
+                                                                                    if(services[x][z]==services[w][z]):
+                                                                                        bandera = bandera + 1
 
                                                     if(f1!=f0): # si no son iguales
 
