@@ -3636,18 +3636,18 @@ def ingresomain(rut):
     menuequipos.add_command(label='añadir recursoequipo',command=addequipo)
     menuequipos.add_command(label='ver equipos',command=verequipomenu)
     menuequipos.add_command(label='ver estado equipos',command=verestadoequipomenu)
-    def addestadofrentes(frente,operacion,fort):
+    def addestadofrentes(frente,operacion,fort,ciclo):
         bd15 = pymysql.connect(host='localhost',
                              user='root',
                              password='admin',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
         print('se añadio a la bd:')
-        print(frente,operacion,fort)
+        print(frente,operacion,fort,ciclo)
         fecha = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         print(fecha)
         cursor = bd15.cursor()
-        sql = "insert into estado_frentes(id_frente,operacion,fecha,fortificacion) value('%s','%s','%s','%s')" % (frente, operacion, fecha, fort)
+        sql = "insert into estado_frentes(id_frente,operacion,fecha,fortificacion,ciclo) value('%s','%s','%s','%s','%d')" % (frente, operacion, fecha, fort,ciclo)
         try:
             
             cursor.execute(sql)
@@ -3821,7 +3821,7 @@ def ingresomain(rut):
         
         def quecicloes(frente,operacion,fort):
             #codigo para push bd
-            addestadofrentes(frente,operacion,fort)
+            
             #codigo para saber ciclo
             match fort:
                 #listo 
@@ -3834,60 +3834,70 @@ def ingresomain(rut):
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'extraccion_marina':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'acunadura':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'limpieza_pata':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'escaner':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'mapeo_geomecanico':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'shotcrete_fibra':
                             ciclo = 0 # no lo hace shf 
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'perforacion_pernos':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'lechado_pernos':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'instalacion_malla':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'hilteo_malla':
                             #(h)
                             winpmsh = Tk()
@@ -3937,6 +3947,7 @@ def ingresomain(rut):
                                             ciclosyfrentes.append(listap)
                                             print(ciclosyfrentes)
                                             print('ciclo 3')
+                                            addestadofrentes(frente,operacion,fort,ciclo)
                                         else :
                                             ciclo = 1
                                             print('ciclo 1')
@@ -3945,6 +3956,7 @@ def ingresomain(rut):
                                             listap.append(ciclo)
                                             ciclosyfrentes.append(listap)
                                             print(ciclosyfrentes)
+                                            addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 4
                                         print('ciclo 4')
@@ -3953,6 +3965,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
                             botonciclo.grid(row='5',column='0')
@@ -4006,6 +4019,7 @@ def ingresomain(rut):
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
                                                 print('ciclo 2')
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 1
                                                 listap =  []
@@ -4014,6 +4028,7 @@ def ingresomain(rut):
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
                                                 print('ciclo 1')
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 4
                                         print('ciclo 4')
@@ -4022,6 +4037,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
                             botonciclo.grid(row='5',column='0')
@@ -4076,6 +4092,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 5
                                                 print('ciclo 5')
@@ -4084,9 +4101,11 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 1
                                         print('ciclo 1')
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                         listap =  []
                                         listap.append(frente)
                                         listap.append(ciclo)
@@ -4147,6 +4166,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 2
                                                 print('ciclo 2')
@@ -4155,6 +4175,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 3
                                         print('ciclo 3')
@@ -4163,6 +4184,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
                             botonciclo.grid(row='5',column='0')
@@ -4174,6 +4196,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'tronadura':
                             ciclo = 1
                             listap =  []
@@ -4181,6 +4204,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
 
                 case 'p-shf':
                     print('2')
@@ -4193,6 +4217,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'extraccion_marina':
                             print('entry')
                             ciclo = 1
@@ -4201,6 +4226,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'acunadura':
                             print('entry')
                             ciclo = 1
@@ -4209,6 +4235,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'limpieza_pata':
                             print('entry')
                             ciclo = 1
@@ -4217,6 +4244,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'escaner':
                             print('entry')
                             ciclo = 1
@@ -4225,6 +4253,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'mapeo_geomecanico':
                             print('entry')
                             ciclo = 1
@@ -4233,6 +4262,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'shotcrete_fibra':
                             print('entry')
                             ciclo = 1
@@ -4241,6 +4271,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'perforacion_pernos':
                             print('entry')
                             #pp
@@ -4290,6 +4321,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         match l:
                                             case 'HECHO':
@@ -4300,6 +4332,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 5
                                                 print('ciclo 5')
@@ -4308,6 +4341,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                 
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
@@ -4364,6 +4398,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 1
                                                 print('ciclo 1')
@@ -4372,6 +4407,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 4
                                         print('ciclo 4')
@@ -4379,6 +4415,7 @@ def ingresomain(rut):
                                         listap.append(frente)
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                         print(ciclosyfrentes)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
@@ -4391,6 +4428,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'hilteo_malla':
                             print('entry')
                             ciclo = 0 #no hay
@@ -4399,6 +4437,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'proyeccion_shotcrete':
                             print('entry')
                             ciclo = 0 #no hay
@@ -4407,6 +4446,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'marcacion_topografica':
                             print('entry')
                             #mt
@@ -4456,6 +4496,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         match l:
                                             case 'HECHO':
@@ -4466,6 +4507,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 5
                                                 print('ciclo 5')
@@ -4474,6 +4516,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
 
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
@@ -4529,6 +4572,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'HECHO':
                                                 ciclo = 1
                                                 print('ciclo 1')
@@ -4537,6 +4581,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 3
                                         print('ciclo 3')
@@ -4544,7 +4589,8 @@ def ingresomain(rut):
                                         listap.append(frente)
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
-                                        print(ciclosyfrentes)   
+                                        print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)   
 
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
@@ -4557,6 +4603,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'tronadura':
                             print('entry')
                             ciclo = 1
@@ -4565,6 +4612,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                 case 'shf-p-m-sh':
                     print('3')
                     match operacion:
@@ -4577,6 +4625,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'extraccion_marina':
                             print('entry')
                             ciclo = 1
@@ -4586,7 +4635,8 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
-                        case 'acunadura':
+                            addestadofrentes(frente,operacion,fort,ciclo)
+                        case 'acuñadura':
                             print('entry')
                             ciclo = 1
                             print('ciclo 1')
@@ -4595,6 +4645,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'limpieza_pata':
                             print('entry')
                             ciclo = 1
@@ -4604,6 +4655,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'escaner':
                             print('entry')
                             ciclo = 1
@@ -4613,6 +4665,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'mapeo_geomecanico':
                             print('entry')
                             ciclo = 1
@@ -4622,6 +4675,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'shotcrete_fibra':
                             print('entry')
                             ciclo = 1
@@ -4631,6 +4685,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'perforacion_pernos':
                             print('entry')
                             #pp
@@ -4676,6 +4731,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                             case 'NO HECHO':
                                                 ciclo = 2
                                                 print('ciclo 2')
@@ -4684,6 +4740,7 @@ def ingresomain(rut):
                                                 listap.append(ciclo)
                                                 ciclosyfrentes.append(listap)
                                                 print(ciclosyfrentes)
+                                                addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 1
                                         print('ciclo 1')
@@ -4692,6 +4749,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
                             botonciclo.grid(row='5',column='0')
@@ -4704,6 +4762,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'instalacion_malla':
                             print('entry')
                             ciclo = 0
@@ -4713,6 +4772,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'hilteo_malla':
                             print('entry')
                             ciclo = 0
@@ -4722,6 +4782,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'proyeccion_shotcrete':
                             print('entry')
                             ciclo = 0
@@ -4731,6 +4792,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'marcacion_topografica':
                             print('entry')
                             #mt
@@ -4774,6 +4836,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 2
                                         print('ciclo 2')
@@ -4782,6 +4845,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
 
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
@@ -4829,6 +4893,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                     case 'NO HECHO':
                                         ciclo = 3
                                         print('ciclo 3')
@@ -4837,6 +4902,7 @@ def ingresomain(rut):
                                         listap.append(ciclo)
                                         ciclosyfrentes.append(listap)
                                         print(ciclosyfrentes)
+                                        addestadofrentes(frente,operacion,fort,ciclo)
                                 print(listaevaluar)
                             botonciclo = Button(fort1,text='DEFINIR CICLO',command=pushciclo)
                             botonciclo.grid(row='5',column='0')
@@ -4849,6 +4915,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                         case 'tronadura':
                             print('entry')
                             ciclo = 1
@@ -4858,6 +4925,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
+                            addestadofrentes(frente,operacion,fort,ciclo)
                 
         def inhd():
             print('entro')
