@@ -3659,7 +3659,7 @@ def ingresomain(rut):
         fecha = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         print(fecha)
         cursor = bd15.cursor()
-        sql = "insert into estado_frentes(id_frente,operacion,fecha,fortificacion,ciclo,estado_avance,criticidad,direccion) value('%s','%s','%s','%s','%d','%s','%s')" % (frente, operacion, fecha, fort,ciclo,estadoa,criticidad,dir)
+        sql = "insert into estado_frentes(id_frente,operacion,fecha,fortificacion,ciclo,estado_avance,criticidad,direccion) value('%s','%s','%s','%s','%d','%s','%s','%s')" % (frente, operacion, fecha, fort,ciclo,estadoa,criticidad,dir)
         try:
             
             cursor.execute(sql)
