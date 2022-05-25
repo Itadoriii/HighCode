@@ -86,10 +86,23 @@ ciclos = [
     ]
 
 #memoria servicios equipos
-# [ equipo , energía , drenaje , agua , airecomprimido]
 services = [
-        ['jumbo','si','si','si','no'],
-        ['roboshot','no','no','si','si'],
+        ['rm',['ac','sc','pp','l','m','h','sh','shf','mt','pa']],
+        ['e',['empty']],
+        ['ac',['rm','sc','mg','pp','l','m','h','sh','shf','mt','pa']],
+        ['sc',['rm','ac','pp','l','m','h','sh','shf','mt','pa']],
+        ['mg',['rm','ac','sc','pp','l','m','h','sh','shf','mt','pa']],
+        ['lp',['empty']],
+        ['pp',['rm','ac','sc','l','m','h','sh','shf','mt']],
+        ['l',['rm','ac','sc','pp','m','h','sh','shf','mt','pa']],
+        ['m',['rm','ac','sc','pp','l','h','sh','shf','mt','pa']],
+        ['h',['rm','ac','sc','pp','l','m','sh','shf','mt','pa']],
+        ['sh',['rm','ac','sc','l','m','h','mt']],
+        ['shf',['rm','ac','sc','l','m','h','mt']],
+        ['mt',['rm','ac','sc','pp','l','m','h','sh','shf','pa']],
+        ['pa',['ac','sc','l','m','h','mt']],
+        ['c',['empty']],
+        ['q',['q']],
     ]
 
 
@@ -353,21 +366,32 @@ def algoritmos(inicio,termino):
     print("TOTAL FRENTES")
     print(totalfrentes)
 
-    ciclosyfrente = [
-        ['F1',1],
-        ['F2',2],
-        ['F3',3],
-        ['F4',4],
-        ['F5',5],
-        ['F6',6]
-    ]
+    # rescata ciclo de bd
 
-    '''
-    for i in range(0,len(ciclosyfrentes)):
-        if(len(ciclosyfrentes[i])==1):
-            ciclosyfrentes[i].append(1)
-    '''
+    ideaux = []
+    ciclaux = []
+    ciclosyfrente = []
+
+    cursor.execute("select distinct id_frente, ciclo from estado_frentes order by fecha desc")
+    cibd = cursor.fetchall()
+    for c in cibd:
+        fid = c['id_frente']
+        ideaux.append(fid)
+        cid = c['ciclo']
+        ciclaux.append(int(cid))
+
+    #id
+    for f in range(totalfrentes):
+        ciclosyfrente.append([])
+        for g in range(1):
+            ciclosyfrente[f].append(ideaux[f])
+
+    #ciclo
+    for f in range(totalfrentes):
+            ciclosyfrente[f].append(ciclaux[f])
+
     print(ciclosyfrente)
+
     #ruta
     print("RUTA CRITICA")
     rutacri = []
@@ -1464,13 +1488,10 @@ def algoritmos(inicio,termino):
                                         if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
                                             if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
                                                 if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                    for x in range(2):
-                                                        if(rf1==services[x][0]):
-                                                            for w in range(2):
-                                                                if(rf0==services[w][0]):
-                                                                    for z in range(1,5):
-                                                                        if(services[x][z]==services[w][z]):
-                                                                            bandera = bandera + 1
+                                                    for x in range(15):
+                                                        if(f1==services[x][0]):
+                                                            if(f0 in services[x][1]):
+                                                                bandera = bandera + 1
 
                                         if(f1!=f0): # si no son iguales
 
@@ -1841,13 +1862,10 @@ def algoritmos(inicio,termino):
                                             if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
                                                 if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
                                                     if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                        for x in range(2):
-                                                            if(rf1==services[x][0]):
-                                                                for w in range(2):
-                                                                    if(rf0==services[w][0]):
-                                                                        for z in range(1,5):
-                                                                            if(services[x][z]==services[w][z]):
-                                                                                bandera = bandera + 1
+                                                        for x in range(15):
+                                                            if(f1==services[x][0]):
+                                                                if(f0 in services[x][1]):
+                                                                    bandera = bandera + 1
 
                                             if(f1!=f0): # si no son iguales
 
@@ -2254,13 +2272,10 @@ def algoritmos(inicio,termino):
                                                 if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
                                                     if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
                                                         if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                            for x in range(2):
-                                                                if(rf1==services[x][0]):
-                                                                    for w in range(2):
-                                                                        if(rf0==services[w][0]):
-                                                                            for z in range(1,5):
-                                                                                if(services[x][z]==services[w][z]):
-                                                                                    bandera = bandera + 1
+                                                            for x in range(15):
+                                                                if(f1==services[x][0]):
+                                                                    if(f0 in services[x][1]):
+                                                                        bandera = bandera + 1
 
                                                 if(f1!=f0): # si no son iguales
 
@@ -2627,13 +2642,10 @@ def algoritmos(inicio,termino):
                                                     if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
                                                         if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
                                                             if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                                for x in range(2):
-                                                                    if(rf1==services[x][0]):
-                                                                        for w in range(2):
-                                                                            if(rf0==services[w][0]):
-                                                                                for z in range(1,5):
-                                                                                    if(services[x][z]==services[w][z]):
-                                                                                        bandera = bandera + 1
+                                                                for x in range(15):
+                                                                    if(f1==services[x][0]):
+                                                                        if(f0 in services[x][1]):
+                                                                            bandera = bandera + 1
 
                                                     if(f1!=f0): # si no son iguales
 
