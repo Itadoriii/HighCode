@@ -3826,7 +3826,7 @@ def ingresomain(rut):
                             listap.append(ciclo)
                             ciclosyfrentes.append(listap)
                             addestadofrentes(frente,operacion,fort,ciclo,estadoa,criticidad,dir)
-                        case 'acunadura':
+                        case 'acuñadura':
                             ciclo = 1
                             listap =  []
                             listap.append(frente)
@@ -4211,7 +4211,7 @@ def ingresomain(rut):
                             ciclosyfrentes.append(listap)
                             print(ciclosyfrentes)
                             addestadofrentes(frente,operacion,fort,ciclo,estadoa,criticidad,dir)
-                        case 'acunadura':
+                        case 'acuñadura':
                             print('entry')
                             ciclo = 1
                             listap =  []
