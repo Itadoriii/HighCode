@@ -308,8 +308,8 @@ def ventanaalgoritmos():
         win4.geometry('1080x200')
         frame = Frame(win4)
         frame.pack()
-        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
-        for uwu in range(0,30):
+        extra = ['id','tam','ope','est','for','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,29):
             j = Entry(frame,width=5)
             j.grid(row = 0, column = uwu)
             j.insert(END,extra[uwu])
@@ -323,7 +323,7 @@ def ventanaalgoritmos():
         for f in range(0,len(matricitaa)):
                     for j in range(0,len(matricitaa[f])):
                             x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j+6)
+                            x.grid(row = f+1, column = j+5)
                             x.insert(END,matricitaa[f][j])
     
 
@@ -846,6 +846,10 @@ def algoritmos(inicio,termino):
                     contav = 0
 
                     f1 = ciclos[fortycic][2][po-contador]
+
+                    for y in range(cicloclasic): 
+                        if(f1==operaciones[y][0]):
+                            ap1 = operaciones[y][9] # guarda actividad pausa
                     
                     while(auxdu<duracion):
 
@@ -885,7 +889,7 @@ def algoritmos(inicio,termino):
                                         recualmu = f1
 
                                     else:
-                                        l1[i].append('-')
+                                        l1[i].append(ap1)
                                         limit = limit + 1
                                         auxpa = auxpa + 1
 
@@ -900,6 +904,10 @@ def algoritmos(inicio,termino):
                     contav = 0
 
                     f1 = ciclos[fortycic][2][po-contador]
+
+                    for y in range(cicloclasic): 
+                        if(f1==operaciones[y][0]):
+                            ap1 = operaciones[y][9] # guarda actividad pausa
 
                     if(limit==9):
                         l1[i].append('A')
@@ -943,7 +951,7 @@ def algoritmos(inicio,termino):
                                                     recualmu = f1
 
                                                 else:
-                                                    l1[i].append('-')
+                                                    l1[i].append(ap1)
                                                     limit = limit + 1
                                                     auxpa = auxpa + 1
                                             else:
@@ -972,6 +980,9 @@ def algoritmos(inicio,termino):
             if(k+posi>=larg):
 
                 if(lr[i][2]!='q'):
+
+                    if(f1=='q'):
+                        indite = len(l1[i])
 
                     # guarda q al final
 
@@ -1045,12 +1056,9 @@ def algoritmos(inicio,termino):
 
                             f1 = ciclos[fortycic][2][po-contador]
 
-                            cicloclasic = 15 # ciclo original operaciones
-
                             for y in range(cicloclasic): 
                                 if(f1==operaciones[y][0]):
-                                    rf1 = operaciones[y][2] # guarda recurso actividad
-                                    ap = operaciones[y][9] # guarda pausa
+                                    ap1 = operaciones[y][9] # guarda pausa
                     
                             while(auxdu<duracion):
 
@@ -1090,7 +1098,7 @@ def algoritmos(inicio,termino):
                                                 recualmu = f1
 
                                             else:
-                                                l1[i].append(ap)
+                                                l1[i].append(ap1)
                                                 limit = limit + 1
                                                 auxpa = auxpa + 1
                                         
@@ -1115,6 +1123,10 @@ def algoritmos(inicio,termino):
                                 if(limit+duracion<bloquet):
 
                                     f1 = ciclos[fortycic][2][po-contador]
+
+                                    for y in range(cicloclasic): 
+                                        if(f1==operaciones[y][0]):
+                                            ap1 = operaciones[y][9] # guarda pausa
 
                                     if(f1!='q'): # no es q (restriccion q a la ultima posicion)
                                         
@@ -1145,7 +1157,7 @@ def algoritmos(inicio,termino):
                                                             recualmu = f1
 
                                                         else:
-                                                            l1[i].append('-')
+                                                            l1[i].append(ap1)
                                                             limit = limit + 1
                                                             auxpa = auxpa + 1
                                                     else:
@@ -1310,6 +1322,11 @@ def algoritmos(inicio,termino):
             algofin[i].append(direfor[i])
 
 
+    print("[ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+            
+    for n in range(totalfrentes):
+        print(lr[n],l1[n],len(l1[n]))
+
 
     # llena demas frentes
     
@@ -1326,9 +1343,8 @@ def algoritmos(inicio,termino):
 
         if (lr[i][4]=='shf-p-m-sh'):
             totalci=3
-
+        
         xci = 0
-
 
         for q in range(totalci):
 
@@ -1396,6 +1412,10 @@ def algoritmos(inicio,termino):
                         contav = 0
 
                         f1 = ciclos[fortycic][2][po-contador]
+
+                        if(f1=='q'):
+                            qhecha='si'
+                            break
 
                         x = 0
 
@@ -1546,25 +1566,16 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==11):
                                                 if (auxalmu in jumbos):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==9):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
 
                                         if (almuerzo==2): #tipo 2
                                             if(limit==13):
@@ -1572,25 +1583,16 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==11):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==9):
                                                 if (auxalmu in jumbos):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
 
                                         if (almuerzo==3): #tipo 3
                                             if(limit==13):
@@ -1598,29 +1600,20 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==11):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
                                             if(limit==9):
                                                 if (auxalmu in otros):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
 
-                                            laux.append(f1)
-                                            limit = limit + 1
-                                            cont = cont + 1
+                                        laux.append(f1)
+                                        limit = limit + 1
+                                        cont = cont + 1
 
                                     if(cont==duracion):
                                         x = 1
@@ -2330,25 +2323,16 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in jumbos):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
 
                                                 if (almuerzo==2): #tipo 2
                                                     if(limit==13):
@@ -2356,25 +2340,16 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in jumbos):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
 
                                                 if (almuerzo==3): #tipo 3
                                                     if(limit==13):
@@ -2382,25 +2357,16 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in otros):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
 
                                                 laux.append(f1)
                                                 limit = limit + 1
@@ -2554,6 +2520,7 @@ def algoritmos(inicio,termino):
                                 if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
 
                                     while(x==0): # busqueda vertical total
+
 
                                         #guarda almuerzo
 
@@ -2841,14 +2808,17 @@ def algoritmos(inicio,termino):
             contaciclo = 0
             contaguion = 0
 
-            print ("laux", laux)
-            print ("ciclo", q)
+            print ("ciclo", q, laux)
+
 
             for c in range(len(laux)):
                 if(laux[c]!='-'):
                     contaciclo = contaciclo + 1
                 if(laux[c]=='-'):
                     contaguion = contaguion + 1
+
+            print("operaciones = ", contaciclo)
+            '''print("largo laux =", len(laux))'''
 
             if(contaciclo>xci):
                 xci=contaciclo
@@ -2878,10 +2848,15 @@ def algoritmos(inicio,termino):
 
     print("[ ID - TAM - OPE - EST - FOR - NIV - TIP - NUM - DIR - TIR - NUR - DRE -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
+    print("")
+    print("MATRIZ FINAL")
+    print("")
+
+
     for i in range(totalfrentes):
         print(lr[i], algofin[i], l1[i], len(l1[i]))
 
-    print ("ALMUERZO 1 RECURSO: ", recualmu)
+    print ("ALMUERZO (PRIMER BLOQUE) RECURSO: ", recualmu)
     
     
     excel = openpyxl.load_workbook('base.xlsx')
@@ -2901,8 +2876,8 @@ def algoritmos(inicio,termino):
     for i in range (totalfrentes):
         matricitaa.append(l1[i])
         
-    print('matricitaa')
-    print(matricitaa)
+    '''print('matricitaa')
+    print(matricitaa)'''
     
 def addbdfrentes():
     win4=Tk()
