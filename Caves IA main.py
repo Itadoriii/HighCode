@@ -1,6 +1,7 @@
 from ast import Index
 from cProfile import run
 import collections
+from mimetypes import init
 import tkinter as tk 
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
@@ -21,7 +22,7 @@ from unittest import signals
 from urllib.request import AbstractBasicAuthHandler
 from datetime import datetime
 from mysqlx import Column
-from numpy import append, can_cast, char, character, mat, matrix
+from numpy import append, can_cast, char, character, mat, matrix, obj2sctype, object0
 import pymysql.cursors
 import numpy as np
 import openpyxl
@@ -308,8 +309,8 @@ def ventanaalgoritmos():
         win4.geometry('1080x200')
         frame = Frame(win4)
         frame.pack()
-        extra = ['id','tam','ope','est','for','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
-        for uwu in range(0,29):
+        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,30):
             j = Entry(frame,width=5)
             j.grid(row = 0, column = uwu)
             j.insert(END,extra[uwu])
@@ -323,7 +324,7 @@ def ventanaalgoritmos():
         for f in range(0,len(matricitaa)):
                     for j in range(0,len(matricitaa[f])):
                             x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j+5)
+                            x.grid(row = f+1, column = j+6)
                             x.insert(END,matricitaa[f][j])
     
 
@@ -846,10 +847,6 @@ def algoritmos(inicio,termino):
                     contav = 0
 
                     f1 = ciclos[fortycic][2][po-contador]
-
-                    for y in range(cicloclasic): 
-                        if(f1==operaciones[y][0]):
-                            ap1 = operaciones[y][9] # guarda actividad pausa
                     
                     while(auxdu<duracion):
 
@@ -889,7 +886,7 @@ def algoritmos(inicio,termino):
                                         recualmu = f1
 
                                     else:
-                                        l1[i].append(ap1)
+                                        l1[i].append('-')
                                         limit = limit + 1
                                         auxpa = auxpa + 1
 
@@ -904,10 +901,6 @@ def algoritmos(inicio,termino):
                     contav = 0
 
                     f1 = ciclos[fortycic][2][po-contador]
-
-                    for y in range(cicloclasic): 
-                        if(f1==operaciones[y][0]):
-                            ap1 = operaciones[y][9] # guarda actividad pausa
 
                     if(limit==9):
                         l1[i].append('A')
@@ -951,7 +944,7 @@ def algoritmos(inicio,termino):
                                                     recualmu = f1
 
                                                 else:
-                                                    l1[i].append(ap1)
+                                                    l1[i].append('-')
                                                     limit = limit + 1
                                                     auxpa = auxpa + 1
                                             else:
@@ -980,9 +973,6 @@ def algoritmos(inicio,termino):
             if(k+posi>=larg):
 
                 if(lr[i][2]!='q'):
-
-                    if(f1=='q'):
-                        indite = len(l1[i])
 
                     # guarda q al final
 
@@ -1056,9 +1046,12 @@ def algoritmos(inicio,termino):
 
                             f1 = ciclos[fortycic][2][po-contador]
 
+                            cicloclasic = 15 # ciclo original operaciones
+
                             for y in range(cicloclasic): 
                                 if(f1==operaciones[y][0]):
-                                    ap1 = operaciones[y][9] # guarda pausa
+                                    rf1 = operaciones[y][2] # guarda recurso actividad
+                                    ap = operaciones[y][9] # guarda pausa
                     
                             while(auxdu<duracion):
 
@@ -1098,7 +1091,7 @@ def algoritmos(inicio,termino):
                                                 recualmu = f1
 
                                             else:
-                                                l1[i].append(ap1)
+                                                l1[i].append(ap)
                                                 limit = limit + 1
                                                 auxpa = auxpa + 1
                                         
@@ -1123,10 +1116,6 @@ def algoritmos(inicio,termino):
                                 if(limit+duracion<bloquet):
 
                                     f1 = ciclos[fortycic][2][po-contador]
-
-                                    for y in range(cicloclasic): 
-                                        if(f1==operaciones[y][0]):
-                                            ap1 = operaciones[y][9] # guarda pausa
 
                                     if(f1!='q'): # no es q (restriccion q a la ultima posicion)
                                         
@@ -1157,7 +1146,7 @@ def algoritmos(inicio,termino):
                                                             recualmu = f1
 
                                                         else:
-                                                            l1[i].append(ap1)
+                                                            l1[i].append('-')
                                                             limit = limit + 1
                                                             auxpa = auxpa + 1
                                                     else:
@@ -1322,11 +1311,6 @@ def algoritmos(inicio,termino):
             algofin[i].append(direfor[i])
 
 
-    print("[ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-            
-    for n in range(totalfrentes):
-        print(lr[n],l1[n],len(l1[n]))
-
 
     # llena demas frentes
     
@@ -1343,8 +1327,9 @@ def algoritmos(inicio,termino):
 
         if (lr[i][4]=='shf-p-m-sh'):
             totalci=3
-        
+
         xci = 0
+
 
         for q in range(totalci):
 
@@ -1412,10 +1397,6 @@ def algoritmos(inicio,termino):
                         contav = 0
 
                         f1 = ciclos[fortycic][2][po-contador]
-
-                        if(f1=='q'):
-                            qhecha='si'
-                            break
 
                         x = 0
 
@@ -1566,16 +1547,25 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==11):
                                                 if (auxalmu in jumbos):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==9):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
 
                                         if (almuerzo==2): #tipo 2
                                             if(limit==13):
@@ -1583,16 +1573,25 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==11):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==9):
                                                 if (auxalmu in jumbos):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
 
                                         if (almuerzo==3): #tipo 3
                                             if(limit==13):
@@ -1600,20 +1599,29 @@ def algoritmos(inicio,termino):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==11):
                                                 if (auxalmu in cuadrilla):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
                                             if(limit==9):
                                                 if (auxalmu in otros):
                                                     laux.append('A')
                                                     laux.append('A')
                                                     limit = limit + 2
+                                                    x=0
+                                                    duracion = duracion - cont
+                                                    break
 
-                                        laux.append(f1)
-                                        limit = limit + 1
-                                        cont = cont + 1
+                                            laux.append(f1)
+                                            limit = limit + 1
+                                            cont = cont + 1
 
                                     if(cont==duracion):
                                         x = 1
@@ -2323,16 +2331,25 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in jumbos):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
 
                                                 if (almuerzo==2): #tipo 2
                                                     if(limit==13):
@@ -2340,16 +2357,25 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in jumbos):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
 
                                                 if (almuerzo==3): #tipo 3
                                                     if(limit==13):
@@ -2357,16 +2383,25 @@ def algoritmos(inicio,termino):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==11):
                                                         if (auxalmu in cuadrilla):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
                                                     if(limit==9):
                                                         if (auxalmu in otros):
                                                             laux.append('A')
                                                             laux.append('A')
                                                             limit = limit + 2
+                                                            x=0
+                                                            duracion = duracion - cont
+                                                            break
 
                                                 laux.append(f1)
                                                 limit = limit + 1
@@ -2520,7 +2555,6 @@ def algoritmos(inicio,termino):
                                 if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
 
                                     while(x==0): # busqueda vertical total
-
 
                                         #guarda almuerzo
 
@@ -2808,17 +2842,14 @@ def algoritmos(inicio,termino):
             contaciclo = 0
             contaguion = 0
 
-            print ("ciclo", q, laux)
-
+            print ("laux", laux)
+            print ("ciclo", q)
 
             for c in range(len(laux)):
                 if(laux[c]!='-'):
                     contaciclo = contaciclo + 1
                 if(laux[c]=='-'):
                     contaguion = contaguion + 1
-
-            print("operaciones = ", contaciclo)
-            '''print("largo laux =", len(laux))'''
 
             if(contaciclo>xci):
                 xci=contaciclo
@@ -2848,15 +2879,10 @@ def algoritmos(inicio,termino):
 
     print("[ ID - TAM - OPE - EST - FOR - NIV - TIP - NUM - DIR - TIR - NUR - DRE -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
     
-    print("")
-    print("MATRIZ FINAL")
-    print("")
-
-
     for i in range(totalfrentes):
         print(lr[i], algofin[i], l1[i], len(l1[i]))
 
-    print ("ALMUERZO (PRIMER BLOQUE) RECURSO: ", recualmu)
+    print ("ALMUERZO 1 RECURSO: ", recualmu)
     
     
     excel = openpyxl.load_workbook('base.xlsx')
@@ -2876,8 +2902,8 @@ def algoritmos(inicio,termino):
     for i in range (totalfrentes):
         matricitaa.append(l1[i])
         
-    '''print('matricitaa')
-    print(matricitaa)'''
+    print('matricitaa')
+    print(matricitaa)
     
 def addbdfrentes():
     win4=Tk()
@@ -3415,7 +3441,7 @@ def ingresomain(rut):
             tam = comtam.get()
             ruta = comruta.get()
             marina = comdmarina.get()
-            lvl = comtipo.get()
+            lvl = comnivel.get()
             macro = commacrob.get()
             sector = comsector.get()
             codigo = comcodigo.get()
@@ -3423,7 +3449,7 @@ def ingresomain(rut):
             foco = comfoco.get()
             largo = comlargo.get()
     
-            ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + '/' + direccionref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+            ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + sigla + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
             print(ide)
             bd = pymysql.connect(host='localhost',
                              user='root',
@@ -3431,7 +3457,7 @@ def ingresomain(rut):
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
             cursor = bd.cursor()
-            sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,foco,largo) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,foco,largo)
+            sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo)
             try:
                 cursor.execute(sql)
                 bd.commit()
@@ -3600,9 +3626,1225 @@ def ingresomain(rut):
                         case 4:
                             x.insert(END,vercod[i-1])
 
+    def eliminarfrente():
+        print('xd')
+        win6 = Tk()
+        frame = Frame(win6)
+        frame.pack()
+        win6.title('Eliminar frente')
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+        cursor = bd.cursor()
+         
+        sql = 'select * from frentes'
+        try:
+            cursor.execute(sql)
+            data=cursor.fetchall()
+            bd.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        bd.close()
+        idel = []
+        for i in data:
+            id = i['id_frente']
+            cod = i['codigo_empresa']
+            if(cod==rutt):
+                idel.append(id)
+        print(idel)
+        def borrarfrentebd():
+            idborrar = listeliminar.get()
+            print(idborrar)
+            sql = "delete from frentes where id_frente='"+ idborrar + "'"
+            bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+            cursor = bd.cursor()
+            try:
+                cursor.execute(sql)
+                bd.commit()
+                cursor.close()
+            except Exception as e:
+                print(e)
+            bd.close()
+            print(sql)
 
-    
-    #codigo de la ventana principal
+        ideliminar = Label(frame,text='Id frente')
+        ideliminar.grid(row='1', column='0')
+        listeliminar = ttk.Combobox(frame)
+        listeliminar.grid(row='1',column='1')
+        listeliminar['values']=idel
+        botoneliminar = Button(frame,text='Eliminar',command=borrarfrentebd)
+        botoneliminar.grid(row='2',column='1')
+
+
+    def modificarfrente():
+        print('uwu')
+
+        #seccionar frentes por nivel
+        #DIVIDIR FRENTES POR NIVEL 
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+        cursor = bd.cursor()
+        sql = 'select * from frentes'
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        #memparaorden 
+        nivelti = []
+        nivelext = []
+        nivelhd = []
+        nivelpd = []
+        nivelch = []
+        niveliny = []
+        #ordena id segun nivel 
+        for i in data :
+            cod = i['codigo_empresa']
+            idfren = i['id_frente']
+            e = list()
+            e.append(idfren)
+            nivel = i['nivel']
+            if(cod==rut):
+                match nivel:
+                    case 'TI':
+                        print(nivel,idfren)
+                        nivelti.append(idfren)
+                    case 'EXT':
+                        print(nivel,idfren)
+                        nivelext.append(idfren)
+                    case 'HD':
+                        print(nivel,idfren)
+                        nivelhd.append(idfren)
+                    case 'PD':
+                        print(nivel,idfren)
+                        nivelpd.append(idfren)
+                    case 'CH':
+                        print(nivel,idfren)
+                        nivelch.append(idfren)
+                    case 'INY':
+                        print(nivel,idfren)
+                        niveliny.append(idfren)
+        #query para ver la data 
+        def inhd():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=nivelhd
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+        
+        def inpd():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=nivelpd
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+            
+        def inch():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=nivelch
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+            
+        
+        def ininy():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=niveliny
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+
+        def inext():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=nivelext
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+            
+
+        def inti():
+            print(nivelhd) 
+            win = Tk()
+            win.title('AÑADIR FRENTE')
+            frame = Frame(win)
+            frame.pack()
+            txtid = Label(frame,text='Id frente:')
+            txtid.grid (row='0',column='0')
+            listid = ttk.Combobox(frame)
+            listid.grid (row='0',column='1')
+            listid['values']=nivelti
+            
+            def cargarhd():
+                print('entroxd')
+                id = listid.get()
+                print(id)
+                #guardar data frente con el id de arriba
+                bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        
+                cursor = bd.cursor()
+                sql = 'select * from frentes'
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                iddata = []
+                for i in data:
+                    idf=i['id_frente']
+                    if(idf==id):
+                        tipo = i['tipo']
+                        sigla = i['sigla']
+                        numero = i['numero']
+                        numeroref = i['numero_referencia']
+                        direccion = i['direccion']
+                        direccionref = i['direccion_referencia']
+                        estado = i['estado']
+                        tamaño =i['tamaño']
+                        ruta = i['ruta_critica']
+                        dmarina = i['distancia_marina']
+                        nivels = i['nivel']
+                        macrobloque = i['macrobloque']
+                        sectorr = i ['sector']
+                        codigo = i['codigo_empresa']
+                        forti = i['tipofort']
+                        foco = i ['foco']
+                        largo =i['largo']
+                        iddata.append(tipo)
+                        iddata.append(sigla)
+                        iddata.append(numero)
+                        iddata.append(numeroref)
+                        iddata.append(direccion)
+                        iddata.append(direccionref)
+                        iddata.append(estado)
+                        iddata.append(tamaño)
+                        iddata.append(ruta)
+                        iddata.append(dmarina)
+                        iddata.append(nivels)
+                        iddata.append(macrobloque)
+                        iddata.append(sectorr)
+                        iddata.append(codigo)
+                        iddata.append(forti)
+                        iddata.append(foco)
+                        iddata.append(largo)
+                        
+                print('aqui se imprimie',iddata)
+                win5 = Tk()
+                win5.title('AÑADIR FRENTE')
+                frame = Frame(win5)
+                frame.pack()
+                txttipo = Label(frame,text='Tipo',width='23')
+                txttipo.grid(column='0',row='1')
+                comtipo = ttk.Combobox(frame)
+                comtipo.grid(column ='1',row='1')
+                comtipo.insert(END,iddata[0])
+                comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
+                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla.grid(column='0',row='2')
+                comsigla = ttk.Combobox(frame)
+                comsigla.grid(column ='1',row='2')
+                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla.insert(END,iddata[1])
+                txtnumero = Label(frame,text='Numero',width='23')
+                txtnumero.grid(column='0',row='3')
+                comnum = Entry(frame,width='23')
+                comnum.grid(column ='1',row='3')
+                comnum.insert(END,iddata[2])
+                txtnumeroref = Label(frame,text='Numero referencia',width='23')
+                txtnumeroref.grid(column='0',row='4')
+                comnumref = Entry(frame,width='23')
+                comnumref.grid(column ='1',row='4') 
+                comnumref.insert(END,iddata[3])
+                txtdir = Label(frame,text='Direccion',width='23')
+                txtdir.grid(column='0',row='5')
+                comdir = ttk.Combobox(frame)
+                comdir.grid(column ='1',row='5')
+                comdir.insert(END,iddata[4])
+                comdir['values']=['N','S','E','O'] 
+                txtdirref = Label(frame,text='Direccion referencia',width='23')
+                txtdirref.grid(column='0',row='6')
+                comdirref = ttk.Combobox(frame)
+                comdirref.grid(column ='1',row='6')
+                comdirref.insert(END,iddata[5])
+                comdirref['values']=['N','S','E','O'] 
+                txtestado = Label(frame,text='Estado',width='23')
+                txtestado.grid(column='0',row='7')
+                comestado = ttk.Combobox(frame)
+                comestado.grid(column ='1',row='7')
+                comestado['values'] = ['Activo','Inactivo']
+                comestado.insert(END,iddata[6])
+                txttam = Label(frame,text='Tamaño',width='23')
+                txttam.grid(column='0',row='8')
+                comtam = ttk.Combobox(frame)
+                comtam.grid(column ='1',row='8') 
+                comtam['values'] = ['C','M','G']
+                comtam.insert(END,iddata[7])
+                txtruta = Label(frame,text='Ruta critica',width='23')
+                txtruta.grid(column='0',row='9')
+                comruta = ttk.Combobox(frame)
+                comruta.grid(column ='1',row='9')
+                comruta['values'] = ['Si','No'] 
+                comruta.insert(END,iddata[8])
+                txtdmarina = Label(frame,text='Distancia marina',width='23')
+                txtdmarina.grid(column='0',row='10')
+                comdmarina = Entry(frame,width='23')
+                comdmarina.grid(column ='1',row='10')
+                comdmarina.insert(END,iddata[9])
+                txtnivel = Label(frame,text='Nivel',width='23')
+                txtnivel.grid(column='0',row='11')
+                comnivel = ttk.Combobox(frame)
+                comnivel.grid(column ='1',row='11')
+                comnivel['values'] = ['HD','PD','CH','INY','EXT','TI']
+                comnivel.insert(END,iddata[10])
+                txtmacrob = Label(frame,text='Macrobloque',width='23')
+                txtmacrob.grid(column='0',row='12')
+                commacrob = ttk.Combobox(frame)
+                commacrob.grid(column ='1',row='12')
+                commacrob.insert(END,iddata[11])
+                commacrob['values'] = ['S01','S02']
+                txtsector = Label(frame,text='Sector',width='23')
+                txtsector.grid(column='0',row='13')
+                comsector = ttk.Combobox(frame)
+                comsector.grid(column ='1',row='13')
+                comsector['values'] = ['S1','S2']  
+                comsector.insert(END,iddata[12])
+                txtcodigo = Label(frame,text='Codigo',width='23')
+                txtcodigo.grid(column='0',row='14')
+                comcodigo = ttk.Combobox(frame)
+                comcodigo.grid(column ='1',row='14')
+                comcodigo['values'] = ['ce1','ce2']
+                comcodigo.insert(END,iddata[13])
+                comcodigo.config(state='readonly')
+                txtfortificacion = Label(frame,text='Fortificacion',width='23')
+                txtfortificacion.grid(column='0',row='15')
+                comfortificacion = ttk.Combobox(frame)
+                comfortificacion.grid(column ='1',row='15') 
+                comfortificacion['values'] = ['p-m-sh','p-shf','shf-p-m-sh']
+                comfortificacion.insert(END,iddata[14])
+                txtfoco = Label(frame,text='Foco',width='23')
+                txtfoco.grid(column='0',row='16')
+                comfoco = ttk.Combobox(frame)
+                comfoco.grid(column ='1',row='16')
+                comfoco['values'] = [0,1]
+                comfoco.insert(END,iddata[15])
+                txtlargo = Label(frame,text='Largo',width='23')
+                txtlargo.grid(column='0',row='17')
+                comlargo = Entry(frame,width='23')
+                comlargo.grid(column ='1',row='17')
+                comlargo.insert(END,iddata[16])
+                
+                def guardarfrente():
+                    print('2')
+
+                botonguardar = Button(frame,text='guardar',command=guardarfrente)
+                botonguardar.grid(row='18')
+
+            botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
+            botoncargarfrente.grid(row='1',column='0')
+            
+            
+
+
+
+        raiz = Tk()
+        raiz.title('MODIFICAR FRENTE')
+        frame = Frame(raiz)
+        frame.pack()
+        text = Label(frame,text='ESCOJA EL NIVEL DEL FRENTE A MODIFICAR:')
+        text.grid(row='0',column='0')
+        bhd = Button(frame,text='HD',width='10',command=inhd)
+        bhd.grid(row='1',column='1')
+        bpd = Button(frame,text='PD',width='10',command=inpd)
+        bpd.grid(row='1',column='2')
+        bch = Button(frame,text='CH',width='10',command=inch)
+        bch.grid(row='1',column='3')
+        biny = Button(frame,text='INY',width='10',command=ininy)
+        biny.grid(row='2',column='1')
+        bext = Button(frame,text='EXT',width='10',command=inext)
+        bext.grid(row='2',column='2')
+        bti= Button(frame,text='TI',width='10',command=inti)
+        bti.grid(row='2',column='3')
+
+
+        
+
+
+    #codigo de la ventana principal // MENUS 
     rutt=rut
     win3 = Tk()
     win3.title('PROGRAMACION MINERA CAVES IA')
@@ -3615,14 +4857,21 @@ def ingresomain(rut):
     win3.config(menu=menubar)
     menufrentes=Menu(menubar,tearoff =0)
     menuequipos=Menu(menubar,tearoff =0)
+    menudatos=Menu(menubar,tearoff =0)
     menubar.add_cascade(label='frentes',menu=menufrentes)
     menubar.add_cascade(label='equipos',menu=menuequipos)
+    menubar.add_cascade(label='datos',menu=menudatos)
     menufrentes.add_command(label='añadir nueva frente',command=addfrentesmenu)
     menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
+    menufrentes.add_command(label='eliminar frente',command=eliminarfrente)
+    menufrentes.add_command(label='modificar frente',command=modificarfrente)
     menuequipos.add_command(label='añadir equipos',command=addequipomenu)
     menuequipos.add_command(label='añadir recursoequipo',command=addequipo)
     menuequipos.add_command(label='ver equipos',command=verequipomenu)
     menuequipos.add_command(label='ver estado equipos',command=verestadoequipomenu)
+    menudatos.add_command(label='Entrada/Salida horario',command=ventanaalgoritmos)
+
+
     def addestadofrentes(frente,operacion,fort,ciclo,estadoa,criticidad,dir):
         bd15 = pymysql.connect(host='localhost',
                              user='root',
@@ -3867,35 +5116,34 @@ def ingresomain(rut):
                             txtdefault.grid(row='0',column='0')
                             txtmt = Label(fort1,text='Marcacion Topografica')
                             txtmt.grid(row='1',column='0')
-                            txth = Label(fort1,text='hilteo_malla')
-                            txth.grid(row='2',column='0')
+                            
                             txtsh = Label(fort1,text='Proyeccion_shotcrete')
                             txtsh.grid(row='3',column='0')
                             txtpa = Label(fort1,text='Perforacion_avance')
                             txtpa.grid(row='4',column='0')
 
                             combmt = ttk.Combobox(fort1)
-                            combh = ttk.Combobox(fort1)
+                            
                             combsh = ttk.Combobox(fort1)
                             combpa = ttk.Combobox(fort1)
 
                             combmt.grid(row='1',column='1')
-                            combh.grid(row='2',column='1')
+                            
                             combsh.grid(row='3',column='1')
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            combh['values'] = ['HECHO','NO HECHO']
+                            
                             combsh['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
-                                h = combh.get()
+                                
                                 sh = combsh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,h,sh,pa]
+                                listaevaluar = [mt,sh,pa]
                                 match mt:
                                     case 'HECHO':
                                         if (pa == 'HECHO'):
@@ -3940,33 +5188,32 @@ def ingresomain(rut):
                             txtmt.grid(row='1',column='0')
                             txth = Label(fort1,text='hilteo_malla')
                             txth.grid(row='2',column='0')
-                            txtsh = Label(fort1,text='Proyeccion_shotcrete')
-                            txtsh.grid(row='3',column='0')
+                            
                             txtpa = Label(fort1,text='Perforacion_avance')
                             txtpa.grid(row='4',column='0')
 
                             combmt = ttk.Combobox(fort1)
                             combh = ttk.Combobox(fort1)
-                            combsh = ttk.Combobox(fort1)
+                            
                             combpa = ttk.Combobox(fort1)
 
                             combmt.grid(row='1',column='1')
                             combh.grid(row='2',column='1')
-                            combsh.grid(row='3',column='1')
+                            
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
                             combh['values'] = ['HECHO','NO HECHO']
-                            combsh['values'] = ['HECHO','NO HECHO']
+                            
                             combpa['values'] = ['HECHO','NO HECHO']
                             
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
                                 h = combh.get()
-                                sh = combsh.get()
+                                
                                 pa = combpa.get()
-                                listaevaluar = [mt,h,sh,pa]
+                                listaevaluar = [mt,h,pa]
                                 match mt:
                                     case 'HECHO':
                                         match pa:
@@ -4009,8 +5256,7 @@ def ingresomain(rut):
                     
                             txtdefault = Label(fort1,text='pregunta cuales hizo ')
                             txtdefault.grid(row='0',column='0')
-                            txtmt = Label(fort1,text='Marcacion Topografica')
-                            txtmt.grid(row='1',column='0')
+                            
                             txth = Label(fort1,text='hilteo_malla')
                             txth.grid(row='2',column='0')
                             txtsh = Label(fort1,text='Proyeccion_shotcrete')
@@ -4018,17 +5264,17 @@ def ingresomain(rut):
                             txtpa = Label(fort1,text='Perforacion_avance')
                             txtpa.grid(row='4',column='0')
 
-                            combmt = ttk.Combobox(fort1)
+                            
                             combh = ttk.Combobox(fort1)
                             combsh = ttk.Combobox(fort1)
                             combpa = ttk.Combobox(fort1)
 
-                            combmt.grid(row='1',column='1')
+                            
                             combh.grid(row='2',column='1')
                             combsh.grid(row='3',column='1')
                             combpa.grid(row='4',column='1')
 
-                            combmt['values'] = ['HECHO','NO HECHO']
+                            
                             combh['values'] = ['HECHO','NO HECHO']
                             combsh['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
@@ -4089,31 +5335,30 @@ def ingresomain(rut):
                             txth.grid(row='2',column='0')
                             txtsh = Label(fort1,text='Proyeccion_shotcrete')
                             txtsh.grid(row='3',column='0')
-                            txtpa = Label(fort1,text='Perforacion_avance')
-                            txtpa.grid(row='4',column='0')
+                            
 
                             combmt = ttk.Combobox(fort1)
                             combh = ttk.Combobox(fort1)
                             combsh = ttk.Combobox(fort1)
-                            combpa = ttk.Combobox(fort1)
+                            
 
                             combmt.grid(row='1',column='1')
                             combh.grid(row='2',column='1')
                             combsh.grid(row='3',column='1')
-                            combpa.grid(row='4',column='1')
+                            
 
                             combmt['values'] = ['HECHO','NO HECHO']
                             combh['values'] = ['HECHO','NO HECHO']
                             combsh['values'] = ['HECHO','NO HECHO']
-                            combpa['values'] = ['HECHO','NO HECHO']
+                            
                             
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
                                 h = combh.get()
                                 sh = combsh.get()
-                                pa = combpa.get()
-                                listaevaluar = [mt,h,sh,pa]
+                                
+                                listaevaluar = [mt,h,sh]
                                 match h:
                                     case 'HECHO':
                                         match sh:
@@ -4242,35 +5487,34 @@ def ingresomain(rut):
                             txtdefault.grid(row='0',column='0')
                             txtmt = Label(fort1,text='Marcacion Topografica')
                             txtmt.grid(row='1',column='0')
-                            txtpp = Label(fort1,text='Perforacion pernos')
-                            txtpp.grid(row='2',column='0')
+                            
                             txtl = Label(fort1,text='Lechado pernos')
                             txtl.grid(row='3',column='0')
                             txtpa = Label(fort1,text='Perforacion avance')
                             txtpa.grid(row='4',column='0')
 
                             combmt = ttk.Combobox(fort1)
-                            combpp = ttk.Combobox(fort1)
+                            
                             combl = ttk.Combobox(fort1)
                             combpa = ttk.Combobox(fort1)
 
                             combmt.grid(row='1',column='1')
-                            combpp.grid(row='2',column='1')
+                            
                             combl.grid(row='3',column='1')
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            combpp['values'] = ['HECHO','NO HECHO']
+                            
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
-                                pp = combh.get()
+                                
                                 l = combsh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                listaevaluar = [mt,l,pa]
                                 match mt :
                                     case 'HECHO':
                                         ciclo = 1
@@ -4319,33 +5563,32 @@ def ingresomain(rut):
                             txtmt.grid(row='1',column='0')
                             txtpp = Label(fort1,text='Perforacion pernos')
                             txtpp.grid(row='2',column='0')
-                            txtl = Label(fort1,text='Lechado pernos')
-                            txtl.grid(row='3',column='0')
+                            
                             txtpa = Label(fort1,text='Perforacion avance')
                             txtpa.grid(row='4',column='0')
 
                             combmt = ttk.Combobox(fort1)
                             combpp = ttk.Combobox(fort1)
-                            combl = ttk.Combobox(fort1)
+                            
                             combpa = ttk.Combobox(fort1)
 
                             combmt.grid(row='1',column='1')
                             combpp.grid(row='2',column='1')
-                            combl.grid(row='3',column='1')
+                            
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
                             combpp['values'] = ['HECHO','NO HECHO']
-                            combl['values'] = ['HECHO','NO HECHO']
+                            
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
                                 pp = combh.get()
-                                l = combsh.get()
+                                
                                 pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                listaevaluar = [mt,pp,pa]
                                 match mt :
                                     case 'HECHO':
                                         match pa:
@@ -4415,8 +5658,7 @@ def ingresomain(rut):
                     
                             txtdefault = Label(fort1,text='pregunta cuales hizo ')
                             txtdefault.grid(row='0',column='0')
-                            txtmt = Label(fort1,text='Marcacion Topografica')
-                            txtmt.grid(row='1',column='0')
+                            
                             txtpp = Label(fort1,text='Perforacion pernos')
                             txtpp.grid(row='2',column='0')
                             txtl = Label(fort1,text='Lechado pernos')
@@ -4424,28 +5666,28 @@ def ingresomain(rut):
                             txtpa = Label(fort1,text='Perforacion avance')
                             txtpa.grid(row='4',column='0')
 
-                            combmt = ttk.Combobox(fort1)
+                            
                             combpp = ttk.Combobox(fort1)
                             combl = ttk.Combobox(fort1)
                             combpa = ttk.Combobox(fort1)
 
-                            combmt.grid(row='1',column='1')
+                            
                             combpp.grid(row='2',column='1')
                             combl.grid(row='3',column='1')
                             combpa.grid(row='4',column='1')
 
-                            combmt['values'] = ['HECHO','NO HECHO']
+                            
                             combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
                                 print('lol')
-                                mt = combmt.get()
+                                
                                 pp = combh.get()
                                 l = combsh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                listaevaluar = [pp,l,pa]
                                 match pp:
                                     case 'HECHO ':
                                         ciclo = 1
@@ -4495,31 +5737,30 @@ def ingresomain(rut):
                             txtpp.grid(row='2',column='0')
                             txtl = Label(fort1,text='Lechado pernos')
                             txtl.grid(row='3',column='0')
-                            txtpa = Label(fort1,text='Perforacion avance')
-                            txtpa.grid(row='4',column='0')
+                            
 
                             combmt = ttk.Combobox(fort1)
                             combpp = ttk.Combobox(fort1)
                             combl = ttk.Combobox(fort1)
-                            combpa = ttk.Combobox(fort1)
+                            
 
                             combmt.grid(row='1',column='1')
                             combpp.grid(row='2',column='1')
                             combl.grid(row='3',column='1')
-                            combpa.grid(row='4',column='1')
+                            
 
                             combmt['values'] = ['HECHO','NO HECHO']
                             combpp['values'] = ['HECHO','NO HECHO']
                             combl['values'] = ['HECHO','NO HECHO']
-                            combpa['values'] = ['HECHO','NO HECHO']
+                            
 
                             def pushciclo():
                                 print('lol')
                                 mt = combmt.get()
                                 pp = combh.get()
                                 l = combsh.get()
-                                pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                
+                                listaevaluar = [mt,pp,l]
                                 match pp:
                                     case 'HECHO':
                                         match l:
@@ -4656,21 +5897,20 @@ def ingresomain(rut):
                             txtdefault.grid(row='0',column='0')
                             txtmt = Label(fort1,text='Marcacion Topografica')
                             txtmt.grid(row='1',column='0')
-                            txtpp = Label(fort1,text='Perforacion pernos')
-                            txtpp.grid(row='2',column='0')
+
                             txtpa = Label(fort1,text='Perforacion avance')
                             txtpa.grid(row='4',column='0')
 
                             combmt = ttk.Combobox(fort1)
-                            combpp = ttk.Combobox(fort1)
+                            
                             combpa = ttk.Combobox(fort1)
 
                             combmt.grid(row='1',column='1')
-                            combpp.grid(row='2',column='1')
+                            
                             combpa.grid(row='4',column='1')
 
                             combmt['values'] = ['HECHO','NO HECHO']
-                            combpp['values'] = ['HECHO','NO HECHO']
+                            
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
@@ -4678,7 +5918,7 @@ def ingresomain(rut):
                                 mt = combmt.get()
                                 pp = combh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                listaevaluar = [mt,pp,pa]
                                 match mt:
                                     case 'HECHO':
                                         match pa:
@@ -4761,31 +6001,30 @@ def ingresomain(rut):
                     
                             txtdefault = Label(fort1,text='pregunta cuales hizo ')
                             txtdefault.grid(row='0',column='0')
-                            txtmt = Label(fort1,text='Marcacion Topografica')
-                            txtmt.grid(row='1',column='0')
+                           
                             txtpp = Label(fort1,text='Perforacion pernos')
                             txtpp.grid(row='2',column='0')
                             txtpa = Label(fort1,text='Perforacion avance')
                             txtpa.grid(row='4',column='0')
 
-                            combmt = ttk.Combobox(fort1)
+                            
                             combpp = ttk.Combobox(fort1)
                             combpa = ttk.Combobox(fort1)
 
-                            combmt.grid(row='1',column='1')
+                            
                             combpp.grid(row='2',column='1')
                             combpa.grid(row='4',column='1')
 
-                            combmt['values'] = ['HECHO','NO HECHO']
+                            
                             combpp['values'] = ['HECHO','NO HECHO']
                             combpa['values'] = ['HECHO','NO HECHO']
 
                             def pushciclo():
                                 print('lol')
-                                mt = combmt.get()
+                                
                                 pp = combh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,pp,L,pa]
+                                listaevaluar = [pp,pa]
                                 match pp:
                                     case 'HECHO':
                                         ciclo = 1
@@ -4822,20 +6061,19 @@ def ingresomain(rut):
                             txtmt.grid(row='1',column='0')
                             txtpp = Label(fort1,text='Perforacion pernos')
                             txtpp.grid(row='2',column='0')
-                            txtpa = Label(fort1,text='Perforacion avance')
-                            txtpa.grid(row='4',column='0')
+                            
 
                             combmt = ttk.Combobox(fort1)
                             combpp = ttk.Combobox(fort1)
-                            combpa = ttk.Combobox(fort1)
+                            
 
                             combmt.grid(row='1',column='1')
                             combpp.grid(row='2',column='1')
-                            combpa.grid(row='4',column='1')
+                            
 
                             combmt['values'] = ['HECHO','NO HECHO']
                             combpp['values'] = ['HECHO','NO HECHO']
-                            combpa['values'] = ['HECHO','NO HECHO']
+                            
 
                             def pushciclo():
                                 print('lol')
@@ -5173,11 +6411,14 @@ def ingresomain(rut):
         bti.grid(row='2',column='3')
         
 
+    def botonalg ():
+        algoritmos(int(4),int(24))
+
     verestadofrentes = Button(framemain,text='VER ESTADO FRENTES',command=verfrentes,width='28')
     verestadofrentes.grid(row='0',column="0")
     ingresarfrentes = Button(framemain,text='CAMBIAR ESTADO FRENTES',command=inputdata,width='28')
     ingresarfrentes.grid(row='1',column='0')
-    algoritmoboton = Button(framemain,text='CORRER ALGORITMO',command=ventanaalgoritmos,width='28')
+    algoritmoboton = Button(framemain,text='CORRER ALGORITMO',command=botonalg,width='28')
     algoritmoboton.grid(row='2',column='0')
     
 
