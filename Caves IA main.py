@@ -3351,11 +3351,11 @@ def ingresomain(rut):
         comtipo = ttk.Combobox(frame)
         comtipo.grid(column ='1',row='1')
         comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-        txtsigla = Label(frame,text='Sigla',width='23')
+        txtsigla = Label(frame,text='Tipo referencia',width='23')
         txtsigla.grid(column='0',row='2')
         comsigla = ttk.Combobox(frame)
         comsigla.grid(column ='1',row='2')
-        comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+        comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
         txtnumero = Label(frame,text='Numero',width='23')
         txtnumero.grid(column='0',row='3')
         comnum = Entry(frame,width='23')
@@ -3432,7 +3432,7 @@ def ingresomain(rut):
         def  pushfrente():
 
             tipo = comtipo.get()
-            sigla = comsigla.get()
+            tiporef = comsigla.get()
             numero = comnum.get()
             numeroref = comnumref.get()
             direccion = comdir.get()
@@ -3448,8 +3448,32 @@ def ingresomain(rut):
             forti = comfortificacion.get()
             foco = comfoco.get()
             largo = comlargo.get()
-    
-            ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + sigla + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+
+            match tipo:
+                case 'Cabecera':
+                    sigla = 'CAB'
+                case 'Calle':
+                    sigla = 'CAL'
+                case 'Zanja':
+                    sigla = 'ZAN'
+                case 'Fronton Inyeccion':
+                    sigla = 'INY'
+                case 'Fronton Extraccion':
+                    sigla = 'EXT'
+
+            match tiporef:
+                case 'Cabecera':
+                    siglaref = 'CAB'
+                case 'Calle':
+                    siglaref = 'CAL'
+                case 'Zanja':
+                    siglaref = 'ZAN'
+                case 'Fronton Inyeccion':
+                    siglaref = 'INY'
+                case 'Fronton Extraccion':
+                    siglaref = 'EXT'
+
+            ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
             print(ide)
             bd = pymysql.connect(host='localhost',
                              user='root',
@@ -3457,7 +3481,7 @@ def ingresomain(rut):
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
             cursor = bd.cursor()
-            sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo)
+            sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
             try:
                 cursor.execute(sql)
                 bd.commit()
@@ -3812,11 +3836,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -3904,10 +3928,93 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
@@ -3992,11 +4099,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -4084,17 +4191,100 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
 
             botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
             botoncargarfrente.grid(row='1',column='0')
-            
+
         def inch():
             print(nivelhd) 
             win = Tk()
@@ -4172,11 +4362,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -4264,18 +4454,100 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
 
             botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
             botoncargarfrente.grid(row='1',column='0')
-            
-        
+
         def ininy():
             print(nivelhd) 
             win = Tk()
@@ -4353,11 +4625,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -4445,10 +4717,93 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
@@ -4533,11 +4888,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -4625,17 +4980,99 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
 
             botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
             botoncargarfrente.grid(row='1',column='0')
-            
 
         def inti():
             print(nivelhd) 
@@ -4714,11 +5151,11 @@ def ingresomain(rut):
                 comtipo.grid(column ='1',row='1')
                 comtipo.insert(END,iddata[0])
                 comtipo['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
-                txtsigla = Label(frame,text='Sigla',width='23')
+                txtsigla = Label(frame,text='Tipo referencia',width='23')
                 txtsigla.grid(column='0',row='2')
                 comsigla = ttk.Combobox(frame)
                 comsigla.grid(column ='1',row='2')
-                comsigla['values']=['CAB','CAL','ZAN','FRI','FRO']
+                comsigla['values']=['Cabecera','Calle','Zanja','Fronton Inyeccion','Fronton Extraccion']
                 comsigla.insert(END,iddata[1])
                 txtnumero = Label(frame,text='Numero',width='23')
                 txtnumero.grid(column='0',row='3')
@@ -4806,21 +5243,102 @@ def ingresomain(rut):
                 txtlargo.grid(column='0',row='17')
                 comlargo = Entry(frame,width='23')
                 comlargo.grid(column ='1',row='17')
-                comlargo.insert(END,iddata[16])
+                comlargo.insert(END,iddata[16]) 
+                
+
+
                 
                 def guardarfrente():
-                    print('2')
+                    print(id)
+                    idborrar = id
+                    print(idborrar)
+                    sql = "delete from frentes where id_frente='"+ idborrar + "'"
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                
+                    cursor = bd.cursor()
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+                    print(sql)
+                    tipo = comtipo.get()
+                    tiporef = comsigla.get()
+                    numero = comnum.get()
+                    numeroref = comnumref.get()
+                    direccion = comdir.get()
+                    direccionref = comdirref.get()
+                    estado = comestado.get()
+                    tam = comtam.get()
+                    ruta = comruta.get()
+                    marina = comdmarina.get()
+                    lvl = comnivel.get()
+                    macro = commacrob.get()
+                    sector = comsector.get()
+                    codigo = comcodigo.get()
+                    forti = comfortificacion.get()
+                    foco = comfoco.get()
+                    largo = comlargo.get()
+
+                    match tipo:
+                        case 'Cabecera':
+                            sigla = 'CAB'
+                        case 'Calle':
+                            sigla = 'CAL'
+                        case 'Zanja':
+                            sigla = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            sigla = 'INY'
+                        case 'Fronton Extraccion':
+                            sigla = 'EXT'
+
+                    match tiporef:
+                        case 'Cabecera':
+                            siglaref = 'CAB'
+                        case 'Calle':
+                            siglaref = 'CAL'
+                        case 'Zanja':
+                            siglaref = 'ZAN'
+                        case 'Fronton Inyeccion':
+                            siglaref = 'INY'
+                        case 'Fronton Extraccion':
+                            siglaref = 'EXT'
+
+                    ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
+                    print(ide)
+                    bd = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bd.cursor()
+                    sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
+                    try:
+                        cursor.execute(sql)
+                        bd.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bd.close()
+
+                    
+
+
 
                 botonguardar = Button(frame,text='guardar',command=guardarfrente)
                 botonguardar.grid(row='18')
 
             botoncargarfrente = Button(frame,text='cargar',command=cargarhd)
             botoncargarfrente.grid(row='1',column='0')
-            
-            
 
 
-
+        
         raiz = Tk()
         raiz.title('MODIFICAR FRENTE')
         frame = Frame(raiz)
