@@ -294,6 +294,12 @@ bd14 = pymysql.connect(host='localhost',
                              database='cavesbd',
                              cursorclass=pymysql.cursors.DictCursor)
 
+bd16 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
 matricitaa =  []
 matricitaa2 =  []
 
@@ -347,16 +353,9 @@ def ventanaalgoritmos():
     correr.grid(row='3',column='0')
     vmatrix = Button(framemain,text='matriz ',command=ventanamatriz)
     vmatrix.grid(row='3',column='1')
-
-    
-    
-
-    
+  
 
 def algoritmos(inicio,termino): 
-    '''
-    print(ciclosyfrentes)
-    '''
     
     # Algoritmo 1
 
@@ -369,29 +368,63 @@ def algoritmos(inicio,termino):
 
     # rescata ciclo de bd
 
-    ideaux = []
-    ciclaux = []
-    ciclosyfrente = []
+    sql = 'select * from frentes'
+    bd17= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd17.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd17.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
 
-    cursor.execute("select distinct id_frente, ciclo from estado_frentes order by fecha desc")
-    cibd = cursor.fetchall()
-    for c in cibd:
-        fid = c['id_frente']
-        ideaux.append(fid)
-        cid = c['ciclo']
-        ciclaux.append(int(cid))
+    frentesyciclos = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        frentesyciclos.append(a)
+    
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
 
-    #id
-    for f in range(totalfrentes):
-        ciclosyfrente.append([])
-        for g in range(1):
-            ciclosyfrente[f].append(ideaux[f])
+    bd18= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd18.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd18.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    
+    for j in data2:
+            idee = j['id_frente']
+            op = j['ciclo']
+            for k in range(len(frentesyciclos)):
+                if(idee==frentesyciclos[k][0]):
+                    frentesyciclos[k].append(op)
+    
+    frentesyciclos2 = []
+    
 
-    #ciclo
-    for f in range(totalfrentes):
-            ciclosyfrente[f].append(ciclaux[f])
+    for i in range(0,len(frentesyciclos)):
+        frentesyciclos2.append([])
+        for j in range(2):
+            frentesyciclos2[i].append(frentesyciclos[i][j])   
 
-    print(ciclosyfrente)
+    print(frentesyciclos2)
+
+    cursor=bd16.cursor()
 
     #ruta
     print("RUTA CRITICA")
@@ -450,15 +483,70 @@ def algoritmos(inicio,termino):
     cicloaux = []
     naux = []
     operfnaux = []
-    cursor.execute("select distinct id_frente,operacion,fortificacion from estado_frentes order by fecha desc")
-    trop = cursor.fetchall()
-    for t in trop:
-        fren = t['id_frente']
-        idaux.append(fren)
-        oper = t['operacion']
-        operaux.append(oper)
-        fort = t['fortificacion']
-        fortiaux.append(fort)
+
+    sql = 'select * from frentes'
+    bd19= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd19.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd19.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    fxxx = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        fxxx.append(a)
+
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
+
+    bd20= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd20.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd20.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    for j in data2:
+        idee = j['id_frente']
+        ope = j['operacion']
+        foe = j['fortificacion']
+        for k in range(len(fxxx)):
+            if(idee==fxxx[k][0]):
+                fxxx[k].append(ope)
+                fxxx[k].append(foe)
+
+    fxxy = []
+
+    for i in range(0,len(fxxx)):
+        fxxy.append([])
+        for j in range(3):
+            fxxy[i].append(fxxx[i][j])
+
+    for t in range(len(fxxy)):
+        for v in range(3):
+            if(v==0):
+                idaux.append(fxxy[t][v])
+            if(v==1):
+                operaux.append(fxxy[t][v])
+            if(v==2):
+                fortiaux.append(fxxy[t][v])
 
     for i in range(totalfrentes):
         if operaux[i] == 'regado_marina':
@@ -495,9 +583,9 @@ def algoritmos(inicio,termino):
             operfnaux.append('q')
 
     for r in range(totalfrentes):
-        for c in range(len(ciclosyfrente)):
-            if(idaux[r] == ciclosyfrente[c][0]):
-                cicloaux.append(ciclosyfrente[c][1])
+        for c in range(len(frentesyciclos2)):
+            if(idaux[r] == frentesyciclos2[c][0]):
+                cicloaux.append(frentesyciclos2[c][1])
 
     for r in range(totalfrentes):
         for c in range(15):
@@ -578,6 +666,15 @@ def algoritmos(inicio,termino):
 # foco
 
     print("FOCO")
+
+    bd21 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+    cursor=bd21.cursor()
+
     p4 = []
     foco = []
     cursor.execute("select id_frente from frentes where foco = '1'")
@@ -602,11 +699,63 @@ def algoritmos(inicio,termino):
     print("EXTRACCION MARINA")
     idtro = []
     p5 = []
-    cursor.execute("select distinct id_frente from estado_frentes where operacion = 'tronadura' order by fecha desc ")
-    tro = cursor.fetchall()
-    for c in tro:
-        x = c['id_frente']
-        idtro.append(x)
+
+    sql = 'select * from frentes'
+    bd22= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd22.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd22.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    fyyy = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        fyyy.append(a)
+
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
+
+    bd23= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd23.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd23.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    for j in data2:
+        idee = j['id_frente']
+        ope = j['operacion']
+        for k in range(len(fyyy)):
+            if(idee==fyyy[k][0]):
+                fyyy[k].append(ope)
+
+    fyyx = []
+
+    for i in range(0,len(fyyy)):
+        fyyx.append([])
+        for j in range(2):
+            fyyx[i].append(fyyy[i][j])
+
+    for t in range(len(fyyx)):
+        if (fyyx[t][1]=='tronadura'):
+            idtro.append(fyyx[t][0])
 
     for p in p4:
         for i in idtro:
@@ -622,6 +771,15 @@ def algoritmos(inicio,termino):
  # distancia a pique 
 
     print("DISTANCIA A PIQUE") 
+
+    bd24 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+    cursor=bd24.cursor()
+
     dista = []
     pf = []
     cursor.execute("select id_frente from frentes order by distancia_marina desc")
@@ -661,6 +819,7 @@ def algoritmos(inicio,termino):
     foor = []
     eaor = []
 
+    #TAMAÑO
     cursor.execute("select id_frente, tamaño from frentes")
     tamfn = cursor.fetchall()
     for x in tamfn:
@@ -671,36 +830,190 @@ def algoritmos(inicio,termino):
             if (p == t['id_frente']):
                 tamor.append(t['tamaño'])
 
+    #OPERACION
+    sql = 'select * from frentes'
+    bd25= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd25.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd25.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    opelr = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        opelr.append(a)
     
-    cursor.execute("select distinct id_frente, operacion from estado_frentes order by fecha desc")
-    opfn = cursor.fetchall()
-    for x in opfn:
-        opf.append(x)
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
+
+    bd26= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd26.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd26.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    
+    for j in data2:
+            idee = j['id_frente']
+            op = j['operacion']
+            for k in range(len(opelr)):
+                if(idee==opelr[k][0]):
+                    opelr[k].append(op)
+
+    for i in range(len(opelr)):
+        opf.append([])
+        for j in range(2):
+            opf[i].append(opelr[i][j])
 
     for p in pf:
-        for o in opf:
-            if (p == o['id_frente']):
-                opeor.append(o['operacion'])
+        for o in range(len(opf)):
+            if (p == opf[o][0]):
+                opeor.append(opf[o][1])
 
-    cursor.execute("select distinct id_frente, estado_avance from estado_frentes order by fecha desc")
-    eafn = cursor.fetchall()
-    for x in eafn:
-        eaf.append(x)
+    #ESTADO AVANCE
+
+    sql = 'select * from frentes'
+    bd27= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd27.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd27.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    ealr = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        ealr.append(a)
+    
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
+
+    bd28= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd28.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd28.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    
+    for j in data2:
+            idee = j['id_frente']
+            op = j['estado_avance']
+            for k in range(len(ealr)):
+                if(idee==ealr[k][0]):
+                    ealr[k].append(op)
+
+    print("ealr =", ealr)
+
+    for i in range(len(ealr)):
+        eaf.append([])
+        for j in range(2):
+            eaf[i].append(ealr[i][j])
+
+    print("eaf =", eaf)
 
     for p in pf:
-        for e in eaf:
-            if(p == e['id_frente']):
-                eaor.append(e['estado_avance'])
+        for o in range(len(eaf)):
+            if (p == eaf[o][0]):
+                eaor.append(eaf[o][1])
 
-    cursor.execute("select distinct id_frente, fortificacion from estado_frentes order by fecha desc")
-    fofn= cursor.fetchall()
-    for x in fofn:
-        fof.append(x)
+    print("eaor = ", eaor)
+
+    #FORTIFICACION
+
+    sql = 'select * from frentes'
+    bd29= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd29.cursor()
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        bd29.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+
+    folr = []
+    for i in data:
+        codigo = i['codigo_empresa']
+        ide = i['id_frente']
+        a = []
+        a.append(ide)
+        folr.append(a)
+    
+    sql2 = "select * from estado_frentes ORDER BY fecha DESC"
+
+    bd30= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd30.cursor()
+    try:
+        cursor.execute(sql2)
+        data2 = cursor.fetchall()
+        bd30.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    
+    for j in data2:
+            idee = j['id_frente']
+            op = j['fortificacion']
+            for k in range(len(folr)):
+                if(idee==folr[k][0]):
+                    folr[k].append(op)
+
+    print("folr =", folr)
+
+    for i in range(len(folr)):
+        fof.append([])
+        for j in range(2):
+            fof[i].append(folr[i][j])
+
+    print("eaf =", eaf)
 
     for p in pf:
-        for f in fof:
-            if(p==f['id_frente']):
-                foor.append(f['fortificacion'])
+        for o in range(len(fof)):
+            if (p == fof[o][0]):
+                foor.append(fof[o][1])
+
+    print("foor = ", foor)
 
     # rescato id ( prio ) , tam , est , estado_av, fort
     
@@ -762,10 +1075,8 @@ def algoritmos(inicio,termino):
         for j in range(1):
             lr[i].append(foor[i])
 
-    # pregunta al usuario el bloque de inicio y termino
+    #bloque de inicio y termino
 
-    print("[-08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-    print("[- 1   - 2   - 3   - 4   - 5   - 6   - 7   - 8   - 9   - 10  - 11  - 12  - 13  - 14  - 15  - 16  - 17  - 18  - 19  - 20  - 21  - 22  - 23  - 24  ]")
     bloquei = inicio
     bloquei = bloquei - 1
     bloquet = termino
@@ -791,9 +1102,9 @@ def algoritmos(inicio,termino):
 
         # selecciona ciclo
 
-        for c in range(len(ciclosyfrente)):
-            if(lr[i][0] == ciclosyfrente[c][0]):
-                ciclof.append(ciclosyfrente[c][1])
+        for c in range(len(frentesyciclos2)):
+            if(lr[i][0] == frentesyciclos2[c][0]):
+                ciclof.append(int(frentesyciclos2[c][1]))
 
         # guarda largo del ciclo
 
@@ -1194,6 +1505,13 @@ def algoritmos(inicio,termino):
     diref = []
     direfor = []
 
+    bd31= pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+    cursor = bd31.cursor()
+
     cursor.execute("select id_frente, nivel from frentes")
     nivfn = cursor.fetchall()
     for x in nivfn:
@@ -1309,6 +1627,11 @@ def algoritmos(inicio,termino):
         algofin.append([])
         for j in range(1):
             algofin[i].append(direfor[i])
+
+    print(" CTMMMMM [ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+            
+    for n in range(totalfrentes):
+        print(lr[n],l1[n],len(l1[n]))
 
 
 
@@ -1999,7 +2322,7 @@ def algoritmos(inicio,termino):
 
                         if(limit+duracion+pausa>=bloquet):
         
-                            if(limit<bloquet): # restriccion fin del turno
+                            while(limit<bloquet): # restriccion fin del turno
 
                                 #guarda almuerzo
 
@@ -2779,7 +3102,7 @@ def algoritmos(inicio,termino):
 
                                 if(limit+duracion+pausa>=bloquet):
                 
-                                    if(limit<bloquet): # restriccion fin del turno
+                                    while(limit<bloquet): # restriccion fin del turno
 
                                         #guarda almuerzo
 
@@ -2851,6 +3174,8 @@ def algoritmos(inicio,termino):
                 if(laux[c]=='-'):
                     contaguion = contaguion + 1
 
+            print("total operaciones = ", contaciclo)
+
             if(contaciclo>xci):
                 xci=contaciclo
                 l1[i].clear()
@@ -2866,13 +3191,6 @@ def algoritmos(inicio,termino):
             
             for n in range(totalfrentes):
                 print(lr[n],l1[n],len(l1[n]))
-        
-
-                
-                
-                
-
-                
                                                 
 
     # imprimir matriz 1 (ordenamiento)
@@ -2901,9 +3219,6 @@ def algoritmos(inicio,termino):
         matricitaa2.append(lr[i])
     for i in range (totalfrentes):
         matricitaa.append(l1[i])
-        
-    print('matricitaa')
-    print(matricitaa)
     
 def addbdfrentes():
     win4=Tk()
