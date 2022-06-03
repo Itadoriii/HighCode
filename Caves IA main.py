@@ -3812,54 +3812,13 @@ def ingresomain(rut):
         botonfrentes.grid(column='0',row='18')
     
 
-    def addequipomenu():
-
-        def addequipobd():
-            print('uwu')
-            flota = listflota.get()
-            codigo = entrycodigo.get()
-            print(flota,codigo)
-            sql = "insert into equipos(flota,codigo_equipo) value('%s','%s')"%(flota,codigo)
-            bd = pymysql.connect(host='localhost',
-                             user='root',
-                             password='admin',
-                             database='cavesbd',
-                             cursorclass=pymysql.cursors.DictCursor)
-            cursor = bd.cursor()
-            try:
-                cursor.execute(sql)
-                bd.commit()
-                cursor.close()
-            except Exception as e:
-                print(e)
-            bd.close()
-
-        winaddequipos = Tk()
-        winaddequipos.title('Añadir equipo')
-        frame=Frame(winaddequipos)
-        frame.pack()
-        txtflota = Label(frame,text='Flota')
-        txtflota.grid(row='0',column='0')
-        txtcod = Label(frame,text='Codigo')
-        txtcod.grid(row='1',column='0')
-        listflota = ttk.Combobox(frame)
-        listflota.grid(row='0',column='1')
-        listflota['values'] = ['Jumbo fortificacion','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora']
-        entrycodigo = Entry(frame,width=23)
-        entrycodigo.grid(row='1',column='1')
-
-        botonaddequipo = Button(frame,text='Añadir Equipo',command=addequipobd)
-        botonaddequipo.grid(row='3',column='0')
-        
-       
-
-
+    
     def verequipomenu():
         winverequipo = Tk()
         winverequipo.title('Ver equipos')
         frame = Frame(winverequipo)
         frame.pack()
-        sql = 'select * from equipos'
+        sql = 'select * from recurso_equipos'
         bd = pymysql.connect(host='localhost',
                              user='root',
                              password='admin',
@@ -3876,14 +3835,21 @@ def ingresomain(rut):
         bd.close()
         verflota = []
         vercodigo = []
+        vercantidad = []
+        vernivel = []
         for i in data:
             flota = i['flota']
             cod = i['codigo_equipo']
+            cantidad = i['cantidad']
+            lvl = i['nivel']
             verflota.append(flota)
             vercodigo.append(cod)
+            vercantidad.append(cantidad)
+            vernivel.append(lvl)
+
 
         for i in range(0,len(verflota)+1):
-            for j in range(0,2):
+            for j in range(0,4):
                 x = Entry(frame)
                 x.grid(row=i,column=j)
                 if(i==0):
@@ -3892,13 +3858,73 @@ def ingresomain(rut):
                             x.insert(END,'Flota')
                         case 1:
                             x.insert(END,'Codigo')
+                        case 2:
+                            x.insert(END,'Cantidad')
+                        case 3:
+                            x.insert(END,'Nivel')
                 else:
                     match j:
                         case 0:
                             x.insert(END,verflota[i-1])
                         case 1:
                             x.insert(END,vercodigo[i-1])
+                        case 2:
+                            x.insert(END,vercantidad[i-1])
+                        case 3:
+                            x.insert(END,vernivel[i-1])
 
+    def verdotacionmenu():
+            winverequipo = Tk()
+            winverequipo.title('Ver equipos')
+            frame = Frame(winverequipo)
+            frame.pack()
+            sql = 'select * from recurso_dotacion'
+            bd = pymysql.connect(host='localhost',
+                                user='root',
+                                password='admin',
+                                database='cavesbd',
+                                cursorclass=pymysql.cursors.DictCursor)
+            cursor = bd.cursor()
+            try:
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                bd.commit()
+                cursor.close()
+            except Exception as e:
+                print(e)
+            bd.close()
+            verflota = []
+            vercantidad = []
+            vernivel = []
+            for i in data:
+                flota = i['cuadrilla']
+                cantidad = i['cantidad']
+                lvl = i['nivel']
+                verflota.append(flota)
+                vercantidad.append(cantidad)
+                vernivel.append(lvl)
+
+
+            for i in range(0,len(verflota)+1):
+                for j in range(0,3):
+                    x = Entry(frame)
+                    x.grid(row=i,column=j)
+                    if(i==0):
+                        match j:
+                            case 0:
+                                x.insert(END,'Flota')
+                            case 1:
+                                x.insert(END,'Cantidad')
+                            case 2:
+                                x.insert(END,'Nivel')
+                    else:
+                        match j:
+                            case 0:
+                                x.insert(END,verflota[i-1])
+                            case 1:
+                                x.insert(END,vercantidad[i-1])
+                            case 2:
+                                x.insert(END,vernivel[i-1])
     def verestadoequipomenu():
         winverestadoequipos = Tk()
         winverestadoequipos.title('Ver estado equipos')
@@ -4106,7 +4132,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -4312,20 +4338,20 @@ def ingresomain(rut):
 
                     ide = sigla + ' '+ lvl + ' ' + macro + ' ' + str(numero) + ' ' + direccion + '/' + siglaref + ' ' + lvl + ' ' + macro + ' ' + numeroref + ' ' + direccionref
                     print(ide)
-                    bd = pymysql.connect(host='localhost',
+                    bd2 = pymysql.connect(host='localhost',
                                     user='root',
                                     password='admin',
                                     database='cavesbd',
                                     cursorclass=pymysql.cursors.DictCursor)
-                    cursor = bd.cursor()
+                    cursor2 = bd2.cursor()
                     sql = "insert into frentes (tipo,sigla,numero,direccion,estado,tamaño,ruta_critica,distancia_marina,nivel,macrobloque,id_frente,codigo_empresa,sector,numero_referencia,direccion_referencia,tipofort,foco,largo,sigla_referencia,tipo_referencia) value('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (tipo,sigla,numero,direccion,estado,tam,ruta,marina,lvl,macro,ide,codigo,sector,numeroref,direccionref,forti,foco,largo,siglaref,tiporef)
                     try:
-                        cursor.execute(sql)
-                        bd.commit()
-                        cursor.close()
+                        cursor2.execute(sql)
+                        bd2.commit()
+                        cursor2.close()
                     except Exception as e:
                         print(e)
-                    bd.close()
+                    bd2.close()
 
                     
 
@@ -4369,7 +4395,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -4632,7 +4658,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -4895,7 +4921,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -5158,7 +5184,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -5421,7 +5447,7 @@ def ingresomain(rut):
                     idf=i['id_frente']
                     if(idf==id):
                         tipo = i['tipo']
-                        sigla = i['sigla']
+                        sigla = i['tipo_referencia']
                         numero = i['numero']
                         numeroref = i['numero_referencia']
                         direccion = i['direccion']
@@ -5698,10 +5724,10 @@ def ingresomain(rut):
     menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
     menufrentes.add_command(label='eliminar frente',command=eliminarfrente)
     menufrentes.add_command(label='modificar frente',command=modificarfrente)
-    menuequipos.add_command(label='añadir equipos',command=addequipomenu)
     menuequipos.add_command(label='añadir recursoequipo',command=addequipo)
     menuequipos.add_command(label='ver equipos',command=verequipomenu)
-    menuequipos.add_command(label='ver estado equipos',command=verestadoequipomenu)
+    menuequipos.add_command(label='ver dotacion',command=verdotacionmenu)
+    menuequipos.add_command(label='ver ???',command=verestadoequipomenu)
     menudatos.add_command(label='Entrada/Salida horario',command=ventanaalgoritmos)
 
 
@@ -5775,15 +5801,15 @@ def ingresomain(rut):
             for k in range(len(idmuestra)):
                 if(idee==idmuestra[k][0]):
                     idmuestra[k].append(op)
-        
+        print(idmuestra)
         for l in range(0,numfilas):
-            for ll in range(numcolumnas):
-
+            for ll in range(2):
                 x = Entry(framever)
                 x.grid(row=l+1,column=ll)
                 if(ll==0):
                     x.insert(END,idmuestra[l][ll])
                 if(ll==1):
+                    print(idmuestra[l][ll])
                     x.insert(END,idmuestra[l][ll])
                 x.config(state='readonly')
 
