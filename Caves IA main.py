@@ -4355,6 +4355,22 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd2.close()
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
 
                     
 
@@ -4902,6 +4918,22 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd.close()
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
 
                     
 
@@ -5165,6 +5197,22 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd.close()
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
 
                     
 
@@ -5428,6 +5476,22 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd.close()
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
 
                     
 
@@ -5691,6 +5755,22 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd.close()
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
 
                     
 
