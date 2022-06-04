@@ -1,32 +1,35 @@
+import collections
+import copy
+import sqlite3
+import tkinter
+import tkinter as tk
 from ast import Index
 from cProfile import run
-import collections
-from mimetypes import init
-import tkinter as tk 
+from datetime import datetime
 from email.headerregistry import SingleAddressHeader
 from http.client import NOT_ACCEPTABLE
 from itertools import permutations
 from logging import CRITICAL
+from mimetypes import init
 from msilib.schema import ComboBox
 from operator import index
 from optparse import Values
 from re import L
 from sys import api_version, winver
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
-import tkinter
+from tkinter import filedialog, ttk
 from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
 from urllib.request import AbstractBasicAuthHandler
-from datetime import datetime
-from mysqlx import Column
-from numpy import append, can_cast, char, character, mat, matrix, obj2sctype, object0
-import pymysql.cursors
+
 import numpy as np
 import openpyxl
-import copy
+import pymysql.cursors
+from mysqlx import Column
+from numpy import (append, can_cast, char, character, mat, matrix, obj2sctype,
+                   object0)
+
 #memo 
 ides1 = []
 ciclos1 = []
@@ -4615,6 +4618,27 @@ def ingresomain(rut):
                     except Exception as e:
                         print(e)
                     bd.close()
+
+                    print('QUERY UPDATE PARA EL ID ',idborrar)
+
+                    sql3 = "update estado_frentes set id_frente ='"+ ide + "'" + "where id_frente='"+ idborrar + "'"
+                    print(sql3)
+
+                    bdup = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='admin',
+                                    database='cavesbd',
+                                    cursorclass=pymysql.cursors.DictCursor)
+                    cursor = bdup.cursor()
+                    try:
+                        cursor.execute(sql3)
+                        bdup.commit()
+                        cursor.close()
+                    except Exception as e:
+                        print(e)
+                    bdup.close()
+                    
+                    
 
                     
 
