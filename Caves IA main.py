@@ -3810,6 +3810,27 @@ def ingresomain(rut):
 
 
             #print(tipo,sigla,numero)
+            operacion = "nuevo"
+            esav = "0"
+            obs = "-"
+            fecha = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            crit = "baja"
+            ide2 = ide
+            ciclo = "1"
+            sql2 = "insert into estado_frentes (operacion,estado_avance,observaciones,fecha,criticidad,direccion,id_frente,fortificacion,ciclo) value('%s','%s','%s','%s','%s','%s','%s','%s','%s') " %(operacion,esav,obs,fecha,crit,direccion,ide2,forti,ciclo)
+            bd2 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+            cursor = bd2.cursor()
+            try:
+                cursor.execute(sql2)
+                bd2.commit()
+                cursor.close()
+            except Exception as e:
+                print(e)
+            bd2.close()
 
         botonfrentes = Button(frame,text='Añadir a la base de datos',command=pushfrente)
         botonfrentes.grid(column='0',row='18')
