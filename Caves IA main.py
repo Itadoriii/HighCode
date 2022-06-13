@@ -1734,18 +1734,18 @@ def algoritmos(inicio,termino):
     for i in range(1,totalfrentes):
 
         if (lr[i][4]=='p-m-sh'):
-            totalci=6
+            totalci=7
 
         if (lr[i][4]=='p-shf'):
-            totalci=6
+            totalci=7
 
         if (lr[i][4]=='shf-p-m-sh'):
-            totalci=3
+            totalci=4
 
         xci = 0
 
 
-        for q in range(totalci):
+        for q in range(1,totalci):
 
             # guarda espacios segun defina usuario
 
@@ -1996,6 +1996,7 @@ def algoritmos(inicio,termino):
                         contav = 0
 
                         f1 = ciclos[fortycic][2][po-contador]
+                        auxalmu = f1
 
                         x=0
 
@@ -2005,7 +2006,6 @@ def algoritmos(inicio,termino):
 
                                 while(x==0): # busqueda vertical total
 
-                                    auxalmu = f1
                                     contadoraux = limit
                                     auxdu = esav
                                     bandera = 0
@@ -2078,6 +2078,27 @@ def algoritmos(inicio,termino):
 
                                         almuerzohecho = 'no'
 
+                                        #guarda almuerzo
+
+                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                            if(limit==bloquecuadrilla):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                            if(limit==bloquejumbo):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                            if(limit==bloqueotros):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+
                                         if (bandera==0):
                                             cont = 0
                                             while(cont<duracion):
@@ -2137,32 +2158,6 @@ def algoritmos(inicio,termino):
                                                 else:
 
                                                     auxpa = auxpa + 1
-            
-                                    while(limit<bloquet): # restriccion fin del turno
-
-                                        #guarda almuerzo
-
-                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                            if(limit==bloquecuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                            if(limit==bloquejumbo):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in otros) and (almuerzohecho !='si'):
-                                            if(limit==bloqueotros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-
-                                        laux.append('-')
-                                        limit = limit + 1
 
                                     # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
 
@@ -2476,6 +2471,7 @@ def algoritmos(inicio,termino):
                                 contav = 0
 
                                 f1 = ciclos[fortycic][2][po-contador]
+                                auxalmu = f1
 
                                 x=0
 
@@ -2483,7 +2479,6 @@ def algoritmos(inicio,termino):
 
                                     while(x==0): # busqueda vertical total
 
-                                        auxalmu = f1
                                         contadoraux = limit
                                         auxdu = esav
                                         bandera = 0 
@@ -2557,6 +2552,27 @@ def algoritmos(inicio,termino):
 
                                             almuerzohecho = 'no'
 
+                                            #guarda almuerzo
+
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+
                                             if (bandera==0):
                                                 cont = 0
                                                 while(cont<duracion):
@@ -2616,32 +2632,6 @@ def algoritmos(inicio,termino):
                                                     else:
 
                                                         auxpa = auxpa + 1
-            
-                                        while(limit<bloquet): # restriccion fin del turno
-
-                                            #guarda almuerzo
-
-                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                                if(limit==bloquecuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                                if(limit==bloquejumbo):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in otros) and (almuerzohecho !='si'):
-                                                if(limit==bloqueotros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-
-                                        laux.append('-')
-                                        limit = limit + 1
 
                                         # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
 
