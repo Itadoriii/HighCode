@@ -938,21 +938,15 @@ def algoritmos(inicio,termino):
                 if(idee==ealr[k][0]):
                     ealr[k].append(op)
 
-    print("ealr =", ealr)
-
     for i in range(len(ealr)):
         eaf.append([])
         for j in range(2):
             eaf[i].append(ealr[i][j])
 
-    print("eaf =", eaf)
-
     for p in pf:
         for o in range(len(eaf)):
             if (p == eaf[o][0]):
                 eaor.append(eaf[o][1])
-
-    print("eaor = ", eaor)
 
     #FORTIFICACION
 
@@ -1002,21 +996,15 @@ def algoritmos(inicio,termino):
                 if(idee==folr[k][0]):
                     folr[k].append(op)
 
-    print("folr =", folr)
-
     for i in range(len(folr)):
         fof.append([])
         for j in range(2):
             fof[i].append(folr[i][j])
 
-    print("eaf =", eaf)
-
     for p in pf:
         for o in range(len(fof)):
             if (p == fof[o][0]):
                 foor.append(fof[o][1])
-
-    print("foor = ", foor)
 
     # rescato id ( prio ) , tam , est , estado_av, fort
     
@@ -1090,7 +1078,7 @@ def algoritmos(inicio,termino):
     for i in range(totalfrentes):
         l1.append([])
         for j in range(bloquei):
-            l1[i].append('-')
+            l1[i].append('X')
 
     # llena primer frente y guarda almuerzo
 
@@ -1122,6 +1110,9 @@ def algoritmos(inicio,termino):
                                 posi = j+1 #siguiente de lista act 
                                 break
         
+        rf1=0
+        almuerzohecho = 'no'
+
         for k in range(reco):
 
             # comienza el llenado
@@ -1155,6 +1146,8 @@ def algoritmos(inicio,termino):
 
                 # repetidor para cantidad de bloques por actividad
 
+                cicloclasic = 15 # longitud ciclo original
+
                 if (parcial=='si'): #parcial
 
                     auxdu = esav
@@ -1164,13 +1157,20 @@ def algoritmos(inicio,termino):
                     
                     while(auxdu<duracion):
 
+                        for y in range(cicloclasic): 
+                            if(f1==operaciones[y][0]):
+                                rf1 = operaciones[y][2] # guarda recurso actividad
+                                ap1 = operaciones[y][9] # guarda actividad pausa
+
                         if(limit<bloquet): # restriccion fin del turno
 
-                            if(limit==9):
+                            if(limit==9) and (almuerzohecho !='si'):
                                 l1[i].append('A')
                                 l1[i].append('A')
                                 limit = limit + 2
                                 recualmu = f1
+                                bloquealmu = 9
+                                almuerzohecho= 'si'
                             
                             else:
                                 l1[i].append(f1)
@@ -1187,25 +1187,38 @@ def algoritmos(inicio,termino):
 
                         #estado_avance = 0  where id_frente = lr[i][0] 
 
+                        auxpa = 0
+
                         if(pausa>0):
-                            auxpa = 0
+                            
                             while (auxpa<pausa):
 
                                 if(limit<bloquet): # restriccion fin del turno
 
-                                    if(limit==9):
+                                    if(limit==9) and (almuerzohecho !='si'):
                                         l1[i].append('A')
                                         l1[i].append('A')
                                         limit = limit + 2
                                         recualmu = f1
+                                        bloquealmu = 9
+                                        almuerzohecho= 'si'
 
                                     else:
-                                        l1[i].append('-')
+                                        l1[i].append(ap1)
                                         limit = limit + 1
                                         auxpa = auxpa + 1
 
                                 else:
                                     auxpa = auxpa + 1
+
+                        if(auxpa==pausa):
+                            if(limit==9) and (almuerzohecho !='si'):
+                                l1[i].append('A')
+                                l1[i].append('A')
+                                limit = limit + 2
+                                recualmu = f1
+                                bloquealmu = 9
+                                almuerzohecho= 'si'
                     
                     # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
@@ -1216,11 +1229,18 @@ def algoritmos(inicio,termino):
 
                     f1 = ciclos[fortycic][2][po-contador]
 
-                    if(limit==9):
+                    for y in range(cicloclasic): 
+                        if(f1==operaciones[y][0]):
+                            rf1 = operaciones[y][2] # guarda recurso actividad
+                            ap1 = operaciones[y][9] # guarda actividad pausa
+
+                    if(limit==9) and (almuerzohecho !='si'):
                         l1[i].append('A')
                         l1[i].append('A')
                         limit = limit + 2
                         recualmu = f1
+                        bloquealmu = 9
+                        almuerzohecho= 'si'
 
                     else:
 
@@ -1247,22 +1267,26 @@ def algoritmos(inicio,termino):
 
                                     #estado_avance = 0  where id_frente = lr[i][0] 
 
+                                    auxpa = 0
+
                                     if(pausa>0):
-                                        auxpa = 0
                                         while (auxpa<pausa):
                                             if(limit<bloquet): # restriccion fin del turno
-                                                if(limit==9):
-                                                    l1[i].append('A')
-                                                    l1[i].append('A')
-                                                    limit = limit + 2
-                                                    recualmu = f1
-
-                                                else:
-                                                    l1[i].append('-')
-                                                    limit = limit + 1
-                                                    auxpa = auxpa + 1
+                            
+                                                l1[i].append(ap1)
+                                                limit = limit + 1
+                                                auxpa = auxpa + 1
                                             else:
                                                 auxpa = auxpa + 1
+                                        
+                                    if(auxpa==pausa):
+                                        if(limit==9) and (almuerzohecho !='si'):
+                                            l1[i].append('A')
+                                            l1[i].append('A')
+                                            limit = limit + 2
+                                            recualmu = f1
+                                            bloquealmu = 9
+                                            almuerzohecho= 'si'
 
                             # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
@@ -1273,11 +1297,13 @@ def algoritmos(inicio,termino):
 
                             if(limit<bloquet): # restriccion fin del turno
 
-                                if(limit==9):
+                                if(limit==9) and (almuerzohecho !='si'):
                                     l1[i].append('A')
                                     l1[i].append('A')
                                     limit = limit + 2
                                     recualmu = f1
+                                    bloquealmu = 9
+                                    almuerzohecho= 'si'
 
                                 else:
                                     l1[i].append('-')
@@ -1290,35 +1316,51 @@ def algoritmos(inicio,termino):
 
                     # guarda q al final
 
+                    indite = len(l1[i])
+
                     num = bloquet - 1 - indite
 
-                    while (num>0):
+                    while (num>=0):
 
                         if(limit<bloquet):
 
-                            if (num == 1):
+                            if (num == 0):
                                 l1[i].append('q')
                                 limit = limit + 1
 
-                            if (num !=1):
+                            if (num !=0):
                                 #guarda el almuerzo
 
-                                f1 = ciclos[fortycic][2][po-contador]
-
-                                if(limit==9):
+                                if(limit==9) and (almuerzohecho !='si'):
                                     l1[i].append('A')
                                     l1[i].append('A')
                                     limit = limit + 2
-                                    recualmu = f1
+                                    num= num-2
+                                    recualmu = 'c'
+                                    bloquealmu = 9
+                                    almuerzohecho= 'si'
+                                if(limit==11) and (almuerzohecho !='si'):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                                    recualmu = 'c'
+                                    num= num-2
+                                    bloquealmu = 11
+                                    almuerzohecho= 'si'
+                                if(limit==13) and (almuerzohecho !='si'):
+                                    l1[i].append('A')
+                                    l1[i].append('A')
+                                    limit = limit + 2
+                                    recualmu = 'c'
+                                    num= num-2
+                                    bloquealmu = 13
+                                    almuerzohecho= 'si'
 
                                 else:
                                     l1[i].append('-')
                                     limit = limit + 1
 
-                        num = num - 1
-                                
-                    if (num == 0):
-                        break    
+                        num = num - 1   
 
                 if(lr[i][2]=='q'):
                     
@@ -1365,17 +1407,19 @@ def algoritmos(inicio,termino):
                             for y in range(cicloclasic): 
                                 if(f1==operaciones[y][0]):
                                     rf1 = operaciones[y][2] # guarda recurso actividad
-                                    ap = operaciones[y][9] # guarda pausa
+                                    ap1 = operaciones[y][9] # guarda pausa
                     
                             while(auxdu<duracion):
 
                                 if(limit<bloquet): # restriccion fin del turno
 
-                                    if(limit==9):
+                                    if(limit==9) and (almuerzohecho !='si'):
                                         l1[i].append('A')
                                         l1[i].append('A')
                                         limit = limit + 2
                                         recualmu = f1
+                                        bloquealmu = 9
+                                        almuerzohecho= 'si'
                                     
                                     else:
                                         l1[i].append(f1)
@@ -1392,25 +1436,37 @@ def algoritmos(inicio,termino):
 
                                 #estado_avance = 0  where id_frente = lr[i][0] 
 
+                                auxpa = 0
+
                                 if(pausa>0):
-                                    auxpa = 0
                                     while (auxpa<pausa):
 
                                         if(limit<bloquet): # restriccion fin del turno
 
-                                            if(limit==9):
+                                            if(limit==9) and (almuerzohecho !='si'):
                                                 l1[i].append('A')
                                                 l1[i].append('A')
                                                 limit = limit + 2
                                                 recualmu = f1
+                                                bloquealmu = 9
+                                                almuerzohecho= 'si'
 
                                             else:
-                                                l1[i].append(ap)
+                                                l1[i].append(ap1)
                                                 limit = limit + 1
                                                 auxpa = auxpa + 1
                                         
                                         else:
                                             auxpa = auxpa + 1
+
+                                if(auxpa==pausa):
+                                    if(limit==9) and (almuerzohecho !='si'):
+                                        l1[i].append('A')
+                                        l1[i].append('A')
+                                        limit = limit + 2
+                                        recualmu = f1
+                                        bloquealmu = 9
+                                        almuerzohecho= 'si'
                                         
                             # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
@@ -1419,17 +1475,24 @@ def algoritmos(inicio,termino):
                             auxdu = esav
                             contav = 0
 
-                            if(limit==9):
+                            if(limit==9) and (almuerzohecho !='si'):
                                 l1[i].append('A')
                                 l1[i].append('A')
                                 limit = limit + 2
                                 recualmu = f1
+                                bloquealmu = 9
+                                almuerzohecho= 'si'
 
                             else:
 
                                 if(limit+duracion<bloquet):
 
                                     f1 = ciclos[fortycic][2][po-contador]
+
+                                    for y in range(cicloclasic): 
+                                        if(f1==operaciones[y][0]):
+                                            rf1 = operaciones[y][2] # guarda recurso actividad
+                                            ap1 = operaciones[y][9] # guarda pausa
 
                                     if(f1!='q'): # no es q (restriccion q a la ultima posicion)
                                         
@@ -1449,22 +1512,26 @@ def algoritmos(inicio,termino):
 
                                             #estado_avance = 0  where id_frente = lr[i][0] 
 
+                                            auxpa = 0
+
                                             if(pausa>0):
-                                                auxpa = 0
                                                 while (auxpa<pausa):
                                                     if(limit<bloquet): # restriccion fin del turno
-                                                        if(limit==9):
-                                                            l1[i].append('A')
-                                                            l1[i].append('A')
-                                                            limit = limit + 2
-                                                            recualmu = f1
 
-                                                        else:
-                                                            l1[i].append('-')
-                                                            limit = limit + 1
-                                                            auxpa = auxpa + 1
+                                                        l1[i].append(ap1)
+                                                        limit = limit + 1
+                                                        auxpa = auxpa + 1
                                                     else:
                                                         auxpa = auxpa + 1
+
+                                            if(auxpa==pausa):
+                                                if(limit==9) and (almuerzohecho !='si'):
+                                                    l1[i].append('A')
+                                                    l1[i].append('A')
+                                                    limit = limit + 2
+                                                    recualmu = f1
+                                                    bloquealmu = 9
+                                                    almuerzohecho= 'si'
                                                     
                                     # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD
 
@@ -1480,16 +1547,43 @@ def algoritmos(inicio,termino):
     cuadrilla = ['rm','l','m','h','c']
     jumbos = ['pp','pa']
     otros = ['e','ac','lp','sc','mg','shf','sh','mt']
-    almuerzo = 0
 
-    if (recualmu in cuadrilla):
-        almuerzo = 1
-
-    if (recualmu in jumbos):
-        almuerzo = 2
-
-    if (recualmu in otros):
-        almuerzo = 3
+    if(bloquealmu == 9) and (recualmu in cuadrilla):
+        bloquecuadrilla=9
+        bloquejumbo=11
+        bloqueotros=13
+    if(bloquealmu == 11) and (recualmu in cuadrilla):
+        bloquecuadrilla=11
+        bloquejumbo=9
+        bloqueotros=13
+    if(bloquealmu == 13) and (recualmu in cuadrilla):
+        bloquecuadrilla=13
+        bloquejumbo=9
+        bloqueotros=11
+    if(bloquealmu == 9) and (recualmu in jumbos):
+        bloquecuadrilla=11
+        bloquejumbo=9
+        bloqueotros=13
+    if(bloquealmu == 11) and (recualmu in jumbos):
+        bloquecuadrilla=9
+        bloquejumbo=11
+        bloqueotros=13
+    if(bloquealmu == 13) and (recualmu in jumbos):
+        bloquecuadrilla=9
+        bloquejumbo=13
+        bloqueotros=11
+    if(bloquealmu == 9) and (recualmu in otros):
+        bloquecuadrilla=11
+        bloquejumbo=13
+        bloqueotros=9
+    if(bloquealmu == 11) and (recualmu in otros):
+        bloquecuadrilla=9
+        bloquejumbo=13
+        bloqueotros=11
+    if(bloquealmu == 13) and (recualmu in otros):
+        bloquecuadrilla=9
+        bloquejumbo=11
+        bloqueotros=13
 
     # consultas bd algoritmo final
     
@@ -1631,17 +1725,11 @@ def algoritmos(inicio,termino):
         for j in range(1):
             algofin[i].append(direfor[i])
 
-    print(" CTMMMMM [ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-            
-    for n in range(totalfrentes):
-        print(lr[n],l1[n],len(l1[n]))
-
-
-
     # llena demas frentes
     
     rf0 = 0
     rf1 = 0
+    almuerzohecho = 'no'
 
     for i in range(1,totalfrentes):
 
@@ -1662,7 +1750,7 @@ def algoritmos(inicio,termino):
             # guarda espacios segun defina usuario
 
             for v in range(bloquei):
-                laux.append('-')
+                laux.append('X')
 
             print("esto pasa en i = ",i)
 
@@ -1713,8 +1801,6 @@ def algoritmos(inicio,termino):
                                 duracion = int(operaciones[l][5])
                                 pausa = int(operaciones[l][7])
                                 parcial = operaciones[l][8]
-
-                    qhecha = 'no'
                         
                     # repetidor para cantidad de bloques por actividad
 
@@ -1728,61 +1814,7 @@ def algoritmos(inicio,termino):
 
                         while(x==0): # busqueda vertical total
 
-                            #guarda almuerzo
-
                             auxalmu = f1
-
-                            if (almuerzo==1): #tipo 1
-                                if(limit==13):
-                                    if (auxalmu in otros):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in jumbos):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in cuadrilla):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-
-                            if (almuerzo==2): #tipo 2
-                                if(limit==13):
-                                    if (auxalmu in otros):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in cuadrilla):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in jumbos):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-
-                            if (almuerzo==3): #tipo 3
-                                if(limit==13):
-                                    if (auxalmu in jumbos):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==11):
-                                    if (auxalmu in cuadrilla):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-                                if(limit==9):
-                                    if (auxalmu in otros):
-                                        laux.append('A')
-                                        laux.append('A')
-                                        limit = limit + 2
-
                             contadoraux = limit
                             auxdu = esav
                             bandera = 0
@@ -1842,7 +1874,6 @@ def algoritmos(inicio,termino):
                                     else:
 
                                         aux = aux - 1
-                                        break
 
                                 contadoraux = contadoraux + 1
                                 auxdu = auxdu + 1
@@ -1853,6 +1884,8 @@ def algoritmos(inicio,termino):
                                 break
 
                             else: # guarda en la matriz
+
+                                almuerzohecho = 'no'
 
                                 if (bandera==0):
                                     cont = 0
@@ -1865,89 +1898,28 @@ def algoritmos(inicio,termino):
 
                                         #guarda almuerzo
 
-                                        auxalmu = f1
-        
-                                        if (almuerzo==1): #tipo 1
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==11):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==9):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
+                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                            if(limit==bloquecuadrilla):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                            if(limit==bloquejumbo):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                            if(limit==bloqueotros):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
 
-                                        if (almuerzo==2): #tipo 2
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==9):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-
-                                        if (almuerzo==3): #tipo 3
-                                            if(limit==13):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-                                            if(limit==9):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    x=0
-                                                    duracion = duracion - cont
-                                                    break
-
-                                            laux.append(f1)
-                                            limit = limit + 1
-                                            cont = cont + 1
+                                        laux.append(f1)
+                                        limit = limit + 1
+                                        cont = cont + 1
 
                                     if(cont==duracion):
                                         x = 1
@@ -1956,58 +1928,24 @@ def algoritmos(inicio,termino):
 
                                     #guarda almuerzo
 
-                                    auxalmu = f1
-
-                                    if (almuerzo==1): #tipo 1
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-
-                                    if (almuerzo==2): #tipo 2
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-
-                                    if (almuerzo==3): #tipo 3
-                                        if(limit==13):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                        if(limit==bloquecuadrilla):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                        if(limit==bloquejumbo):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                        if(limit==bloqueotros):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
 
                                     laux.append('-')
                                     limit = limit + 1
@@ -2016,65 +1954,32 @@ def algoritmos(inicio,termino):
                                     
                                 #estado_avance = 0  where id_frente = lr[i][0] 
 
+                                auxpa = 0
+
                                 if(pausa>0):
-                                    auxpa = 0
                                     while (auxpa<pausa):
                                         if(limit<bloquet): # restriccion fin del turno
 
                                             #guarda almuerzo
 
-                                            auxalmu = f1
-            
-                                            if (almuerzo==1): #tipo 1
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==2): #tipo 2
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==3): #tipo 3
-                                                if(limit==13):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
 
                                             laux.append(ap1)
                                             limit = limit + 1
@@ -2092,381 +1997,256 @@ def algoritmos(inicio,termino):
 
                         f1 = ciclos[fortycic][2][po-contador]
 
-                        if(f1=='q'):
-                            qhecha='si'
-                            break
-
                         x=0
 
-                        if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
+                        if(f1!='q'):
 
-                            while(x==0): # busqueda vertical total
+                            if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
 
-                                #guarda almuerzo
-
-                                auxalmu = f1
-
-                                if (almuerzo==1): #tipo 1
-                                    if(limit==13):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                if (almuerzo==2): #tipo 2
-                                    if(limit==13):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                if (almuerzo==3): #tipo 3
-                                    if(limit==13):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                contadoraux = limit
-                                auxdu = esav
-                                bandera = 0
-
-                                while(auxdu<duracion+pausa): # busqueda vertical total
-
-                                    # busqueda vertical fila
-
-                                    aux = i-1
-
-                                    while (aux>=0):
-
-                                        if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
-
-                                            f0 = l1[aux][contadoraux]
-
-                                            for y in range(cicloclasic): 
-                                                if(f1==operaciones[y][0]):
-                                                    rf1 = operaciones[y][2] # guarda recurso actividad
-                                                    ap1 = operaciones[y][9] # guarda actividad pausa
-                                            for y in range(larg):
-                                                if(f0==operaciones[y][0]):
-                                                    rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                    ap0 = operaciones[y][9] # guarda actividad pausa
-
-                                                if(f0==operaciones[y][9]) and (f0!='-'):
-                                                    rf0 = operaciones[y][2] # guarda recurso pausa a comparar
-                                                    ap0 = operaciones[y][9] # guarda pausa
-
-                                            if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
-                                                if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
-                                                    if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                        for x in range(15):
-                                                            if(f1==services[x][0]):
-                                                                if(f0 in services[x][1]):
-                                                                    bandera = bandera + 1
-
-                                            if(f1!=f0): # si no son iguales
-
-                                                if(f0=='-'):
-                                                    bandera = bandera
-
-                                                if(f0=='A'):
-                                                    bandera = bandera
-
-                                                if (f0!='-') and (f0!='A'): # salvedad guion y A
-
-                                                    if(rf1==rf0): # si usan el mismo recurso
-                                                            bandera = bandera + 1   
-
-                                            if(f1!='-' and f1!='q'): # salvedad guion y q
-                                                if f1==f0: # si son iguales
-                                                    bandera = bandera + 1
-                                            
-                                            aux = aux - 1
-
-                                        else :
-
-                                            aux = aux - 1
-                                            break
-
-                                    contadoraux = contadoraux + 1
-                                    auxdu = auxdu + 1
-
-                                if(limit>=bloquet): # restriccion fin del turno
-
-                                    x = 1
-                                    break
-
-                                else: # guarda en la matriz
-
-                                    #guarda almuerzo
+                                while(x==0): # busqueda vertical total
 
                                     auxalmu = f1
+                                    contadoraux = limit
+                                    auxdu = esav
+                                    bandera = 0
 
-                                    if (almuerzo==1): #tipo 1
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                                    while(auxdu<duracion+pausa): # busqueda vertical total
 
-                                    if (almuerzo==2): #tipo 2
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                                        # busqueda vertical fila
 
-                                    if (almuerzo==3): #tipo 3
-                                        if(limit==13):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                                        aux = i-1
 
-                                    if (bandera==0):
-                                        cont = 0
-                                        while(cont<duracion):
+                                        while (aux>=0):
 
-                                            if(limit>=bloquet): # restriccion fin del turno
+                                            if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
 
-                                                x = 1
-                                                break
+                                                f0 = l1[aux][contadoraux]
+
+                                                for y in range(cicloclasic): 
+                                                    if(f1==operaciones[y][0]):
+                                                        rf1 = operaciones[y][2] # guarda recurso actividad
+                                                        ap1 = operaciones[y][9] # guarda actividad pausa
+                                                for y in range(larg):
+                                                    if(f0==operaciones[y][0]):
+                                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                        ap0 = operaciones[y][9] # guarda actividad pausa
+
+                                                    if(f0==operaciones[y][9]) and (f0!='-'):
+                                                        rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                        ap0 = operaciones[y][9] # guarda pausa
+
+                                                if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                    if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                        if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                            for x in range(15):
+                                                                if(f1==services[x][0]):
+                                                                    if(f0 in services[x][1]):
+                                                                        bandera = bandera + 1
+
+                                                if(f1!=f0): # si no son iguales
+
+                                                    if(f0=='-'):
+                                                        bandera = bandera
+
+                                                    if(f0=='A'):
+                                                        bandera = bandera
+
+                                                    if (f0!='-') and (f0!='A'): # salvedad guion y A
+
+                                                        if(rf1==rf0): # si usan el mismo recurso
+                                                                bandera = bandera + 1   
+
+                                                if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                    if f1==f0: # si son iguales
+                                                        bandera = bandera + 1
+                                                
+                                                aux = aux - 1
+
+                                            else :
+
+                                                aux = aux - 1
+
+                                        contadoraux = contadoraux + 1
+                                        auxdu = auxdu + 1
+
+                                    if(limit>=bloquet): # restriccion fin del turno
+
+                                        x = 1
+                                        break
+
+                                    else: # guarda en la matriz
+
+                                        almuerzohecho = 'no'
+
+                                        if (bandera==0):
+                                            cont = 0
+                                            while(cont<duracion):
+
+                                                if(limit>=bloquet): # restriccion fin del turno
+
+                                                    x = 1
+                                                    break
+                                                
+                                                laux.append(f1)
+                                                limit = limit + 1
+                                                cont = cont + 1
                                             
-                                            laux.append(f1)
-                                            limit = limit + 1
-                                            cont = cont + 1
-                                        
-                                        if(cont==duracion):
-                                            x = 1
+                                            if(cont==duracion):
+                                                x = 1
 
-                                    if (bandera>0):
+                                        if (bandera>0):
+
+                                            #guarda almuerzo
+
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+
+                                            laux.append('-')
+                                            limit = limit + 1
+
+                                    if(auxdu==duracion+pausa) and (bandera == 0):
+
+                                        #estado_avance = 0  where id_frente = lr[i][0]
+
+                                        auxpa = 0
+
+                                        if(pausa>0):
+                                            while (auxpa<pausa):
+                                                if(limit<bloquet): # restriccion fin del turno
+
+                                                    laux.append(ap1)
+                                                    limit = limit + 1
+                                                    auxpa = auxpa + 1
+
+                                                else:
+
+                                                    auxpa = auxpa + 1
+            
+                                    while(limit<bloquet): # restriccion fin del turno
+
+                                        #guarda almuerzo
+
+                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                            if(limit==bloquecuadrilla):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                            if(limit==bloquejumbo):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                            if(limit==bloqueotros):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
 
                                         laux.append('-')
                                         limit = limit + 1
 
-                                if(auxdu==duracion+pausa) and (bandera == 0):
+                                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
 
-                                    #estado_avance = 0  where id_frente = lr[i][0]
-
-                                    if(pausa>0):
-                                        auxpa = 0
-                                        while (auxpa<pausa):
-                                            if(limit<bloquet): # restriccion fin del turno
-
-                                                laux.append(ap1)
-                                                limit = limit + 1
-                                                auxpa = auxpa + 1
-
-                                            else:
-
-                                                axupa = auxpa + 1
-
-                                # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
-
-                        if(limit+duracion+pausa>=bloquet):
-        
-                            while(limit<bloquet): # restriccion fin del turno
-
-                                #guarda almuerzo
-
-                                auxalmu = f1
-
-                                if (almuerzo==1): #tipo 1
-                                    if(limit==13):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                if (almuerzo==2): #tipo 2
-                                    if(limit==13):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                if (almuerzo==3): #tipo 3
-                                    if(limit==13):
-                                        if (auxalmu in jumbos):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==11):
-                                        if (auxalmu in cuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                    if(limit==9):
-                                        if (auxalmu in otros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-
-                                laux.append('-')
-                                limit = limit + 1
-
-                if(k+posi>=larg):
-        
-                    if(lr[i][2]!='q') and (qhecha=='si'):
-
-                        # guarda q al final
-
-                        indite = len(laux[i])
-
-                        num = bloquet - indite
-
-                        while (num>0):
-
-                            if(limit<bloquet):
-
-                                if (num == 1):
-                                    laux.append(f1)
-                                    limit = limit + 1
-
-                                if (num !=1):
+                            if(limit+duracion+pausa>=bloquet):
+            
+                                while(limit<bloquet): # restriccion fin del turno
 
                                     #guarda almuerzo
 
-                                    auxalmu = f1
+                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                        if(limit==bloquecuadrilla):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                        if(limit==bloquejumbo):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                        if(limit==bloqueotros):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            almuerzohecho= 'si'
 
-                                    if (almuerzo==1): #tipo 1
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                                    laux.append('-')
+                                    limit = limit + 1
 
-                                    if (almuerzo==2): #tipo 2
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                        if(f1=='q'):
+                            indite=len(laux)
 
-                                    if (almuerzo==3): #tipo 3
-                                        if(limit==13):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
+                if(k+posi>=larg):
+        
+                    if(lr[i][2]!='q'):
 
-                                    laux[i].append('-')
+                        # guarda q al final
+
+                        indite = len(laux)
+
+                        num = bloquet - 1 - indite
+
+                        while (num>=0):
+
+                            if(limit<bloquet):
+
+                                if (num !=0):
+
+                                    #guarda almuerzo
+
+                                    auxalmu = 'c'
+
+                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                        if(limit==bloquecuadrilla):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            num=num-2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                        if(limit==bloquejumbo):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            num=num-2
+                                            almuerzohecho= 'si'
+                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                        if(limit==bloqueotros):
+                                            laux.append('A')
+                                            laux.append('A')
+                                            limit = limit + 2
+                                            num=num-2
+                                            almuerzohecho= 'si'
+
+                                    laux.append('-')
+                                    limit = limit + 1
+
+                                if (num == 0):
+                                    laux.append('q')
                                     limit = limit + 1
 
                             num = num - 1
-                                    
-                        if (num == 0):
-                            break
 
                     if(lr[i][2]=='q'):
 
@@ -2514,58 +2294,6 @@ def algoritmos(inicio,termino):
                                     #guarda almuerzo
 
                                     auxalmu = f1
-
-                                    if (almuerzo==1): #tipo 1
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-
-                                    if (almuerzo==2): #tipo 2
-                                        if(limit==13):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-
-                                    if (almuerzo==3): #tipo 3
-                                        if(limit==13):
-                                            if (auxalmu in jumbos):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==11):
-                                            if (auxalmu in cuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                        if(limit==9):
-                                            if (auxalmu in otros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-
                                     contadoraux = limit
                                     auxdu = esav
                                     bandera = 0
@@ -2626,7 +2354,6 @@ def algoritmos(inicio,termino):
                                             else:
 
                                                 aux = aux - 1
-                                                break
 
                                         contadoraux = contadoraux + 1
                                         auxdu = auxdu + 1
@@ -2637,6 +2364,8 @@ def algoritmos(inicio,termino):
                                         break
 
                                     else: # guarda en la matriz
+
+                                        almuerzohecho = 'no'
 
                                         if (bandera==0):
                                             cont = 0
@@ -2649,85 +2378,24 @@ def algoritmos(inicio,termino):
 
                                                 #guarda almuerzo
 
-                                                auxalmu = f1
-                
-                                                if (almuerzo==1): #tipo 1
-                                                    if(limit==13):
-                                                        if (auxalmu in otros):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==11):
-                                                        if (auxalmu in jumbos):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==9):
-                                                        if (auxalmu in cuadrilla):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-
-                                                if (almuerzo==2): #tipo 2
-                                                    if(limit==13):
-                                                        if (auxalmu in otros):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==11):
-                                                        if (auxalmu in cuadrilla):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==9):
-                                                        if (auxalmu in jumbos):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-
-                                                if (almuerzo==3): #tipo 3
-                                                    if(limit==13):
-                                                        if (auxalmu in jumbos):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==11):
-                                                        if (auxalmu in cuadrilla):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
-                                                    if(limit==9):
-                                                        if (auxalmu in otros):
-                                                            laux.append('A')
-                                                            laux.append('A')
-                                                            limit = limit + 2
-                                                            x=0
-                                                            duracion = duracion - cont
-                                                            break
+                                                if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                    if(limit==bloquecuadrilla):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                    if(limit==bloquejumbo):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                    if(limit==bloqueotros):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
 
                                                 laux.append(f1)
                                                 limit = limit + 1
@@ -2740,58 +2408,24 @@ def algoritmos(inicio,termino):
 
                                             #guarda almuerzo
 
-                                            auxalmu = f1
-            
-                                            if (almuerzo==1): #tipo 1
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==2): #tipo 2
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==3): #tipo 3
-                                                if(limit==13):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
 
                                             laux.append('-')
                                             limit = limit + 1
@@ -2800,65 +2434,32 @@ def algoritmos(inicio,termino):
                                             
                                         #estado_avance = 0  where id_frente = lr[i][0] 
 
+                                        auxpa = 0
+
                                         if(pausa>0):
-                                            auxpa = 0
                                             while (auxpa<pausa):
                                                 if(limit<bloquet): # restriccion fin del turno
 
                                                     #guarda almuerzo
 
-                                                    auxalmu = f1
-                    
-                                                    if (almuerzo==1): #tipo 1
-                                                        if(limit==13):
-                                                            if (auxalmu in otros):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==11):
-                                                            if (auxalmu in jumbos):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==9):
-                                                            if (auxalmu in cuadrilla):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-
-                                                    if (almuerzo==2): #tipo 2
-                                                        if(limit==13):
-                                                            if (auxalmu in otros):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==11):
-                                                            if (auxalmu in cuadrilla):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==9):
-                                                            if (auxalmu in jumbos):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-
-                                                    if (almuerzo==3): #tipo 3
-                                                        if(limit==13):
-                                                            if (auxalmu in jumbos):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==11):
-                                                            if (auxalmu in cuadrilla):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
-                                                        if(limit==9):
-                                                            if (auxalmu in otros):
-                                                                laux.append('A')
-                                                                laux.append('A')
-                                                                limit = limit + 2
+                                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                        if(limit==bloquecuadrilla):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                        if(limit==bloquejumbo):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                        if(limit==bloqueotros):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
 
                                                     laux.append(ap1)
                                                     limit = limit + 1
@@ -2882,61 +2483,7 @@ def algoritmos(inicio,termino):
 
                                     while(x==0): # busqueda vertical total
 
-                                        #guarda almuerzo
-
                                         auxalmu = f1
-
-                                        if (almuerzo==1): #tipo 1
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-
-                                        if (almuerzo==2): #tipo 2
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-
-                                        if (almuerzo==3): #tipo 3
-                                            if(limit==13):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-
                                         contadoraux = limit
                                         auxdu = esav
                                         bandera = 0 
@@ -3007,61 +2554,8 @@ def algoritmos(inicio,termino):
                                             break
 
                                         else: # guarda en la matriz
-                                            
-                                            #guarda almuerzo
 
-                                            auxalmu = f1
-
-                                            if (almuerzo==1): #tipo 1
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==2): #tipo 2
-                                                if(limit==13):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-
-                                            if (almuerzo==3): #tipo 3
-                                                if(limit==13):
-                                                    if (auxalmu in jumbos):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==11):
-                                                    if (auxalmu in cuadrilla):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
-                                                if(limit==9):
-                                                    if (auxalmu in otros):
-                                                        laux.append('A')
-                                                        laux.append('A')
-                                                        limit = limit + 2
+                                            almuerzohecho = 'no'
 
                                             if (bandera==0):
                                                 cont = 0
@@ -3081,6 +2575,27 @@ def algoritmos(inicio,termino):
 
                                             if (bandera>0):
 
+                                                #guarda almuerzo
+
+                                                if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                    if(limit==bloquecuadrilla):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                    if(limit==bloquejumbo):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                    if(limit==bloqueotros):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+
                                                 laux.append('-')
                                                 limit = limit + 1
 
@@ -3088,8 +2603,9 @@ def algoritmos(inicio,termino):
 
                                             #estado_avance = 0  where id_frente = lr[i][0]
 
+                                            auxpa = 0
+
                                             if(pausa>0):
-                                                auxpa = 0
                                                 while (auxpa<pausa):
                                                     if(limit<bloquet): # restriccion fin del turno
 
@@ -3099,7 +2615,33 @@ def algoritmos(inicio,termino):
 
                                                     else:
 
-                                                        axupa = auxpa + 1
+                                                        auxpa = auxpa + 1
+            
+                                        while(limit<bloquet): # restriccion fin del turno
+
+                                            #guarda almuerzo
+
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    almuerzohecho= 'si'
+
+                                        laux.append('-')
+                                        limit = limit + 1
 
                                         # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
 
@@ -3109,58 +2651,24 @@ def algoritmos(inicio,termino):
 
                                         #guarda almuerzo
 
-                                        auxalmu = f1
-
-                                        if (almuerzo==1): #tipo 1
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-
-                                        if (almuerzo==2): #tipo 2
-                                            if(limit==13):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-
-                                        if (almuerzo==3): #tipo 3
-                                            if(limit==13):
-                                                if (auxalmu in jumbos):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==11):
-                                                if (auxalmu in cuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                            if(limit==9):
-                                                if (auxalmu in otros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
+                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                            if(limit==bloquecuadrilla):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                            if(limit==bloquejumbo):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
+                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                            if(limit==bloqueotros):
+                                                laux.append('A')
+                                                laux.append('A')
+                                                limit = limit + 2
+                                                almuerzohecho= 'si'
 
                                         laux.append('-')
                                         limit = limit + 1
@@ -3194,6 +2702,13 @@ def algoritmos(inicio,termino):
             
             for n in range(totalfrentes):
                 print(lr[n],l1[n],len(l1[n]))
+
+
+    # llenar con X hasta el bloque 24
+
+    for i in range(totalfrentes):
+        while(len(l1[i])<24):
+            l1[i].append('X')
                                                 
 
     # imprimir matriz 1 (ordenamiento)
