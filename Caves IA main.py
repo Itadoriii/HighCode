@@ -314,12 +314,13 @@ def ventanaalgoritmos():
         algoritmos(int(inicio),int(termino))
     
     def ventanamatriz():
+       
         win4 = Tk()
         win4.geometry('1080x200')
         frame = Frame(win4)
         frame.pack()
-        extra = ['id','tam','ope','est','for','cic','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
-        for uwu in range(0,30):
+        extra = ['id','tam','ope','est','for','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,29):
             j = Entry(frame,width=5)
             j.grid(row = 0, column = uwu)
             j.insert(END,extra[uwu])
@@ -333,7 +334,7 @@ def ventanaalgoritmos():
         for f in range(0,len(matricitaa)):
                     for j in range(0,len(matricitaa[f])):
                             x = Entry(frame,width=5)
-                            x.grid(row = f+1, column = j+6)
+                            x.grid(row = f+1, column = j+5)
                             x.insert(END,matricitaa[f][j])
     
 
@@ -2723,6 +2724,7 @@ def algoritmos(inicio,termino):
 
     excel.save("turno prototipo .xls") 
     
+
     for i in range(termino):
         matricitaa2.append(lr[i])
     for i in range (totalfrentes):
@@ -2862,7 +2864,7 @@ def addbdfrentes():
     botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarfrente)
     botonllenarbd.grid(row="15")
 
-def addequipo():
+def adddotacion():
     win4=Tk()
     win4.title('Añadir recurso equipo')
     win4.config(bg='cornflowerblue')
@@ -2870,12 +2872,11 @@ def addequipo():
     frameingreso.pack()
 
     def llenarequipo():
-        flota= entryflota.get()
-        codigo = entrycod.get()
+        cuadrilla= entryflota.get()
         cantidade= entrycantidade.get()
         nivele= entrynivele.get()
        
-        sql =  "insert into equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
+        sql =  "insert into recurso_dotacion(cuadrilla,cantidad,nivel) value('%s','%s','%s')" % (cuadrilla,cantidade,nivele)
         bd = pymysql.connect(host='localhost',
                              user='root',
                              password='admin',
@@ -2889,6 +2890,73 @@ def addequipo():
         except Exception as e:
             print(e)
         bd.close()
+        
+        win4.destroy()
+
+
+    txtflota =Label(frameingreso,text="Cuadrilla") #lista desplegable
+    txtflota.grid(row="0",column="0")
+    entryflota = ttk.Combobox(frameingreso,width=20)
+    entryflota.grid(row="0",column="1")
+    entryflota['values'] = ('Jumbo fortificación','Jumbo avance','LHD','Manitou','Roboshot','Mixer','Camión marina','Retroexcavadora')
+
+    txtcantidade=Label(frameingreso,text="Cantidad")
+    txtcantidade.grid(row="2",column="0")
+    entrycantidade= Entry(frameingreso,width=23)
+    entrycantidade.grid(row="2",column="1")
+
+    txtnivele=Label(frameingreso,text="Nivel de equipo") 
+    txtnivele.grid(row="3",column="0")
+    entrynivele= ttk.Combobox(frameingreso,width=20)
+    entrynivele.grid(row="3",column="1")
+    entrynivele['values'] = ('HD','PD','CH','INY','EXT','TI')
+
+
+    botonllenarbd=Button(frameingreso,text="Añadir a la Bd",command=llenarequipo)
+    botonllenarbd.grid(row="4")
+
+def addequipo():
+    win4=Tk()
+    win4.title('Añadir recurso equipo')
+    win4.config(bg='cornflowerblue')
+    frameingreso = Frame(win4)
+    frameingreso.pack()
+
+    def llenarequipo():
+        flota= entryflota.get()
+        codigo = entrycod.get()
+        cantidade= entrycantidade.get()
+        nivele= entrynivele.get()
+       
+        sql =  "insert into recurso_equipos(flota,codigo_equipo,cantidad,nivel) value('%s','%s','%s','%s')" % (flota,codigo,cantidade,nivele)
+        bd = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd.cursor()
+        try:
+            cursor.execute(sql)
+            bd.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        estado = "operativo"
+        fecha = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        sql2="insert into estado_equipos(flota,codigo_equipo,nivel,estado,fecha) value('%s','%s','%s','%s','%s')" % (flota,codigo,nivele,estado,fecha)
+        bd2 = pymysql.connect(host='localhost',
+                             user='root',
+                             password='admin',
+                             database='cavesbd',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = bd2.cursor()
+        try:
+            cursor.execute(sql2)
+            bd2.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+        bd2.close()
         
         win4.destroy()
 
@@ -5354,10 +5422,11 @@ def ingresomain(rut):
     menufrentes.add_command(label='ver frentes',command=verfrentesmenu)
     menufrentes.add_command(label='eliminar frente',command=eliminarfrente)
     menufrentes.add_command(label='modificar frente',command=modificarfrente)
-    menuequipos.add_command(label='añadir recursoequipo',command=addequipo)
+    menuequipos.add_command(label='añadir recurso equipo',command=addequipo)
+    menuequipos.add_command(label='añadir recurso dotacion',command=adddotacion)
     menuequipos.add_command(label='ver equipos',command=verequipomenu)
     menuequipos.add_command(label='ver dotacion',command=verdotacionmenu)
-    menuequipos.add_command(label='ver ???',command=verestadoequipomenu)
+    menuequipos.add_command(label='ver estado recursos',command=verestadoequipomenu)
     menudatos.add_command(label='Entrada/Salida horario',command=ventanaalgoritmos)
 
 
@@ -6902,7 +6971,30 @@ def ingresomain(rut):
 
     def botonalg ():
         algoritmos(int(4),int(24))
+        
+        win4 = Tk()
+        win4.geometry('1080x200')
+        frame = Frame(win4)
+        frame.pack()
+        extra = ['id','tam','ope','est','for','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
+        for uwu in range(0,29):
+            j = Entry(frame,width=5)
+            j.grid(row = 0, column = uwu)
+            j.insert(END,extra[uwu])
 
+        for f in range(0,len(matricitaa2)):
+                    for j in range(0,len(matricitaa2[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j)
+                            x.insert(END,matricitaa2[f][j])
+
+        for f in range(0,len(matricitaa)):
+                    for j in range(0,len(matricitaa[f])):
+                            x = Entry(frame,width=5)
+                            x.grid(row = f+1, column = j+5)
+                            x.insert(END,matricitaa[f][j])
+
+        
     verestadofrentes = Button(framemain,text='VER ESTADO FRENTES',command=verfrentes,width='28')
     verestadofrentes.grid(row='0',column="0")
     ingresarfrentes = Button(framemain,text='CAMBIAR ESTADO FRENTES',command=inputdata,width='28')
