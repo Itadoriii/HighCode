@@ -3407,14 +3407,20 @@ def ingresomain(rut):
 
         botonfrentes = Button(frame,text='Añadir a la base de datos',command=pushfrente)
         botonfrentes.grid(column='0',row='18')
-    
-
-    
+  
+  
     def verequipomenu():
         winverequipo = Tk()
-        winverequipo.title('Ver equipos')
+        winverequipo.title('Ver recurso equipos')
         frame = Frame(winverequipo)
         frame.pack()
+        treeview = ttk.Treeview(frame,columns=("flota", "nivel" ,"cantidad"))
+        treeview.heading("#0", text="Codigo equipo")
+        treeview.heading("flota", text="Flota")
+        treeview.heading("nivel", text="Nivel")
+        treeview.heading("cantidad", text="Cantidad")
+        treeview.pack()
+        
         sql = 'select * from recurso_equipos'
         bd = pymysql.connect(host='localhost',
                              user='root',
@@ -3430,51 +3436,28 @@ def ingresomain(rut):
         except Exception as e:
             print(e)
         bd.close()
-        verflota = []
-        vercodigo = []
-        vercantidad = []
-        vernivel = []
         for i in data:
             flota = i['flota']
             cod = i['codigo_equipo']
             cantidad = i['cantidad']
             lvl = i['nivel']
-            verflota.append(flota)
-            vercodigo.append(cod)
-            vercantidad.append(cantidad)
-            vernivel.append(lvl)
-
-
-        for i in range(0,len(verflota)+1):
-            for j in range(0,4):
-                x = Entry(frame)
-                x.grid(row=i,column=j)
-                if(i==0):
-                    match j:
-                        case 0:
-                            x.insert(END,'Flota')
-                        case 1:
-                            x.insert(END,'Codigo')
-                        case 2:
-                            x.insert(END,'Cantidad')
-                        case 3:
-                            x.insert(END,'Nivel')
-                else:
-                    match j:
-                        case 0:
-                            x.insert(END,verflota[i-1])
-                        case 1:
-                            x.insert(END,vercodigo[i-1])
-                        case 2:
-                            x.insert(END,vercantidad[i-1])
-                        case 3:
-                            x.insert(END,vernivel[i-1])
-
+            treeview.insert(
+                            "",
+                            tk.END,
+                            text=cod,
+                            values=(flota,lvl,cantidad)
+                            )
+       
     def verdotacionmenu():
             winverequipo = Tk()
             winverequipo.title('Ver equipos')
             frame = Frame(winverequipo)
             frame.pack()
+            treeview = ttk.Treeview(frame,columns=("cantidad","nivel" ))
+            treeview.heading("#0", text="Cuadrilla")
+            treeview.heading("cantidad", text="Cantidad")
+            treeview.heading("nivel", text="Nivel")
+            treeview.pack()
             sql = 'select * from recurso_dotacion'
             bd = pymysql.connect(host='localhost',
                                 user='root',
@@ -3490,43 +3473,31 @@ def ingresomain(rut):
             except Exception as e:
                 print(e)
             bd.close()
-            verflota = []
-            vercantidad = []
-            vernivel = []
             for i in data:
                 flota = i['cuadrilla']
                 cantidad = i['cantidad']
                 lvl = i['nivel']
-                verflota.append(flota)
-                vercantidad.append(cantidad)
-                vernivel.append(lvl)
+                treeview.insert(
+                            "",
+                            tk.END,
+                            text=flota,
+                            values=(cantidad,lvl)
+                            )
 
 
-            for i in range(0,len(verflota)+1):
-                for j in range(0,3):
-                    x = Entry(frame)
-                    x.grid(row=i,column=j)
-                    if(i==0):
-                        match j:
-                            case 0:
-                                x.insert(END,'Flota')
-                            case 1:
-                                x.insert(END,'Cantidad')
-                            case 2:
-                                x.insert(END,'Nivel')
-                    else:
-                        match j:
-                            case 0:
-                                x.insert(END,verflota[i-1])
-                            case 1:
-                                x.insert(END,vercantidad[i-1])
-                            case 2:
-                                x.insert(END,vernivel[i-1])
     def verestadoequipomenu():
         winverestadoequipos = Tk()
         winverestadoequipos.title('Ver estado equipos')
         frame = Frame(winverestadoequipos)
         frame.pack()
+        treeview = ttk.Treeview(frame,columns=("flota", "nivel" ,"estado","cantidad","fecha"))
+        treeview.heading("#0", text="Codigo equipo")
+        treeview.heading("flota", text="Flota")
+        treeview.heading("nivel", text="Nivel")
+        treeview.heading("estado", text="Estado")
+        treeview.heading("cantidad", text="Cantidad")
+        treeview.heading("fecha", text="Fecha")
+        treeview.pack()
         sql = 'select * from estado_equipos'
         bd = pymysql.connect(host='localhost',
                              user='root',
@@ -3541,52 +3512,19 @@ def ingresomain(rut):
             cursor.close()
         except Exception as e:
             print(e)
-        verflota = []
-        vernivel = []
-        verfecha = []
-        verestado = []
-        vercod = []
-
         for i in data:
             flota = i['flota']
             nivel = i['nivel']
             fecha = i['fecha']
             estado = i['estado']
             codigo = i['codigo_equipo']
-            verflota.append(flota)
-            vernivel.append(nivel)
-            verfecha.append(fecha)
-            verestado.append(estado)
-            vercod.append(codigo)
+            treeview.insert(
+                            "",
+                            tk.END,
+                            text=codigo,
+                            values=(flota,nivel,estado,cantidad,fecha)
+                            )
 
-        for i in range(0,len(verflota)+1):
-            for j in range(5):
-                x = Entry(frame)
-                x.grid(row=i,column=j)
-                if(i==0):
-                    match j:
-                        case 0:
-                            x.insert(END,'Flota')
-                        case 1:
-                            x.insert(END,'Nivel')
-                        case 2:
-                            x.insert(END,'Fecha')
-                        case 3:
-                            x.insert(END,'Estado')
-                        case 4:
-                            x.insert(END,'Codigo')
-                else:
-                    match j :
-                        case 0:
-                            x.insert(END,verflota[i-1])
-                        case 1:
-                            x.insert(END,vernivel[i-1])
-                        case 2:
-                            x.insert(END,verfecha[i-1])
-                        case 3:
-                            x.insert(END,verestado[i-1])
-                        case 4:
-                            x.insert(END,vercod[i-1])
 
     def eliminarfrente():
         print('xd')
@@ -5424,7 +5362,7 @@ def ingresomain(rut):
     menufrentes.add_command(label='modificar frente',command=modificarfrente)
     menuequipos.add_command(label='añadir recurso equipo',command=addequipo)
     menuequipos.add_command(label='añadir recurso dotacion',command=adddotacion)
-    menuequipos.add_command(label='ver equipos',command=verequipomenu)
+    menuequipos.add_command(label='ver recurso equipo',command=verequipomenu)
     menuequipos.add_command(label='ver dotacion',command=verdotacionmenu)
     menuequipos.add_command(label='ver estado recursos',command=verestadoequipomenu)
     menudatos.add_command(label='Entrada/Salida horario',command=ventanaalgoritmos)
