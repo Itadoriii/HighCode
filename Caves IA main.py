@@ -610,13 +610,13 @@ def algoritmos(inicio,termino):
         menor= None
         posi = None
         if (num != 0):
-            if (num not in distasi and num not in distano):
-                if (num <= 4):
-                    menor = num
-                    posi = i
+            if (num <= 4):
+                menor = num
+                posi = i
         if menor != None:
             troprosia.append(idaux[posi])
             distasi.append(menor)
+            
     for p in p2:
         for r in range(len(troprosia)):
             if(p==troprosia[r]):
@@ -648,11 +648,16 @@ def algoritmos(inicio,termino):
             tropronoa.append(idaux[posi])
             distano.append(menor)
 
+    
+
     for p in p2:
         for r in range(len(tropronoa)):
             if(p==tropronoa[r]):
                 if(tropronoa[r] not in troprono):
                     troprono.append(p)
+
+    print("troposi = ", troprosi)
+    print("tropono = ", troprono)
        
 
 # llenado tronadura prox
@@ -5777,11 +5782,11 @@ def ingresomain(rut):
                             
                             def pushciclo():
                                 print('lol')
-                                mt = combmt.get()
+
                                 h = combh.get()
                                 sh = combsh.get()
                                 pa = combpa.get()
-                                listaevaluar = [mt,h,sh,pa]
+                                listaevaluar = [h,sh,pa]
                                 match h:
                                     case 'HECHO':
                                         match sh:
