@@ -3086,6 +3086,7 @@ def modificarfrente():
 def ingresomain(rut): 
 
     def verfrentesmenu():
+
         ventanaverfrentes = Tk()
         ventanaverfrentes.title('FRENTES ASOCIADOS ')
         frame = Frame(ventanaverfrentes)
@@ -3101,23 +3102,7 @@ def ingresomain(rut):
         treeview.heading("foco", text="Foco")
         treeview.heading("largo", text="Largo")
         treeview.pack()
-        #memoria
-        idver = []
-        tipover = []
-        siglaver = []
-        numerover = []
-        direcver = []
-        estadover = []
-        tamver = []
-        rutaver = []
-        dismarver = []
-        nivelver = []
-        macrover = []
-        sectorver = []
-        numrefver = []
-        dirrefver = []
-        focover = []
-        largover = []
+       
         sql = 'select * from frentes'
         bdver = pymysql.connect(host='localhost',
                              user='root',
@@ -3136,25 +3121,15 @@ def ingresomain(rut):
 
         for i in data:
             id=i['id_frente']
-            tipo=i['tipo']
-            sigla=i['sigla']
-            num=i['numero']
-            numref=i['numero_referencia']
-            dir=i['direccion']
-            dirref=i['direccion_referencia']
             estado=i['estado']
             tam=i['tamaño']
             ruta=i['ruta_critica']
-            dismar=i['distancia_marina']
             nivel=i['nivel']
             macro=i['macrobloque']
             sectorr=i['sector']
             foco=i['foco']
             largo=i['largo']
             codigo=i['codigo_empresa']
-            # aplicar filtro nivel y global 
-            #
-            #id,estado,tam,rutacritica,nivel,macrobloque,sector,foco,largo
             if(codigo==rutt):
                 treeview.insert(
                             "",
