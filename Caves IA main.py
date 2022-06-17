@@ -22,7 +22,6 @@ from tkinter.font import BOLD
 from turtle import clear
 from unittest import signals
 from urllib.request import AbstractBasicAuthHandler
-
 import numpy as np
 import openpyxl
 import pymysql.cursors
@@ -3087,6 +3086,21 @@ def modificarfrente():
 def ingresomain(rut): 
 
     def verfrentesmenu():
+        ventanaverfrentes = Tk()
+        ventanaverfrentes.title('FRENTES ASOCIADOS ')
+        frame = Frame(ventanaverfrentes)
+        frame.pack()
+        treeview = ttk.Treeview(frame,columns=("estado", "tamaño" ,"ruta critica","nivel","macrobloque","sector","foco","largo"))
+        treeview.heading("#0", text="Id")
+        treeview.heading("estado", text="Estado")
+        treeview.heading("tamaño", text="Tamaño")
+        treeview.heading("ruta critica", text="Ruta Critica")
+        treeview.heading("nivel", text="Nivel")
+        treeview.heading("macrobloque", text="Macrobloque")
+        treeview.heading("sector", text="Sector")
+        treeview.heading("foco", text="Foco")
+        treeview.heading("largo", text="Largo")
+        treeview.pack()
         #memoria
         idver = []
         tipover = []
@@ -3138,102 +3152,22 @@ def ingresomain(rut):
             foco=i['foco']
             largo=i['largo']
             codigo=i['codigo_empresa']
+            # aplicar filtro nivel y global 
+            #
+            #id,estado,tam,rutacritica,nivel,macrobloque,sector,foco,largo
             if(codigo==rutt):
-                idver.append(id)
-                tipover.append(tipo)
-                siglaver.append(sigla)
-                numerover.append(num)
-                direcver.append(dir)
-                estadover.append(estado)
-                tamver.append(tam)
-                rutaver.append(ruta)
-                dismarver.append(dismar)
-                nivelver.append(nivel)
-                macrover.append(macro)
-                sectorver.append(sectorr)
-                numrefver.append(numref)
-                dirrefver.append(dirref)
-                focover.append(foco)
-                largover.append(largo)
+                treeview.insert(
+                            "",
+                            tk.END,
+                            text=id,
+                            values=(estado,tam,ruta,nivel,macro,sectorr,foco,largo)
+                            )
+
                 print(codigo)
         
-        ventanaverfrentes = Tk()
-        ventanaverfrentes.title('FRENTES ASOCIADOS ')
-        frame = Frame(ventanaverfrentes)
-        frame.pack()
-        for i in range(0,len(idver)+1): 
-            for j in range(0,16): 
-                x = Entry(frame)
-                x.grid(row=i,column=j)
-                
-                if (i==0):
-                    match j:
-                        case 0:
-                            x.insert(END,'Id')
-                        case 1:
-                            x.insert(END,'Tipo')
-                        case 2:
-                            x.insert(END,'Sigla')
-                        case 3:
-                            x.insert(END,'Numero')
-                        case 4:
-                            x.insert(END,'Direccion')
-                        case 5:
-                            x.insert(END,'Estado')
-                        case 6:
-                            x.insert(END,'Tamaño')
-                        case 7:
-                            x.insert(END,'Ruta C.')
-                        case 8:
-                            x.insert(END,'Dist.Mar')
-                        case 9:
-                            x.insert(END,'Nivel')
-                        case 10:
-                            x.insert(END,'Macrobloque')
-                        case 11:
-                            x.insert(END,'Sector')
-                        case 12:
-                            x.insert(END,'Num.Ref')
-                        case 13:
-                            x.insert(END,'Dir.Ref')
-                        case 14:
-                            x.insert(END,'Foco')
-                        case 15:
-                            x.insert(END,'Largo')
-                else:
-                    match j:
-                        case 0:
-                            x.insert(END,idver[i-1])
-                        case 1:
-                            x.insert(END,tipover[i-1])
-                        case 2:
-                            x.insert(END,siglaver[i-1])
-                        case 3:
-                            x.insert(END,numerover[i-1])
-                        case 4:
-                            x.insert(END,direcver[i-1])
-                        case 5:
-                            x.insert(END,estadover[i-1])
-                        case 6:
-                            x.insert(END,tamver[i-1])
-                        case 7:
-                            x.insert(END,rutaver[i-1])
-                        case 8:
-                            x.insert(END,dismarver[i-1])
-                        case 9:
-                            x.insert(END,nivelver[i-1])
-                        case 10:
-                            x.insert(END,macrover[i-1])
-                        case 11:
-                            x.insert(END,sectorver[i-1])
-                        case 12:
-                            x.insert(END,numrefver[i-1])
-                        case 13:
-                            x.insert(END,dirrefver[i-1])
-                        case 14:
-                            x.insert(END,focover[i-1])
-                        case 15:
-                            x.insert(END,largover[i-1])
+        
+
+        
                 
 
     def addfrentesmenu():
