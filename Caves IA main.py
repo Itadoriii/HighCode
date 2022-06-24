@@ -653,11 +653,7 @@ def algoritmos(inicio,termino):
         for r in range(len(tropronoa)):
             if(p==tropronoa[r]):
                 if(tropronoa[r] not in troprono):
-                    troprono.append(p)
-
-    print("troposi = ", troprosi)
-    print("tropono = ", troprono)
-       
+                    troprono.append(p)   
 
 # llenado tronadura prox
 
@@ -1070,6 +1066,23 @@ def algoritmos(inicio,termino):
         lr.append([])
         for j in range(1):
             lr[i].append(foor[i])
+
+    posivalida = []
+
+
+    for b in range(totalfrentes):
+        g = 0
+        for n in range(len(ciclos)):
+            if(lr[b][4]==ciclos[n][0]) and (int(frentesyciclos2[b][1])==ciclos[n][1]):
+                for m in range(len(ciclos[n][2])):
+                    if (lr[b][2]==ciclos[n][2][m]) and (g==0):
+                        posivalida.append(m)
+                        g=1
+
+
+    print("lista validacion = ", posivalida)
+
+    
 
     #bloque de inicio y termino
 
@@ -1739,521 +1752,54 @@ def algoritmos(inicio,termino):
     for i in range(1,totalfrentes):
 
         if (lr[i][4]=='p-m-sh'):
-            totalci=7
+            totalci=6
 
         if (lr[i][4]=='p-shf'):
-            totalci=7
+            totalci=6
 
         if (lr[i][4]=='shf-p-m-sh'):
-            totalci=4
+            totalci=3
 
         xci = 0
 
+        posivalidai = posivalida[i]
 
-        for q in range(1,totalci):
 
-            # guarda espacios segun defina usuario
+        for q in range(totalci):
 
-            for v in range(bloquei):
-                laux.append('X')
+            if(lr[i][4]==ciclos[q][0]):
+                if(lr[i][2]==ciclos[q][2][posivalidai]):
 
-            print("esto pasa en i = ",i)
+                    # guarda espacios segun defina usuario
 
-            limit = bloquei 
-            contador = 0
+                    for v in range(bloquei):
+                        laux.append('X')
 
-            # guarda largo del ciclo
+                    print("esto pasa en i = ",i+1)
 
-            for f in range(15):
-                if(lr[i][4]==ciclos[f][0]):
-                    if(q==ciclos[f][1]):
-                        fortycic = f
-                        larg=len(ciclos[f][2])
+                    limit = bloquei 
+                    contador = 0
 
-            #busca donde retomar actividad
-            for j in range(larg):
-                if(lr[i][2]==ciclos[fortycic][2][j]): 
-                                    posi = j+1 #siguiente de lista act 
-                                    break
+                    # guarda largo del ciclo
 
-            for k in range(reco):
+                    for f in range(15):
+                        if(lr[i][4]==ciclos[f][0]):
+                            if(q==ciclos[f][1]):
+                                fortycic = f
+                                larg=len(ciclos[f][2])
 
-                # comienza el llenado
-
-                if (k+posi<larg): #no es tronadura, ciclo sin terminar
-                    po = k+posi
-                    esav = int(lr[i][3]) # rescata estado avance operacion
-
-                    # rescata recurso, duracion segun tamaño y si es parcial o no 
-
-                    cicloclasic = 15 # longitud ciclo original para comparar
-
-                    for l in range(cicloclasic):
-                        if (lr[i][1]=='C'):
-                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
-                                duracion = int(operaciones[l][3])
-                                pausa = int(operaciones[l][7])
-                                parcial = operaciones[l][8]
-
-                        if (lr[i][1]=='M'):
-                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
-                                duracion = int(operaciones[l][4])
-                                pausa = int(operaciones[l][7])
-                                parcial = operaciones[l][8]
-
-                        if (lr[i][1]=='G'):
-                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
-                                duracion = int(operaciones[l][5])
-                                pausa = int(operaciones[l][7])
-                                parcial = operaciones[l][8]
-                        
-                    # repetidor para cantidad de bloques por actividad
-
-                    if (parcial=='si'): #parcial
-
-                        contav = 0
-
-                        f1 = ciclos[fortycic][2][po-contador]
-
-                        x = 0
-
-                        while(x==0): # busqueda vertical total
-
-                            auxalmu = f1
-                            contadoraux = limit
-                            auxdu = esav
-                            bandera = 0
-
-                            while(auxdu<duracion+pausa): # busqueda vertical total
-
-                                # busqueda vertical fila
-
-                                aux = i-1
-
-                                while (aux>=0):
-                                    
-                                    if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
-
-                                        f0 = l1[aux][contadoraux]
-
-                                        for y in range(cicloclasic): 
-                                            if(f1==operaciones[y][0]):
-                                                rf1 = operaciones[y][2] # guarda recurso actividad
-                                                ap1 = operaciones[y][9] # guarda actividad pausa
-                                        for y in range(larg):
-                                            if(f0==operaciones[y][0]):
-                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                ap0 = operaciones[y][9] # guarda actividad pausa
-
-                                            if(f0==operaciones[y][9]) and (f0!='-'):
-                                                rf0 = operaciones[y][2] # guarda recurso pausa a comparar
-                                                ap0 = operaciones[y][9] # guarda pausa
-
-                                        if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
-                                            if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
-                                                if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                    for x in range(15):
-                                                        if(f1==services[x][0]):
-                                                            if(f0 in services[x][1]):
-                                                                bandera = bandera + 1
-
-                                        if(f1!=f0): # si no son iguales
-
-                                            if(f0=='-'):
-                                                bandera = bandera
-
-                                            if(f0=='A'):
-                                                bandera = bandera
-
-                                            if (f0!='-') and (f0!='A'): # salvedad guion y A
-
-                                                if(rf1==rf0): # si usan el mismo recurso
-                                                        bandera = bandera + 1     
-
-                                        if(f1!='-' and f1!='q'): # salvedad guion y q
-                                            if f1==f0: # si son iguales
-                                                bandera = bandera + 1
-
-                                        aux = aux - 1
-
-                                    else:
-
-                                        aux = aux - 1
-
-                                contadoraux = contadoraux + 1
-                                auxdu = auxdu + 1
-
-                            if(limit>=bloquet): # restriccion fin del turno
-
-                                x = 1
-                                break
-
-                            else: # guarda en la matriz
-
-                                almuerzohecho = 'no'
-
-                                if (bandera==0):
-                                    cont = 0
-                                    while(cont<duracion):
-
-                                        if(limit>=bloquet): # restriccion fin del turno
-
-                                            x = 1
+                    #busca donde retomar actividad
+                    for j in range(larg):
+                        if(lr[i][2]==ciclos[fortycic][2][j]): 
+                                            posi = j+1 #siguiente de lista act 
                                             break
 
-                                        #guarda almuerzo
+                    for k in range(reco):
 
-                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                            if(limit==bloquecuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                            if(limit==bloquejumbo):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in otros) and (almuerzohecho !='si'):
-                                            if(limit==bloqueotros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
+                        # comienza el llenado
 
-                                        laux.append(f1)
-                                        limit = limit + 1
-                                        cont = cont + 1
-
-                                    if(cont==duracion):
-                                        x = 1
-
-                                if (bandera>0):
-
-                                    #guarda almuerzo
-
-                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                        if(limit==bloquecuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                        if(limit==bloquejumbo):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in otros) and (almuerzohecho !='si'):
-                                        if(limit==bloqueotros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-
-                                    laux.append('-')
-                                    limit = limit + 1
-
-                            if(auxdu==duracion+pausa) and (bandera == 0):
-                                    
-                                #estado_avance = 0  where id_frente = lr[i][0] 
-
-                                auxpa = 0
-
-                                if(pausa>0):
-                                    while (auxpa<pausa):
-                                        if(limit<bloquet): # restriccion fin del turno
-
-                                            #guarda almuerzo
-
-                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                                if(limit==bloquecuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                                if(limit==bloquejumbo):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in otros) and (almuerzohecho !='si'):
-                                                if(limit==bloqueotros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-
-                                            laux.append(ap1)
-                                            limit = limit + 1
-                                            auxpa = auxpa + 1
-
-                                        else:
-                                            auxpa = auxpa + 1
-                                        
-                            # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD            
-                                
-
-                    if (parcial=='no'): #no parcial
-
-                        contav = 0
-
-                        f1 = ciclos[fortycic][2][po-contador]
-                        auxalmu = f1
-
-                        x=0
-
-                        if(f1!='q'):
-
-                            if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
-
-                                while(x==0): # busqueda vertical total
-
-                                    contadoraux = limit
-                                    auxdu = esav
-                                    bandera = 0
-
-                                    while(auxdu<duracion+pausa): # busqueda vertical total
-
-                                        # busqueda vertical fila
-
-                                        aux = i-1
-
-                                        while (aux>=0):
-
-                                            if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
-
-                                                f0 = l1[aux][contadoraux]
-
-                                                for y in range(cicloclasic): 
-                                                    if(f1==operaciones[y][0]):
-                                                        rf1 = operaciones[y][2] # guarda recurso actividad
-                                                        ap1 = operaciones[y][9] # guarda actividad pausa
-                                                for y in range(larg):
-                                                    if(f0==operaciones[y][0]):
-                                                        rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                        ap0 = operaciones[y][9] # guarda actividad pausa
-
-                                                    if(f0==operaciones[y][9]) and (f0!='-'):
-                                                        rf0 = operaciones[y][2] # guarda recurso pausa a comparar
-                                                        ap0 = operaciones[y][9] # guarda pausa
-
-                                                if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
-                                                    if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
-                                                        if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                            for x in range(15):
-                                                                if(f1==services[x][0]):
-                                                                    if(f0 in services[x][1]):
-                                                                        bandera = bandera + 1
-
-                                                if(f1!=f0): # si no son iguales
-
-                                                    if(f0=='-'):
-                                                        bandera = bandera
-
-                                                    if(f0=='A'):
-                                                        bandera = bandera
-
-                                                    if (f0!='-') and (f0!='A'): # salvedad guion y A
-
-                                                        if(rf1==rf0): # si usan el mismo recurso
-                                                                bandera = bandera + 1   
-
-                                                if(f1!='-' and f1!='q'): # salvedad guion y q
-                                                    if f1==f0: # si son iguales
-                                                        bandera = bandera + 1
-                                                
-                                                aux = aux - 1
-
-                                            else :
-
-                                                aux = aux - 1
-
-                                        contadoraux = contadoraux + 1
-                                        auxdu = auxdu + 1
-
-                                    if(limit>=bloquet): # restriccion fin del turno
-
-                                        x = 1
-                                        break
-
-                                    else: # guarda en la matriz
-
-                                        almuerzohecho = 'no'
-
-                                        #guarda almuerzo
-
-                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                            if(limit==bloquecuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                            if(limit==bloquejumbo):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in otros) and (almuerzohecho !='si'):
-                                            if(limit==bloqueotros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-
-                                        if (bandera==0):
-                                            cont = 0
-                                            while(cont<duracion):
-
-                                                if(limit>=bloquet): # restriccion fin del turno
-
-                                                    x = 1
-                                                    break
-                                                
-                                                laux.append(f1)
-                                                limit = limit + 1
-                                                cont = cont + 1
-                                            
-                                            if(cont==duracion):
-                                                x = 1
-
-                                        if (bandera>0):
-
-                                            #guarda almuerzo
-
-                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                                if(limit==bloquecuadrilla):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                                if(limit==bloquejumbo):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-                                            if(auxalmu in otros) and (almuerzohecho !='si'):
-                                                if(limit==bloqueotros):
-                                                    laux.append('A')
-                                                    laux.append('A')
-                                                    limit = limit + 2
-                                                    almuerzohecho= 'si'
-
-                                            laux.append('-')
-                                            limit = limit + 1
-
-                                    if(auxdu==duracion+pausa) and (bandera == 0):
-
-                                        #estado_avance = 0  where id_frente = lr[i][0]
-
-                                        auxpa = 0
-
-                                        if(pausa>0):
-                                            while (auxpa<pausa):
-                                                if(limit<bloquet): # restriccion fin del turno
-
-                                                    laux.append(ap1)
-                                                    limit = limit + 1
-                                                    auxpa = auxpa + 1
-
-                                                else:
-
-                                                    auxpa = auxpa + 1
-
-                                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
-
-                            if(limit+duracion+pausa>=bloquet):
-            
-                                while(limit<bloquet): # restriccion fin del turno
-
-                                    #guarda almuerzo
-
-                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                        if(limit==bloquecuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                        if(limit==bloquejumbo):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in otros) and (almuerzohecho !='si'):
-                                        if(limit==bloqueotros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            almuerzohecho= 'si'
-
-                                    laux.append('-')
-                                    limit = limit + 1
-
-                        if(f1=='q'):
-                            indite=len(laux)
-
-                if(k+posi>=larg):
-        
-                    if(lr[i][2]!='q'):
-
-                        # guarda q al final
-
-                        indite = len(laux)
-
-                        num = bloquet - 1 - indite
-
-                        while (num>=0):
-
-                            if(limit<bloquet):
-
-                                if (num !=0):
-
-                                    #guarda almuerzo
-
-                                    auxalmu = 'c'
-
-                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                        if(limit==bloquecuadrilla):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            num=num-2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                        if(limit==bloquejumbo):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            num=num-2
-                                            almuerzohecho= 'si'
-                                    if(auxalmu in otros) and (almuerzohecho !='si'):
-                                        if(limit==bloqueotros):
-                                            laux.append('A')
-                                            laux.append('A')
-                                            limit = limit + 2
-                                            num=num-2
-                                            almuerzohecho= 'si'
-
-                                    laux.append('-')
-                                    limit = limit + 1
-
-                                if (num == 0):
-                                    laux.append('q')
-                                    limit = limit + 1
-
-                            num = num - 1
-
-                    if(lr[i][2]=='q'):
-
-                        po=k
-
-                        if(po<larg):
-
+                        if (k+posi<larg): #no es tronadura, ciclo sin terminar
+                            po = k+posi
                             esav = int(lr[i][3]) # rescata estado avance operacion
 
                             # rescata recurso, duracion segun tamaño y si es parcial o no 
@@ -2278,26 +1824,23 @@ def algoritmos(inicio,termino):
                                         duracion = int(operaciones[l][5])
                                         pausa = int(operaciones[l][7])
                                         parcial = operaciones[l][8]
-
+                                
                             # repetidor para cantidad de bloques por actividad
 
                             if (parcial=='si'): #parcial
-                                
+
                                 contav = 0
-                                
+
                                 f1 = ciclos[fortycic][2][po-contador]
-                                
+
                                 x = 0
 
                                 while(x==0): # busqueda vertical total
-
-                                    #guarda almuerzo
 
                                     auxalmu = f1
                                     contadoraux = limit
                                     auxdu = esav
                                     bandera = 0
-
 
                                     while(auxdu<duracion+pausa): # busqueda vertical total
 
@@ -2306,9 +1849,9 @@ def algoritmos(inicio,termino):
                                         aux = i-1
 
                                         while (aux>=0):
-
+                                            
                                             if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
-                                                
+
                                                 f0 = l1[aux][contadoraux]
 
                                                 for y in range(cicloclasic): 
@@ -2348,7 +1891,7 @@ def algoritmos(inicio,termino):
                                                 if(f1!='-' and f1!='q'): # salvedad guion y q
                                                     if f1==f0: # si son iguales
                                                         bandera = bandera + 1
-                                                
+
                                                 aux = aux - 1
 
                                             else:
@@ -2468,8 +2011,8 @@ def algoritmos(inicio,termino):
                                                 else:
                                                     auxpa = auxpa + 1
                                                 
-                                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
-                                            
+                                    # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD            
+                                        
 
                             if (parcial=='no'): #no parcial
 
@@ -2480,82 +2023,170 @@ def algoritmos(inicio,termino):
 
                                 x=0
 
-                                if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
+                                if(f1!='q'):
 
-                                    while(x==0): # busqueda vertical total
+                                    if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
 
-                                        contadoraux = limit
-                                        auxdu = esav
-                                        bandera = 0 
+                                        while(x==0): # busqueda vertical total
 
-                                        while(auxdu<duracion+pausa): # busqueda vertical total
+                                            contadoraux = limit
+                                            auxdu = esav
+                                            bandera = 0
 
-                                            # busqueda vertical fila
+                                            while(auxdu<duracion+pausa): # busqueda vertical total
 
-                                            aux = i-1
+                                                # busqueda vertical fila
 
-                                            while (aux>=0):
+                                                aux = i-1
 
-                                                if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
+                                                while (aux>=0):
 
-                                                    f0 = l1[aux][contadoraux]
+                                                    if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
 
-                                                    for y in range(cicloclasic): 
-                                                        if(f1==operaciones[y][0]):
-                                                            rf1 = operaciones[y][2] # guarda recurso actividad
-                                                            ap1 = operaciones[y][9] # guarda actividad pausa
-                                                    for y in range(larg):
-                                                        if(f0==operaciones[y][0]):
-                                                            rf0 = operaciones[y][2] # guarda recurso actividad a comparar
-                                                            ap0 = operaciones[y][9] # guarda actividad pausa
+                                                        f0 = l1[aux][contadoraux]
 
-                                                        if(f0==operaciones[y][9]) and (f0!='-'):
-                                                            rf0 = operaciones[y][2] # guarda recurso pausa a comparar
-                                                            ap0 = operaciones[y][9] # guarda pausa
+                                                        for y in range(cicloclasic): 
+                                                            if(f1==operaciones[y][0]):
+                                                                rf1 = operaciones[y][2] # guarda recurso actividad
+                                                                ap1 = operaciones[y][9] # guarda actividad pausa
+                                                        for y in range(larg):
+                                                            if(f0==operaciones[y][0]):
+                                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                                ap0 = operaciones[y][9] # guarda actividad pausa
 
-                                                    if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
-                                                        if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
-                                                            if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
-                                                                for x in range(15):
-                                                                    if(f1==services[x][0]):
-                                                                        if(f0 in services[x][1]):
-                                                                            bandera = bandera + 1
+                                                            if(f0==operaciones[y][9]) and (f0!='-'):
+                                                                rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                                ap0 = operaciones[y][9] # guarda pausa
 
-                                                    if(f1!=f0): # si no son iguales
+                                                        if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                            if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                                if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                                    for x in range(15):
+                                                                        if(f1==services[x][0]):
+                                                                            if(f0 in services[x][1]):
+                                                                                bandera = bandera + 1
 
-                                                        if(f0=='-'):
-                                                            bandera = bandera
+                                                        if(f1!=f0): # si no son iguales
 
-                                                        if(f0=='A'):
-                                                            bandera = bandera
+                                                            if(f0=='-'):
+                                                                bandera = bandera
 
-                                                        if (f0!='-') and (f0!='A'): # salvedad guion y A
+                                                            if(f0=='A'):
+                                                                bandera = bandera
 
-                                                            if(rf1==rf0): # si usan el mismo recurso
-                                                                    bandera = bandera + 1       
+                                                            if (f0!='-') and (f0!='A'): # salvedad guion y A
 
-                                                    if(f1!='-' and f1!='q'): # salvedad guion y q
-                                                        if f1==f0: # si son iguales
-                                                            bandera = bandera + 1
+                                                                if(rf1==rf0): # si usan el mismo recurso
+                                                                        bandera = bandera + 1   
+
+                                                        if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                            if f1==f0: # si son iguales
+                                                                bandera = bandera + 1
+                                                        
+                                                        aux = aux - 1
+
+                                                    else :
+
+                                                        aux = aux - 1
+
+                                                contadoraux = contadoraux + 1
+                                                auxdu = auxdu + 1
+
+                                            if(limit>=bloquet): # restriccion fin del turno
+
+                                                x = 1
+                                                break
+
+                                            else: # guarda en la matriz
+
+                                                almuerzohecho = 'no'
+
+                                                #guarda almuerzo
+
+                                                if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                    if(limit==bloquecuadrilla):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                    if(limit==bloquejumbo):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+                                                if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                    if(limit==bloqueotros):
+                                                        laux.append('A')
+                                                        laux.append('A')
+                                                        limit = limit + 2
+                                                        almuerzohecho= 'si'
+
+                                                if (bandera==0):
+                                                    cont = 0
+                                                    while(cont<duracion):
+
+                                                        if(limit>=bloquet): # restriccion fin del turno
+
+                                                            x = 1
+                                                            break
+                                                        
+                                                        laux.append(f1)
+                                                        limit = limit + 1
+                                                        cont = cont + 1
                                                     
-                                                    aux = aux - 1
+                                                    if(cont==duracion):
+                                                        x = 1
 
-                                                else :
+                                                if (bandera>0):
 
-                                                    aux = aux - 1
-                                                    break
+                                                    #guarda almuerzo
 
-                                            contadoraux = contadoraux + 1
-                                            auxdu = auxdu + 1
+                                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                        if(limit==bloquecuadrilla):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                        if(limit==bloquejumbo):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                        if(limit==bloqueotros):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
 
-                                        if(limit>=bloquet): # restriccion fin del turno
+                                                    laux.append('-')
+                                                    limit = limit + 1
 
-                                            x = 1
-                                            break
+                                            if(auxdu==duracion+pausa) and (bandera == 0):
 
-                                        else: # guarda en la matriz
+                                                #estado_avance = 0  where id_frente = lr[i][0]
 
-                                            almuerzohecho = 'no'
+                                                auxpa = 0
+
+                                                if(pausa>0):
+                                                    while (auxpa<pausa):
+                                                        if(limit<bloquet): # restriccion fin del turno
+
+                                                            laux.append(ap1)
+                                                            limit = limit + 1
+                                                            auxpa = auxpa + 1
+
+                                                        else:
+
+                                                            auxpa = auxpa + 1
+
+                                            # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+
+                                    if(limit+duracion+pausa>=bloquet):
+                    
+                                        while(limit<bloquet): # restriccion fin del turno
 
                                             #guarda almuerzo
 
@@ -2578,23 +2209,458 @@ def algoritmos(inicio,termino):
                                                     limit = limit + 2
                                                     almuerzohecho= 'si'
 
-                                            if (bandera==0):
-                                                cont = 0
-                                                while(cont<duracion):
+                                            laux.append('-')
+                                            limit = limit + 1
 
-                                                    if(limit>=bloquet): # restriccion fin del turno
+                                if(f1=='q'):
+                                    indite=len(laux)
 
+                        if(k+posi>=larg):
+                
+                            if(lr[i][2]!='q'):
+
+                                # guarda q al final
+
+                                indite = len(laux)
+
+                                num = bloquet - 1 - indite
+
+                                while (num>=0):
+
+                                    if(limit<bloquet):
+
+                                        if (num !=0):
+
+                                            #guarda almuerzo
+
+                                            auxalmu = 'c'
+
+                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                if(limit==bloquecuadrilla):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    num=num-2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                if(limit==bloquejumbo):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    num=num-2
+                                                    almuerzohecho= 'si'
+                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                if(limit==bloqueotros):
+                                                    laux.append('A')
+                                                    laux.append('A')
+                                                    limit = limit + 2
+                                                    num=num-2
+                                                    almuerzohecho= 'si'
+
+                                            laux.append('-')
+                                            limit = limit + 1
+
+                                        if (num == 0):
+                                            laux.append('q')
+                                            limit = limit + 1
+
+                                    num = num - 1
+
+                            if(lr[i][2]=='q'):
+
+                                po=k
+
+                                if(po<larg):
+
+                                    esav = int(lr[i][3]) # rescata estado avance operacion
+
+                                    # rescata recurso, duracion segun tamaño y si es parcial o no 
+
+                                    cicloclasic = 15 # longitud ciclo original para comparar
+
+                                    for l in range(cicloclasic):
+                                        if (lr[i][1]=='C'):
+                                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
+                                                duracion = int(operaciones[l][3])
+                                                pausa = int(operaciones[l][7])
+                                                parcial = operaciones[l][8]
+
+                                        if (lr[i][1]=='M'):
+                                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
+                                                duracion = int(operaciones[l][4])
+                                                pausa = int(operaciones[l][7])
+                                                parcial = operaciones[l][8]
+
+                                        if (lr[i][1]=='G'):
+                                            if (ciclos[fortycic][2][po]==operaciones[l][0]):
+                                                duracion = int(operaciones[l][5])
+                                                pausa = int(operaciones[l][7])
+                                                parcial = operaciones[l][8]
+
+                                    # repetidor para cantidad de bloques por actividad
+
+                                    if (parcial=='si'): #parcial
+                                        
+                                        contav = 0
+                                        
+                                        f1 = ciclos[fortycic][2][po-contador]
+                                        
+                                        x = 0
+
+                                        while(x==0): # busqueda vertical total
+
+                                            #guarda almuerzo
+
+                                            auxalmu = f1
+                                            contadoraux = limit
+                                            auxdu = esav
+                                            bandera = 0
+
+
+                                            while(auxdu<duracion+pausa): # busqueda vertical total
+
+                                                # busqueda vertical fila
+
+                                                aux = i-1
+
+                                                while (aux>=0):
+
+                                                    if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
+                                                        
+                                                        f0 = l1[aux][contadoraux]
+
+                                                        for y in range(cicloclasic): 
+                                                            if(f1==operaciones[y][0]):
+                                                                rf1 = operaciones[y][2] # guarda recurso actividad
+                                                                ap1 = operaciones[y][9] # guarda actividad pausa
+                                                        for y in range(larg):
+                                                            if(f0==operaciones[y][0]):
+                                                                rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                                ap0 = operaciones[y][9] # guarda actividad pausa
+
+                                                            if(f0==operaciones[y][9]) and (f0!='-'):
+                                                                rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                                ap0 = operaciones[y][9] # guarda pausa
+
+                                                        if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                            if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                                if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                                    for x in range(15):
+                                                                        if(f1==services[x][0]):
+                                                                            if(f0 in services[x][1]):
+                                                                                bandera = bandera + 1
+
+                                                        if(f1!=f0): # si no son iguales
+
+                                                            if(f0=='-'):
+                                                                bandera = bandera
+
+                                                            if(f0=='A'):
+                                                                bandera = bandera
+
+                                                            if (f0!='-') and (f0!='A'): # salvedad guion y A
+
+                                                                if(rf1==rf0): # si usan el mismo recurso
+                                                                        bandera = bandera + 1     
+
+                                                        if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                            if f1==f0: # si son iguales
+                                                                bandera = bandera + 1
+                                                        
+                                                        aux = aux - 1
+
+                                                    else:
+
+                                                        aux = aux - 1
+
+                                                contadoraux = contadoraux + 1
+                                                auxdu = auxdu + 1
+
+                                            if(limit>=bloquet): # restriccion fin del turno
+
+                                                x = 1
+                                                break
+
+                                            else: # guarda en la matriz
+
+                                                almuerzohecho = 'no'
+
+                                                if (bandera==0):
+                                                    cont = 0
+                                                    while(cont<duracion):
+
+                                                        if(limit>=bloquet): # restriccion fin del turno
+
+                                                            x = 1
+                                                            break
+
+                                                        #guarda almuerzo
+
+                                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                            if(limit==bloquecuadrilla):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+                                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                            if(limit==bloquejumbo):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+                                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                            if(limit==bloqueotros):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+
+                                                        laux.append(f1)
+                                                        limit = limit + 1
+                                                        cont = cont + 1
+
+                                                    if(cont==duracion):
                                                         x = 1
-                                                        break
-                                                    
-                                                    laux.append(f1)
-                                                    limit = limit + 1
-                                                    cont = cont + 1
-                                                
-                                                if(cont==duracion):
-                                                    x = 1
 
-                                            if (bandera>0):
+                                                if (bandera>0):
+
+                                                    #guarda almuerzo
+
+                                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                        if(limit==bloquecuadrilla):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                        if(limit==bloquejumbo):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                        if(limit==bloqueotros):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+
+                                                    laux.append('-')
+                                                    limit = limit + 1
+
+                                            if(auxdu==duracion+pausa) and (bandera == 0):
+                                                    
+                                                #estado_avance = 0  where id_frente = lr[i][0] 
+
+                                                auxpa = 0
+
+                                                if(pausa>0):
+                                                    while (auxpa<pausa):
+                                                        if(limit<bloquet): # restriccion fin del turno
+
+                                                            #guarda almuerzo
+
+                                                            if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                                if(limit==bloquecuadrilla):
+                                                                    laux.append('A')
+                                                                    laux.append('A')
+                                                                    limit = limit + 2
+                                                                    almuerzohecho= 'si'
+                                                            if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                                if(limit==bloquejumbo):
+                                                                    laux.append('A')
+                                                                    laux.append('A')
+                                                                    limit = limit + 2
+                                                                    almuerzohecho= 'si'
+                                                            if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                                if(limit==bloqueotros):
+                                                                    laux.append('A')
+                                                                    laux.append('A')
+                                                                    limit = limit + 2
+                                                                    almuerzohecho= 'si'
+
+                                                            laux.append(ap1)
+                                                            limit = limit + 1
+                                                            auxpa = auxpa + 1
+
+                                                        else:
+                                                            auxpa = auxpa + 1
+                                                        
+                                            # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+                                                    
+
+                                    if (parcial=='no'): #no parcial
+
+                                        contav = 0
+
+                                        f1 = ciclos[fortycic][2][po-contador]
+                                        auxalmu = f1
+
+                                        x=0
+
+                                        if(limit+duracion+pausa<bloquet): # restriccion final des turno no parciales
+
+                                            while(x==0): # busqueda vertical total
+
+                                                contadoraux = limit
+                                                auxdu = esav
+                                                bandera = 0 
+
+                                                while(auxdu<duracion+pausa): # busqueda vertical total
+
+                                                    # busqueda vertical fila
+
+                                                    aux = i-1
+
+                                                    while (aux>=0):
+
+                                                        if(limit<bloquet) and (contadoraux<bloquet): # restriccion fin del turno
+
+                                                            f0 = l1[aux][contadoraux]
+
+                                                            for y in range(cicloclasic): 
+                                                                if(f1==operaciones[y][0]):
+                                                                    rf1 = operaciones[y][2] # guarda recurso actividad
+                                                                    ap1 = operaciones[y][9] # guarda actividad pausa
+                                                            for y in range(larg):
+                                                                if(f0==operaciones[y][0]):
+                                                                    rf0 = operaciones[y][2] # guarda recurso actividad a comparar
+                                                                    ap0 = operaciones[y][9] # guarda actividad pausa
+
+                                                                if(f0==operaciones[y][9]) and (f0!='-'):
+                                                                    rf0 = operaciones[y][2] # guarda recurso pausa a comparar
+                                                                    ap0 = operaciones[y][9] # guarda pausa
+
+                                                            if(algofin[i][0]=='PD') and (algofin[aux][0]=='PD'):
+                                                                if(algofin[i][1]==algofin[aux][1]) and (algofin[i][2]==algofin[aux][2]) and (algofin[i][3]==algofin[aux][3]):
+                                                                    if(algofin[i][4]==algofin[aux][4]) and (algofin[i][5]==algofin[aux][5]) and (algofin[i][6]==algofin[aux][6]):
+                                                                        for x in range(15):
+                                                                            if(f1==services[x][0]):
+                                                                                if(f0 in services[x][1]):
+                                                                                    bandera = bandera + 1
+
+                                                            if(f1!=f0): # si no son iguales
+
+                                                                if(f0=='-'):
+                                                                    bandera = bandera
+
+                                                                if(f0=='A'):
+                                                                    bandera = bandera
+
+                                                                if (f0!='-') and (f0!='A'): # salvedad guion y A
+
+                                                                    if(rf1==rf0): # si usan el mismo recurso
+                                                                            bandera = bandera + 1       
+
+                                                            if(f1!='-' and f1!='q'): # salvedad guion y q
+                                                                if f1==f0: # si son iguales
+                                                                    bandera = bandera + 1
+                                                            
+                                                            aux = aux - 1
+
+                                                        else :
+
+                                                            aux = aux - 1
+                                                            break
+
+                                                    contadoraux = contadoraux + 1
+                                                    auxdu = auxdu + 1
+
+                                                if(limit>=bloquet): # restriccion fin del turno
+
+                                                    x = 1
+                                                    break
+
+                                                else: # guarda en la matriz
+
+                                                    almuerzohecho = 'no'
+
+                                                    #guarda almuerzo
+
+                                                    if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                        if(limit==bloquecuadrilla):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                        if(limit==bloquejumbo):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+                                                    if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                        if(limit==bloqueotros):
+                                                            laux.append('A')
+                                                            laux.append('A')
+                                                            limit = limit + 2
+                                                            almuerzohecho= 'si'
+
+                                                    if (bandera==0):
+                                                        cont = 0
+                                                        while(cont<duracion):
+
+                                                            if(limit>=bloquet): # restriccion fin del turno
+
+                                                                x = 1
+                                                                break
+                                                            
+                                                            laux.append(f1)
+                                                            limit = limit + 1
+                                                            cont = cont + 1
+                                                        
+                                                        if(cont==duracion):
+                                                            x = 1
+
+                                                    if (bandera>0):
+
+                                                        #guarda almuerzo
+
+                                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
+                                                            if(limit==bloquecuadrilla):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+                                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
+                                                            if(limit==bloquejumbo):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+                                                        if(auxalmu in otros) and (almuerzohecho !='si'):
+                                                            if(limit==bloqueotros):
+                                                                laux.append('A')
+                                                                laux.append('A')
+                                                                limit = limit + 2
+                                                                almuerzohecho= 'si'
+
+                                                        laux.append('-')
+                                                        limit = limit + 1
+
+                                                if(auxdu==duracion+pausa) and (bandera == 0):
+
+                                                    #estado_avance = 0  where id_frente = lr[i][0]
+
+                                                    auxpa = 0
+
+                                                    if(pausa>0):
+                                                        while (auxpa<pausa):
+                                                            if(limit<bloquet): # restriccion fin del turno
+
+                                                                laux.append(ap1)
+                                                                limit = limit + 1
+                                                                auxpa = auxpa + 1
+
+                                                            else:
+
+                                                                auxpa = auxpa + 1
+
+                                                # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
+
+                                        if(limit+duracion+pausa>=bloquet):
+                        
+                                            while(limit<bloquet): # restriccion fin del turno
 
                                                 #guarda almuerzo
 
@@ -2620,83 +2686,35 @@ def algoritmos(inicio,termino):
                                                 laux.append('-')
                                                 limit = limit + 1
 
-                                        if(auxdu==duracion+pausa) and (bandera == 0):
+                    contaciclo = 0
+                    contaguion = 0
 
-                                            #estado_avance = 0  where id_frente = lr[i][0]
+                    print ("laux", laux)
+                    print ("ciclo", q+1)
 
-                                            auxpa = 0
+                    for c in range(len(laux)):
+                        if(laux[c]!='-'):
+                            contaciclo = contaciclo + 1
+                        if(laux[c]=='-'):
+                            contaguion = contaguion + 1
 
-                                            if(pausa>0):
-                                                while (auxpa<pausa):
-                                                    if(limit<bloquet): # restriccion fin del turno
+                    print("total operaciones = ", contaciclo)
 
-                                                        laux.append(ap1)
-                                                        limit = limit + 1
-                                                        auxpa = auxpa + 1
-
-                                                    else:
-
-                                                        auxpa = auxpa + 1
-
-                                        # guardar contav (nuevo estado_avance) where id_frente = lr[i][0] a la BD 
-
-                                if(limit+duracion+pausa>=bloquet):
-                
-                                    while(limit<bloquet): # restriccion fin del turno
-
-                                        #guarda almuerzo
-
-                                        if(auxalmu in cuadrilla) and (almuerzohecho !='si'):
-                                            if(limit==bloquecuadrilla):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in jumbos) and (almuerzohecho !='si'):
-                                            if(limit==bloquejumbo):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-                                        if(auxalmu in otros) and (almuerzohecho !='si'):
-                                            if(limit==bloqueotros):
-                                                laux.append('A')
-                                                laux.append('A')
-                                                limit = limit + 2
-                                                almuerzohecho= 'si'
-
-                                        laux.append('-')
-                                        limit = limit + 1
-
-            contaciclo = 0
-            contaguion = 0
-
-            print ("laux", laux)
-            print ("ciclo", q)
-
-            for c in range(len(laux)):
-                if(laux[c]!='-'):
-                    contaciclo = contaciclo + 1
-                if(laux[c]=='-'):
-                    contaguion = contaguion + 1
-
-            print("total operaciones = ", contaciclo)
-
-            if(contaciclo>xci):
-                xci=contaciclo
-                l1[i].clear()
-                l1[i] = copy.deepcopy(laux)
-                print ("FORTIFICACION = ", lr[i][4],"MEJOR CICLO = ", q)
+                    if(contaciclo>xci):
+                        xci=contaciclo
+                        l1[i].clear()
+                        l1[i] = copy.deepcopy(laux)
+                        print ("FORTIFICACION = ", lr[i][4],"MEJOR CICLO = ", q+1)
 
 
-            laux.clear()
+                    laux.clear()
 
-            # imprimir matriz 1 (ordenamiento)
+                    # imprimir matriz 1 (ordenamiento)
 
-            print("[ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
-            
-            for n in range(totalfrentes):
-                print(lr[n],l1[n],len(l1[n]))
+                    print("[ ID - TAM - OPE - EST - FOR -08:00-08:30-09:00-09:30-10:00-10:30-11:00-11:30-12:00-12:30-13:00-13:30-14:00-14:30-15:00-15:30-16:00-16:30-17:00-17:30-18:00-18:30-19:00-19:30]")
+                    
+                    for n in range(totalfrentes):
+                        print(lr[n],l1[n],len(l1[n]))
 
 
     # llenar con X hasta el bloque 24
